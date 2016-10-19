@@ -72,19 +72,21 @@ abstract class TestCase extends Orchestra
 
         $tables = DB::select('SHOW TABLES');
 
+        if(! count($tables)) {
+            return;
+        }
+
         foreach($tables as $table) {
 
-            $droplist[] = $table->$colname;
+            $dropList[] = $table->$colname;
 
         }
-        $droplist = implode(',', $droplist);
+        $dropList = implode(',', $dropList);
 
         DB::beginTransaction();
-        //turn off referential integrity
-        //DB::statement('SET FOREIGN_KEY_CHECKS = 0');
-        DB::statement("DROP TABLE $droplist");
-        //turn referential integrity back on
-        //DB::statement('SET FOREIGN_KEY_CHECKS = 1');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
+        DB::statement("DROP TABLE $dropList");
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
         DB::commit();
     }
 }
