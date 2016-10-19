@@ -1,10 +1,10 @@
 <?php
 
-namespace Spatie\Skeleton;
+namespace Spatie\Tags;
 
 use Illuminate\Support\ServiceProvider;
 
-class SkeletonServiceProvider extends ServiceProvider
+class TagsServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application services.
@@ -18,7 +18,7 @@ class SkeletonServiceProvider extends ServiceProvider
 
            /*
            $this->loadViewsFrom(__DIR__.'/../resources/views', 'skeleton');
-   
+
            $this->publishes([
                __DIR__.'/../resources/views' => base_path('resources/views/vendor/skeleton'),
            ], 'views');
