@@ -22,6 +22,10 @@ Our address is: Spatie, Samberstraat 69D, 2060 Antwerp, Belgium.
 
 The best postcards will get published on the open source page on our website.
 
+## Requirements
+
+This package requires Laravel 5.3 or higher, PHP 7.0 or higher and a database that supports `json` fields.
+
 ## Installation
 
 You can install the package via composer:

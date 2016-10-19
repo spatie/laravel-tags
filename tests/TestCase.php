@@ -39,7 +39,7 @@ abstract class TestCase extends Orchestra
         $app['config']->set('database.connections.sqlite', [
             'driver'    => 'mysql',
             'host'      => 'localhost',
-            'database'  => 'laravel-tags',
+            'database'  => 'laravel_tags',
             'username'  => env('DB_USERNAME', 'root'),
             'password'  => env('DB_PASSWORD', ''),
             'charset'   => 'utf8',
@@ -68,7 +68,7 @@ abstract class TestCase extends Orchestra
 
     protected function dropAllTables()
     {
-        $colname = 'Tables_in_laravel-tags';
+        $colname = 'Tables_in_laravel_tags';
 
         $tables = DB::select('SHOW TABLES');
 
