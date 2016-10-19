@@ -13,16 +13,15 @@ class TagsServiceProvider extends ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->publishes([
-               __DIR__.'/../config/skeleton.php' => config_path('skeleton.php'),
+               __DIR__.'/../config/laravel-tags.php' => config_path('laravel-tags.php'),
            ], 'config');
 
-           /*
-           $this->loadViewsFrom(__DIR__.'/../resources/views', 'skeleton');
-
-           $this->publishes([
-               __DIR__.'/../resources/views' => base_path('resources/views/vendor/skeleton'),
-           ], 'views');
-           */
+            if (! class_exists('CreateTagTables')) {
+                $timestamp = date('Y_m_d_His', time());
+                $this->publishes([
+                    __DIR__.'/../database/migrations/_create_tag_tables.php.stub' => database_path('migrations/'.$timestamp.'_create_tag_tables.php'),
+                ], 'migrations');
+            }
         }
     }
 
@@ -31,6 +30,6 @@ class TagsServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__.'/../config/config.php', 'skeleton');
+        $this->mergeConfigFrom(__DIR__.'/../config/laravel-tags.php', 'laravel-tags');
     }
 }
