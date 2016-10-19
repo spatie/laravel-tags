@@ -48,7 +48,7 @@ trait HasTags
      */
     public function scopeWithAllTags(Builder $query, $tags): Builder
     {
-        if (! $this->isIterable($tags)) {
+        if (! is_array($tags)) {
             $tags = [$tags];
         }
 
@@ -75,7 +75,7 @@ trait HasTags
      */
     public function scopeWithAnyTags(Builder $query, $tags): Builder
     {
-        if (! $this->isIterable($tags)) {
+        if (! is_array($tags)) {
             $tags = [$tags];
         }
 
@@ -108,7 +108,8 @@ trait HasTags
      */
     public function attachTags($tags)
     {
-        if (! $this->isIterable($tags)) {
+
+        if (! is_array($tags)) {
             $tags = [$tags];
         }
 
@@ -142,7 +143,7 @@ trait HasTags
      */
     public function detachTags($tags)
     {
-        if (! $this->isIterable($tags)) {
+        if (! is_array($tags)) {
             $tags = [$tags];
         }
 
@@ -177,18 +178,5 @@ trait HasTags
         $this->tags()->sync($tags);
 
         return $this;
-    }
-
-    /**
-     * @param mixed $value
-     * @return bool
-     */
-    protected function isIterable($value): bool
-    {
-        if (is_array($value)) {
-            return true;
-        }
-
-        return $value instanceof ArrayAccess;
     }
 }
