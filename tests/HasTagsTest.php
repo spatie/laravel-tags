@@ -7,9 +7,9 @@ use Spatie\Tags\Tag;
 use Spatie\Tags\Test\TestCase;
 use Spatie\Tags\Test\TestModel;
 
-class HasTagsText extends TestCase
+class HasTagsTest extends TestCase
 {
-    /** @var \Spatie\Tags\Test\TestModel  */
+    /** @var \Spatie\Tags\Test\TestModel */
     protected $testModel;
 
     public function setUp()
@@ -113,7 +113,7 @@ class HasTagsText extends TestCase
     {
         TestModel::create([
             'name' => 'model1',
-            'tags' => 'tagA'
+            'tags' => 'tagA',
         ]);
 
         TestModel::create([

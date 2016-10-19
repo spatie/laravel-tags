@@ -3,7 +3,6 @@
 namespace Spatie\Tags\Test;
 
 use DB;
-use File;
 use Illuminate\Database\Schema\Blueprint;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Spatie\EloquentSortable\SortableServiceProvider;
@@ -12,13 +11,11 @@ use Spatie\Translatable\TranslatableServiceProvider;
 
 abstract class TestCase extends Orchestra
 {
-
     public function setUp()
     {
         parent::setUp();
 
         $this->setUpDatabase($this->app);
-
     }
 
     protected function getPackageProviders($app)
@@ -26,7 +23,7 @@ abstract class TestCase extends Orchestra
         return [
             TagsServiceProvider::class,
             TranslatableServiceProvider::class,
-            SortableServiceProvider::class
+            SortableServiceProvider::class,
         ];
     }
 
@@ -56,7 +53,7 @@ abstract class TestCase extends Orchestra
     {
         $this->dropAllTables();
 
-        include_once __DIR__ . '/../database/migrations/create_tag_tables.php.stub';
+        include_once __DIR__.'/../database/migrations/create_tag_tables.php.stub';
 
         (new \CreateTagTables())->up();
 
@@ -80,7 +77,7 @@ abstract class TestCase extends Orchestra
             ->map(function ($row) {
                 return $row->Tables_in_laravel_tags;
             })
-            ->each(function(string $tableName) {
+            ->each(function (string $tableName) {
                 DB::statement("DROP TABLE {$tableName}");
             });
 

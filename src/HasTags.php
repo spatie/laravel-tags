@@ -58,8 +58,8 @@ trait HasTags
 
         $tags = Tag::find($tags);
 
-        collect($tags)->each(function($tag) use ($query) {
-            $query->whereHas('tags', function(Builder $query) use ($tag) {
+        collect($tags)->each(function ($tag) use ($query) {
+            $query->whereHas('tags', function (Builder $query) use ($tag) {
                 return $query->where('id', $tag ? $tag->id : 0);
             });
         });
@@ -85,8 +85,8 @@ trait HasTags
 
         $tags = Tag::find($tags);
 
-        return $query->whereHas('tags', function(Builder $query) use ($tags) {
-            $tagIds = collect($tags)->map(function($tag) {
+        return $query->whereHas('tags', function (Builder $query) use ($tags) {
+            $tagIds = collect($tags)->map(function ($tag) {
                 return $tag ? $tag->id : 0;
             })->toArray();
 
@@ -108,7 +108,7 @@ trait HasTags
      */
     public function attachTags($tags)
     {
-        if (!$this->isIterable($tags)) {
+        if (! $this->isIterable($tags)) {
             $tags = [$tags];
         }
 
@@ -142,7 +142,7 @@ trait HasTags
      */
     public function detachTags($tags)
     {
-        if (!$this->isIterable($tags)) {
+        if (! $this->isIterable($tags)) {
             $tags = [$tags];
         }
 
@@ -189,6 +189,6 @@ trait HasTags
             return true;
         }
 
-        return ($value instanceof ArrayAccess);
+        return $value instanceof ArrayAccess;
     }
 }

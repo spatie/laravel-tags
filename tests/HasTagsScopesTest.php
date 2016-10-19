@@ -5,9 +5,9 @@ namespace Spatie\Translatable\Test;
 use Spatie\Tags\Test\TestCase;
 use Spatie\Tags\Test\TestModel;
 
-class HasTagsScopesText extends TestCase
+class HasTagsScopesTest extends TestCase
 {
-    /** @var \Spatie\Tags\Test\TestModel  */
+    /** @var \Spatie\Tags\Test\TestModel */
     protected $testModel;
 
     public function setUp()
@@ -16,7 +16,7 @@ class HasTagsScopesText extends TestCase
 
         TestModel::create([
             'name' => 'model1',
-            'tags' => 'tagA'
+            'tags' => 'tagA',
         ]);
 
         TestModel::create([

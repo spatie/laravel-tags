@@ -5,7 +5,6 @@ namespace Spatie\Translatable\Test;
 use Spatie\Tags\Tag;
 use Spatie\Tags\Test\TestCase;
 
-
 class TagTest extends TestCase
 {
     public function setUp()

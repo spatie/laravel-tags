@@ -61,7 +61,8 @@ class Tag extends Model implements Sortable
         return static::type($type)->get();
     }
 
-    protected static function findFromString(string $name, string $type = null, string $locale = null) {
+    protected static function findFromString(string $name, string $type = null, string $locale = null)
+    {
         $locale = $locale ?? app()->getLocale();
 
         return static::query()
@@ -70,18 +71,16 @@ class Tag extends Model implements Sortable
             ->first();
     }
 
-
-
     protected static function findOrCreateFromString(string $name, string $type = null, string $locale = null): Tag
     {
         $locale = $locale ?? app()->getLocale();
 
         $tag = static::findFromString($name, $type, $locale);
 
-        if (!$tag) {
+        if (! $tag) {
             $tag = static::create([
                 'name' => [$locale => $name],
-                'type' => $type
+                'type' => $type,
             ]);
         }
 
