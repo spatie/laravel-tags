@@ -50,6 +50,28 @@ class HasTagsText extends TestCase
     }
 
     /** @test */
+    public function it_can_detach_a_tag()
+    {
+        $this->testModel->attachTags(['test1', 'test2', 'test3']);
+
+        $this->testModel->detachTag('test2');
+
+        $this->assertEquals(['test1', 'test3'], $this->testModel->tags->pluck('name')->toArray());
+    }
+
+    /** @test */
+    public function it_can_detach_multiple_tags()
+    {
+        $this->testModel->attachTags(['test1', 'test2', 'test3']);
+
+        $this->testModel->detachTags(['test1', 'test3']);
+
+        $this->assertEquals(['test2'], $this->testModel->tags->pluck('name')->toArray());
+    }
+
+
+
+    /** @test */
     public function it_provides_a_scope_to_get_tags_of_a_certain_type()
     {
         $this->testModel->tags()->attach(Tag::findOrCreate('test', 'type1'));

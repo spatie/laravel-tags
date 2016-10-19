@@ -43,6 +43,10 @@ trait HasTags
 
     public function detachTags($tags)
     {
+        if (! $this->isIterable($tags)) {
+            $tags = [$tags];
+        }
+
         $tags = Tag::findOrCreate($tags);
 
         collect($tags)->each(function (Tag $tag) {
