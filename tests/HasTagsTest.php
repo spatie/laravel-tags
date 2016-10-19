@@ -26,6 +26,30 @@ class HasTagsText extends TestCase
     }
 
     /** @test */
+    public function it_can_attach_a_tag()
+    {
+        $this->testModel->attachTag('test1');
+
+        $this->assertCount(1, $this->testModel->tags);
+    }
+
+    /** @test */
+    public function it_can_attach_multiple_tags()
+    {
+        $this->testModel->attachTag(['test1', 'test2']);
+
+        $this->assertCount(2, $this->testModel->tags);
+    }
+
+    /** @test */
+    public function it_can_attach_a_existing_tag()
+    {
+        $this->testModel->attachTag(Tag::findOrCreate('test'));
+
+        $this->assertCount(1, $this->testModel->tags);
+    }
+
+    /** @test */
     public function it_provides_a_scope_to_get_tags_of_a_certain_type()
     {
         $this->testModel->tags()->attach(Tag::findOrCreate('test', 'type1'));
