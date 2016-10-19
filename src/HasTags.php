@@ -108,7 +108,6 @@ trait HasTags
      */
     public function attachTags($tags)
     {
-
         if (! is_array($tags)) {
             $tags = [$tags];
         }
