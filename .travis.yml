@@ -1,5 +1,8 @@
 language: php
 
+services:
+  - mysql
+
 php:
   - 7.0
   - 7.1
@@ -12,6 +15,7 @@ env:
 before_script:
   - travis_retry composer self-update
   - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction --prefer-source
+  - mysql -e 'create database laravel-tags;'
 
 script:
   - phpunit --coverage-text --coverage-clover=coverage.clover

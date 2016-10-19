@@ -2,19 +2,23 @@
 
 namespace Spatie\Tags\Test;
 
+use DB;
 use File;
 use Illuminate\Database\Schema\Blueprint;
 use Orchestra\Testbench\TestCase as Orchestra;
+use Spatie\EloquentSortable\SortableServiceProvider;
 use Spatie\Tags\TagsServiceProvider;
 use Spatie\Translatable\TranslatableServiceProvider;
 
 abstract class TestCase extends Orchestra
 {
+
     public function setUp()
     {
         parent::setUp();
 
         $this->setUpDatabase($this->app);
+
     }
 
     protected function getPackageProviders($app)
@@ -22,6 +26,7 @@ abstract class TestCase extends Orchestra
         return [
             TagsServiceProvider::class,
             TranslatableServiceProvider::class,
+            SortableServiceProvider::class
         ];
     }
 
@@ -32,9 +37,15 @@ abstract class TestCase extends Orchestra
     {
         $app['config']->set('database.default', 'sqlite');
         $app['config']->set('database.connections.sqlite', [
-            'driver'   => 'sqlite',
-            'database' => ":memory:",
-            'prefix'   => '',
+            'driver'    => 'mysql',
+            'host'      => 'localhost',
+            'database'  => 'laravel-tags',
+            'username'  => env('DB_USERNAME', 'root'),
+            'password'  => env('DB_PASSWORD', ''),
+            'charset'   => 'utf8',
+            'collation' => 'utf8_unicode_ci',
+            'prefix'    => '',
+            'strict'    => false,
         ]);
     }
 
@@ -43,7 +54,9 @@ abstract class TestCase extends Orchestra
      */
     protected function setUpDatabase($app)
     {
-        include_once __DIR__.'/../database/migrations/create_tag_tables.php.stub';
+        $this->dropAllTables();
+
+        include_once __DIR__ . '/../database/migrations/create_tag_tables.php.stub';
 
         (new \CreateTagTables())->up();
 
@@ -53,5 +66,25 @@ abstract class TestCase extends Orchestra
         });
     }
 
+    protected function dropAllTables()
+    {
+        $colname = 'Tables_in_laravel-tags';
 
+        $tables = DB::select('SHOW TABLES');
+
+        foreach($tables as $table) {
+
+            $droplist[] = $table->$colname;
+
+        }
+        $droplist = implode(',', $droplist);
+
+        DB::beginTransaction();
+        //turn off referential integrity
+        //DB::statement('SET FOREIGN_KEY_CHECKS = 0');
+        DB::statement("DROP TABLE $droplist");
+        //turn referential integrity back on
+        //DB::statement('SET FOREIGN_KEY_CHECKS = 1');
+        DB::commit();
+    }
 }

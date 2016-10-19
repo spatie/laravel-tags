@@ -43,6 +43,8 @@ Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recen
 
 ## Testing
 
+This packages uses `json` fields so we can't use sqlite to run our tests. To run the test you should first setup a MySQL 5.7 database called `laravel-tags`, username should be `root`, `password` should be blank.
+
 ``` bash
 $ composer test
 ```

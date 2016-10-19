@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tags;
+namespace Spatie\Tags;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;

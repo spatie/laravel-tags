@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tags;
+namespace Spatie\Tags;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -14,6 +14,8 @@ class Tag extends Model implements Sortable
 
     public $translatable = ['name', 'url'];
 
+    public $guarded = [];
+
     public function scopeWithType($query, $type)
     {
         return $query
@@ -26,10 +28,12 @@ class Tag extends Model implements Sortable
         return static::type($type)->get();
     }
 
-    public static function findByNameOrCreate(string $name, $type = '', $locale = ''): Tag
+    public static function findByNameOrCreate(string $name, $type = '', $locale = null): Tag
     {
+        $locale = $locale ?? app()->getLocale();
+
         $tag = static::query()
-            ->where('name', 'regexp', "\"{$locale}\"\s*:\s*\"{$name}\"")
+            ->where("name->{$locale}", $name)
             ->where('type', $type)
             ->first();
 
