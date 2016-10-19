@@ -25,13 +25,13 @@ class Tag extends Model implements Sortable
         return $query->where('type', $type)->orderBy('order_column');
     }
 
-    public static function getWithType($type): DbCollection
+    public static function getWithType(string $type): DbCollection
     {
         return static::type($type)->get();
     }
 
     /**
-     * @param $values
+     * @param array|\ArrayAccess $values
      * @param string|null $type
      * @param string|null $locale
      *
@@ -68,6 +68,4 @@ class Tag extends Model implements Sortable
 
         return $tag;
     }
-
-
 }

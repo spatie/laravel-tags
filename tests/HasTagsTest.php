@@ -69,8 +69,6 @@ class HasTagsText extends TestCase
         $this->assertEquals(['test2'], $this->testModel->tags->pluck('name')->toArray());
     }
 
-
-
     /** @test */
     public function it_provides_a_scope_to_get_tags_of_a_certain_type()
     {

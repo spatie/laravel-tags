@@ -14,13 +14,18 @@ trait HasTags
             ->orderBy('order_column');
     }
 
-    public function tagsOfType($type = null): Collection
+    public function tagsOfType(string $type = null): Collection
     {
         return $this->tags->filter(function (Tag $tag) use ($type) {
             return $tag->type === $type;
         });
     }
 
+    /**
+     * @param array|\ArrayAccess|\Spatie\Tags\Tag $tags
+     *
+     * @return $this
+     */
     public function attachTags($tags)
     {
         if (! $this->isIterable($tags)) {
@@ -36,11 +41,21 @@ trait HasTags
         return $this;
     }
 
+    /**
+     * @param array|\ArrayAccess|\Spatie\Tags\Tag $tags
+     *
+     * @return $this
+     */
     public function attachTag($tags)
     {
         return $this->attachTags($tags);
     }
 
+    /**
+     * @param array|\ArrayAccess|\Spatie\Tags\Tag $tags
+     *
+     * @return $this
+     */
     public function detachTags($tags)
     {
         if (! $this->isIterable($tags)) {
@@ -56,11 +71,21 @@ trait HasTags
         return $this;
     }
 
+    /**
+     * @param array|\ArrayAccess|\Spatie\Tags\Tag $tags
+     *
+     * @return $this
+     */
     public function detachTag($tags)
     {
         return $this->detachTags($tags);
     }
 
+    /**
+     * @param array|\ArrayAccess $tags
+     *
+     * @return $this
+     */
     public function syncTags($tags)
     {
         $tags = Tag::findOrCreate($tags);
@@ -70,7 +95,11 @@ trait HasTags
         return $this;
     }
 
-    protected function isIterable($value)
+    /**
+     * @param mixed $value
+     * @return bool
+     */
+    protected function isIterable($value): bool
     {
         if (is_array($value)) {
             return true;
