@@ -46,9 +46,7 @@ class Tag extends Model implements Sortable
      */
     public static function findOrCreate($values, string $type = null, string $locale = null)
     {
-
         $tags = collect($values)->map(function (string $value) use ($type, $locale) {
-
             if ($value instanceof Tag) {
                 return $value;
             }
