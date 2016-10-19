@@ -48,7 +48,22 @@ trait HasTags
      */
     public function scopeWithAllTags(Builder $query, $tags): Builder
     {
-        /** @TODO implement */
+        if (! $this->isIterable($tags)) {
+            $tags = [$tags];
+        }
+
+        if (! count($tags)) {
+            return $query;
+        }
+
+        $tags = Tag::find($tags);
+
+        collect($tags)->each(function($tag) use ($query) {
+            $query->whereHas('tags', function(Builder $query) use ($tag) {
+                return $query->where('id', $tag ? $tag->id : 0);
+            });
+        });
+
         return $query;
     }
 
