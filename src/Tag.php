@@ -28,7 +28,7 @@ class Tag extends Model implements Sortable
         return static::type($type)->get();
     }
 
-    public static function findByNameOrCreate(string $name, $type = '', $locale = null): Tag
+    public static function fromString(string $name, $type = '', $locale = null): Tag
     {
         $locale = $locale ?? app()->getLocale();
 
@@ -45,5 +45,14 @@ class Tag extends Model implements Sortable
         }
 
         return $tag;
+    }
+
+    public function scopeType(Builder $query, $type = null): Builder
+    {
+        if (is_null($type)) {
+            return $query;
+        }
+
+        return $query->where('type', $type);
     }
 }

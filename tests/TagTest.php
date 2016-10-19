@@ -18,7 +18,7 @@ class TagTest extends TestCase
     /** @test */
     public function it_can_create_a_tag()
     {
-        $tag = Tag::findByNameOrCreate('string');
+        $tag = Tag::fromString('string');
 
         $this->assertCount(1, Tag::all());
         $this->assertSame('string', $tag->getTranslation('name', 'nl'));
@@ -29,7 +29,7 @@ class TagTest extends TestCase
     /** @test */
     public function it_can_create_a_tag_with_a_type()
     {
-        $tag = Tag::findByNameOrCreate('string', 'myType');
+        $tag = Tag::fromString('string', 'myType');
 
         $this->assertSame('myType', $tag->type);
     }
@@ -37,9 +37,9 @@ class TagTest extends TestCase
     /** @test */
     public function it_will_not_create_a_tag_if_the_tag_already_exists()
     {
-        Tag::findByNameOrCreate('string');
+        Tag::fromString('string');
 
-        Tag::findByNameOrCreate('string');
+        Tag::fromString('string');
 
         $this->assertCount(1, Tag::all());
     }
@@ -47,10 +47,12 @@ class TagTest extends TestCase
     /** @test */
     public function it_will_create_a_tag_if_a_tag_exists_with_the_same_name_but_a_different_type()
     {
-        Tag::findByNameOrCreate('string');
+        Tag::fromString('string');
 
-        Tag::findByNameOrCreate('string', 'myType');
+        Tag::fromString('string', 'myType');
 
         $this->assertCount(2, Tag::all());
     }
+
+
 }

@@ -9,20 +9,15 @@ trait HasTags
 {
     public function tags(): MorphToMany
     {
-        return $this->morphToMany(Tag::class, 'taggable');
+        return $this
+            ->morphToMany(Tag::class, 'taggable')
+            ->orderBy('order_column');
     }
 
-    public function tagsWithType($type): Collection
+    public function tagsOfType($type = null): Collection
     {
-        return $this->tags->filter(function (Tag $tag) use ($type) {
-            return $tag->hasType($type);
+        return $this->tags->filter(function(Tag $tag) use ($type) {
+           return $tag->type === $type;
         });
     }
-
-    public function attachTags()
-    {
-        $this->tags()->detach();
-    }
-
-
 }

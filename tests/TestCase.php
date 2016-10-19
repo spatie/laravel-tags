@@ -35,17 +35,17 @@ abstract class TestCase extends Orchestra
      */
     protected function getEnvironmentSetUp($app)
     {
-        $app['config']->set('database.default', 'sqlite');
-        $app['config']->set('database.connections.sqlite', [
-            'driver'    => 'mysql',
-            'host'      => 'localhost',
-            'database'  => 'laravel_tags',
-            'username'  => env('DB_USERNAME', 'root'),
-            'password'  => env('DB_PASSWORD', ''),
-            'charset'   => 'utf8',
+        $app['config']->set('database.default', 'mysql');
+        $app['config']->set('database.connections.mysql', [
+            'driver' => 'mysql',
+            'host' => 'localhost',
+            'database' => 'laravel_tags',
+            'username' => env('DB_USERNAME', 'root'),
+            'password' => env('DB_PASSWORD', ''),
+            'charset' => 'utf8',
             'collation' => 'utf8_unicode_ci',
-            'prefix'    => '',
-            'strict'    => false,
+            'prefix' => '',
+            'strict' => false,
         ]);
     }
 
@@ -68,25 +68,22 @@ abstract class TestCase extends Orchestra
 
     protected function dropAllTables()
     {
-        $colname = 'Tables_in_laravel_tags';
+        $rows = collect(DB::select('SHOW TABLES'));
 
-        $tables = DB::select('SHOW TABLES');
-
-        if(! count($tables)) {
+        if ($rows->isEmpty()) {
             return;
         }
 
-        foreach($tables as $table) {
-
-            $dropList[] = $table->$colname;
-
-        }
-        $dropList = implode(',', $dropList);
-
-        DB::beginTransaction();
         DB::statement('SET FOREIGN_KEY_CHECKS = 0');
-        DB::statement("DROP TABLE $dropList");
+
+        $rows
+            ->map(function ($row) {
+                return $row->Tables_in_laravel_tags;
+            })
+            ->each(function(string $tableName) {
+                DB::statement("DROP TABLE {$tableName}");
+            });
+        
         DB::statement('SET FOREIGN_KEY_CHECKS = 1');
-        DB::commit();
     }
 }
