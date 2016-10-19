@@ -64,14 +64,18 @@ trait HasTags
             $tags = [$tags];
         }
 
-        dd($tags);
-
         if (! count($tags)) {
             return $query;
         }
 
+        $tags = Tag::find($tags);
+
         return $query->whereHas('tags', function(Builder $query) use ($tags) {
-            $query->whereIn('id', dd(collect($tags)->pluck('id')->toArray()));
+            $tagIds = collect($tags)->map(function($tag) {
+                return $tag ? $tag->id : 0;
+            })->toArray();
+
+            $query->whereIn('id', $tagIds);
         });
     }
 

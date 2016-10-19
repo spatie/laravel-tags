@@ -108,7 +108,7 @@ class HasTagsText extends TestCase
         $this->assertEquals('type2', $tagsOfType2->first()->type);
     }
 
-
+    /** @test */
     public function it_provides_as_scope_to_get_all_models_that_have_any_of_the_given_tags()
     {
         TestModel::create([
@@ -127,8 +127,6 @@ class HasTagsText extends TestCase
         ]);
 
         $testModels = TestModel::withAnyTags(['tagB', 'tagC']);
-
-        dd($testModels->count(), $testModels->pluck('name'));
 
         $this->assertEquals(['model2', 'model3'], $testModels->pluck('name')->toArray());
     }
