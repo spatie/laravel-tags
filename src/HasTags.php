@@ -2,16 +2,77 @@
 
 namespace Spatie\Tags;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 trait HasTags
 {
+    protected $queuedTags = [];
+
+    public static function bootHasTags()
+    {
+        static::created(function (Model $taggableModel) {
+            $taggableModel->attachTags($taggableModel->queuedTags);
+
+            $taggableModel->queuedTags = [];
+        });
+    }
+
     public function tags(): MorphToMany
     {
         return $this
             ->morphToMany(Tag::class, 'taggable')
             ->orderBy('order_column');
+    }
+
+    /**
+     * @param string|array|\ArrayAccess|\Spatie\Tags\Tags $tags
+     */
+    public function setTagsAttribute($tags)
+    {
+        if (! $this->exists) {
+            $this->queuedTags = $tags;
+
+            return;
+        }
+        $this->attachTags($tags);
+    }
+
+    /**
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param array|\ArrayAccess|\Spatie\Tags\Tags $tags
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeWithAllTags(Builder $query, $tags): Builder
+    {
+        /** @TODO implement */
+        return $query;
+    }
+
+    /**
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param array|\ArrayAccess|\Spatie\Tags\Tags $tags
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeWithAnyTags(Builder $query, $tags): Builder
+    {
+        if (! $this->isIterable($tags)) {
+            $tags = [$tags];
+        }
+
+        dd($tags);
+
+        if (! count($tags)) {
+            return $query;
+        }
+
+        return $query->whereHas('tags', function(Builder $query) use ($tags) {
+            $query->whereIn('id', dd(collect($tags)->pluck('id')->toArray()));
+        });
     }
 
     public function tagsOfType(string $type = null): Collection
@@ -28,8 +89,12 @@ trait HasTags
      */
     public function attachTags($tags)
     {
-        if (! $this->isIterable($tags)) {
+        if (!$this->isIterable($tags)) {
             $tags = [$tags];
+        }
+
+        if (! count($tags)) {
+            return $this;
         }
 
         $tags = Tag::findOrCreate($tags);
@@ -58,7 +123,7 @@ trait HasTags
      */
     public function detachTags($tags)
     {
-        if (! $this->isIterable($tags)) {
+        if (!$this->isIterable($tags)) {
             $tags = [$tags];
         }
 

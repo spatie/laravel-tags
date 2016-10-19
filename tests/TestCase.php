@@ -62,7 +62,7 @@ abstract class TestCase extends Orchestra
 
         $app['db']->connection()->getSchemaBuilder()->create('test_models', function (Blueprint $table) {
             $table->increments('id');
-            $table->text('name')->nullable();
+            $table->string('name')->nullable();
         });
     }
 
@@ -83,7 +83,7 @@ abstract class TestCase extends Orchestra
             ->each(function(string $tableName) {
                 DB::statement("DROP TABLE {$tableName}");
             });
-        
+
         DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }

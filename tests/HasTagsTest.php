@@ -16,7 +16,7 @@ class HasTagsText extends TestCase
     {
         parent::setUp();
 
-        $this->testModel = TestModel::create([]);
+        $this->testModel = TestModel::create(['name' => 'default']);
     }
 
     /** @test */
@@ -31,6 +31,33 @@ class HasTagsText extends TestCase
         $this->testModel->attachTag('test1');
 
         $this->assertCount(1, $this->testModel->tags);
+    }
+
+    /** @test */
+    public function it_can_attach_a_tag_inside_a_static_create_method()
+    {
+        $testModel = TestModel::create([
+            'name' => 'testModel',
+            'tags' => ['tag', 'tag2'],
+        ]);
+
+        $this->assertCount(2, $testModel->tags);
+    }
+
+    /** @test */
+    public function it_can_attach_a_tag_via_the_tags_mutator()
+    {
+        $this->testModel->tags = 'tag1';
+
+        $this->assertCount(1, $this->testModel->tags);
+    }
+
+    /** @test */
+    public function it_can_attach_multiple_tags_via_the_tags_mutator()
+    {
+        $this->testModel->tags = ['tag1', 'tag2'];
+
+        $this->assertCount(2, $this->testModel->tags);
     }
 
     /** @test */
@@ -70,7 +97,7 @@ class HasTagsText extends TestCase
     }
 
     /** @test */
-    public function it_provides_a_scope_to_get_tags_of_a_certain_type()
+    public function it_can_get_all_attached_tags_of_a_certain_type()
     {
         $this->testModel->tags()->attach(Tag::findOrCreate('test', 'type1'));
         $this->testModel->tags()->attach(Tag::findOrCreate('test2', 'type2'));
@@ -79,9 +106,30 @@ class HasTagsText extends TestCase
 
         $this->assertCount(1, $tagsOfType2);
         $this->assertEquals('type2', $tagsOfType2->first()->type);
-
     }
 
 
+    public function it_provides_as_scope_to_get_all_models_that_have_any_of_the_given_tags()
+    {
+        TestModel::create([
+            'name' => 'model1',
+            'tags' => 'tagA'
+        ]);
 
+        TestModel::create([
+            'name' => 'model2',
+            'tags' => ['tagA', 'tagB'],
+        ]);
+
+        TestModel::create([
+            'name' => 'model3',
+            'tags' => ['tagA', 'tagB', 'tagC'],
+        ]);
+
+        $testModels = TestModel::withAnyTags(['tagB', 'tagC']);
+
+        dd($testModels->count(), $testModels->pluck('name'));
+
+        $this->assertEquals(['model2', 'model3'], $testModels->pluck('name')->toArray());
+    }
 }
