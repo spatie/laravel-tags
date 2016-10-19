@@ -28,8 +28,8 @@ class HasTagsText extends TestCase
     /** @test */
     public function it_provides_a_scope_to_get_tags_of_a_certain_type()
     {
-        $this->testModel->tags()->attach(Tag::fromString('test', 'type1'));
-        $this->testModel->tags()->attach(Tag::fromString('test2', 'type2'));
+        $this->testModel->tags()->attach(Tag::findOrCreate('test', 'type1'));
+        $this->testModel->tags()->attach(Tag::findOrCreate('test2', 'type2'));
 
         $tagsOfType2 = $this->testModel->tagsOfType('type2');
 
