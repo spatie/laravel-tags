@@ -21,7 +21,16 @@ class TagTest extends TestCase
         $this->assertCount(1, Tag::all());
         $this->assertSame('string', $tag->getTranslation('name', app()->getLocale()));
         $this->assertNull($tag->type);
+    }
+
+    /** @test */
+    public function it_creates_sortable_tags()
+    {
+        $tag = Tag::findOrCreateFromString('string');
         $this->assertSame(1, $tag->order_column);
+
+        $tag = Tag::findOrCreateFromString('string2');
+        $this->assertSame(2, $tag->order_column);
     }
 
     /** @test */
@@ -66,5 +75,10 @@ class TagTest extends TestCase
         Tag::findOrCreate(collect(['tag1', 'tag2', 'tag3']));
 
         $this->assertCount(3, Tag::all());
+    }
+
+    public function it_can_store_translations()
+    {
+        Tag::findOrCreate();
     }
 }

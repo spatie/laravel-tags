@@ -20,7 +20,8 @@
         "illuminate/contracts": "~5.3.0",
         "illuminate/database": "~5.3.0",
         "illuminate/support": "~5.3.0",
-        "spatie/eloquent-sortable": "^2.2",
+        "spatie/eloquent-sortable": "^3.0",
+        "spatie/laravel-sluggable": "^1.2",
         "spatie/laravel-translatable": "^1.1"
     },
     "require-dev": {
