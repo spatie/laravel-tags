@@ -18,6 +18,7 @@ class TagTest extends TestCase
     public function it_can_create_a_tag()
     {
         $tag = Tag::findOrCreateFromString('string');
+
         $this->assertCount(1, Tag::all());
         $this->assertSame('string', $tag->getTranslation('name', app()->getLocale()));
         $this->assertNull($tag->type);
@@ -31,6 +32,14 @@ class TagTest extends TestCase
 
         $tag = Tag::findOrCreateFromString('string2');
         $this->assertSame(2, $tag->order_column);
+    }
+
+    /** @test */
+    public function it_automatically_generates_a_slug()
+    {
+        $tag = Tag::findOrCreateFromString('this is a tag');
+
+        $this->assertSame('this-is-a-tag', $tag->slug);
     }
 
     /** @test */
