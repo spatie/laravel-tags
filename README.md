@@ -178,10 +178,8 @@ $yourModel->attach(\Spatie\Tags\Tag::Find('tag4'));
 By syncing tags the package will make sure only the tags given will be attached to the models. All other tags will be detached
 
 ```php
-
+$yourModel->syncTags(['tag 2', 'tag 3']);
 ```
-
-
 
 ## Changelog
 
