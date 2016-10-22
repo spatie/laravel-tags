@@ -9,18 +9,16 @@ trait HasSlug
     public static function bootHasSlug()
     {
         static::saving(function (Model $model) {
-            $model->attributes['slug'] = $model->generateSlug();
+
+            collect($model->getTranslatedLocales('name'))
+                ->each(function (string $locale) use ($model) {
+                    $model->setTranslation('slug', $locale, $model->generateSlug($locale));
+                });
         });
     }
 
-    protected function generateSlug(): string
+    protected function generateSlug(string $locale): string
     {
-        $slugs = [];
-
-        foreach ($this->getTranslatedLocales('name') as $locale) {
-            $slugs[$locale] = str_slug($this->getTranslation('name', $locale));
-        }
-
-        return json_encode($slugs);
+        return str_slug($this->getTranslation('name', $locale));
     }
 }

@@ -13,7 +13,7 @@ class Tag extends Model implements Sortable
 {
     use SortableTrait, HasTranslations, HasSlug;
 
-    public $translatable = ['name', 'url'];
+    public $translatable = ['name', 'slug'];
 
     public $guarded = [];
 
