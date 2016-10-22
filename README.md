@@ -181,6 +181,39 @@ By syncing tags the package will make sure only the tags given will be attached 
 $yourModel->syncTags(['tag 2', 'tag 3']);
 ```
 
+#### Retrieving models with certain tags
+
+The package provides two scopes `withAnyTags` and `withAllTags` that can help you find models with certain tags.
+
+```php
+// returns models that have one or more of the given tags
+YourModel::withAnyTags(['tag 1', 'tag 2'])->get();
+
+// returns models that have all given tags
+YourModel::withAllTags(['tag 1', 'tag 2'])->get();
+```
+
+### Using tag types
+
+A tag can have a certain type.
+
+```php
+//creating a tag with a certain type
+$tag = Tag::create('tag 1, 'my type'):
+
+//a tag is just a regular eloquent model. You can change the type by chaning the `type` property
+$tag->type = 'another type';
+$tag->save();
+```
+
+### Using translations
+
+The tag model is translatable. Behind the scenes [spatie/laravel-translatable](https://github.com/spatie/laravel-translatable) is used. You can use any model provided by that package.
+
+```php
+
+```
+
 ## Changelog
 
 Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
