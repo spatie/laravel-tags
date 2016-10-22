@@ -130,4 +130,24 @@ class HasTagsTest extends TestCase
 
         $this->assertEquals(['model2', 'model3'], $testModels->pluck('name')->toArray());
     }
+
+    /** @test */
+    public function it_can_sync_a_single_tag()
+    {
+        $this->testModel->attachTags(['tag1', 'tag2', 'tag3']);
+
+        $this->testModel->syncTags(['tag3']);
+
+        $this->assertEquals(['tag3'], $this->testModel->tags->pluck('name')->toArray());
+    }
+
+    /** @test */
+    public function it_can_sync_multiple_tags()
+    {
+        $this->testModel->attachTags(['tag1', 'tag2', 'tag3']);
+
+        $this->testModel->syncTags(['tag3', 'tag4']);
+
+        $this->assertEquals(['tag3', 'tag4'], $this->testModel->tags->pluck('name')->toArray());
+    }
 }

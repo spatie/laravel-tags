@@ -176,7 +176,12 @@ trait HasTags
     {
         $tags = Tag::findOrCreate($tags);
 
-        $this->tags()->sync($tags);
+        if (! $tags instanceof \Illuminate\Support\Collection) {
+            $tags = collect($tags);
+        }
+
+        $this->tags()->sync($tags->pluck('id')->toArray());
+
 
         return $this;
     }

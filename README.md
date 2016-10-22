@@ -84,12 +84,104 @@ You can install the package via composer:
 composer require spatie/laravel-tags
 ```
 
+Next up, the service provider must be registered:
+
+```php
+// config/app.php
+'providers' => [
+    ...
+    Spatie\Tags\TagsServiceProvider::class,
+
+];
+```
+
+You can publish the migration with:
+```bash
+php artisan vendor:publish --provider="Spatie\Tags\TagsServiceProvider" --tag="migrations"
+```
+
+After the migration has been published you can create the `tags` and `taggables` tables by running the migrations:
+
+```bash
+php artisan migrate
+```
+
+Optionally you can publish the migration with:
+
+```bash
+php artisan vendor:publish --provider="Spatie\Tags\TagsServiceProvider" --tag="config"
+```
+
+This is the contents of the published `laravel-tags.php` config file:
+
+```php
+return [
+
+    /**
+     * The model used to manage the tags. You can put any model you want here
+     * as long as it extends \Spatie\Tags\Tag
+     */
+    'model' => \Spatie\Tags\Tag::class,
+];
+```
+
+
 ## Usage
 
-``` php
-$skeleton = new Spatie\Tags();
-echo $skeleton->echoPhrase('Hello, Spatie!');
+### Basic usage
+
+To make an Eloquent model taggable just add the `\Spatie\Tags\HasTags` trait to it:
+
+```php
+class YourModel extends \Illuminate\Database\Eloquent\Model
+{
+    use \Spatie\Tags\HasTags;
+    
+    ...
+}
 ```
+
+#### Attaching tags
+
+Here's how you can add some tags:
+
+```php
+//using a string
+$yourModel->attachTag('tag 1');
+
+//using an array
+$yourModel->attachTag(['tag 2', 'tag 3']);
+
+//using an instance of \Spatie\Tags\Tag
+$yourModel->attach(\Spatie\Tags\Tag::createOrFind('tag4'));
+```
+
+The tags will be stored in the `tags`-table. WHen using these functions we'll make sure that tags are unique and a model will have a tag attached only once.
+
+#### Detaching tags
+
+Here's how tags can be detached:
+
+```php
+//using a string
+$yourModel->detachTag('tag 1');
+
+//using an array
+$yourModel->detachTags(['tag 2', 'tag 3']);
+
+//using an instance of \Spatie\Tags\Tag
+$yourModel->attach(\Spatie\Tags\Tag::Find('tag4'));
+```
+
+#### Syncing tags
+
+By syncing tags the package will make sure only the tags given will be attached to the models. All other tags will be detached
+
+```php
+
+```
+
+
 
 ## Changelog
 
