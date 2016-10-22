@@ -46,11 +46,19 @@ NewsItem::attachTag(Tag::findOrCreate('string', 'myType'));
 // the tag model has a scope to retrieve all models with a certain tag
 Tag::type('myType')->get()
 
-// tags can hold translation
+// tags can hold translations
 $tag = Tag::findOrCreate('my tag'); //uses the app's locale
 $tag->setTranslation('fr', 'mon tag');
 $tag->setTranslation('nl', 'mijn tag');
 $tag->save();
+
+// tags are sortable
+$tag = Tag::findOrCreate('my tag');
+$tag->order_column //returns 1
+$tag2 = Tag::findOrCreate('another tag');
+$tag2->order_column //returns 2
+
+// tags have slugs 
 
 ```
 
