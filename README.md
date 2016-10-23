@@ -208,7 +208,7 @@ $tag->save();
 
 ### Using translations
 
-The tag model is translatable. Behind the scenes [spatie/laravel-translatable](https://github.com/spatie/laravel-translatable) is used. You can use any model provided by that package.
+The tag model is translatable. Behind the scenes [spatie/laravel-translatable](https://github.com/spatie/laravel-translatable) is used. You can use any method provided by that package.
 
 ```php
 $tag = Tag::findOrCreate('my tag');
