@@ -86,8 +86,20 @@ class TagTest extends TestCase
         $this->assertCount(3, Tag::all());
     }
 
+    /** @test */
     public function it_can_store_translations()
     {
-        Tag::findOrCreate();
+        $tag = Tag::findOrCreate('my tag');
+
+        $tag->setTranslation('name', 'fr', 'mon tag');
+        $tag->setTranslation('name', 'nl', 'mijn tag');
+
+        $tag->save();
+
+        $this->assertEquals([
+            'en' => 'my tag',
+            'fr' => 'mon tag',
+            'nl' => 'mijn tag'
+        ], $tag->getTranslations('name'));
     }
 }
