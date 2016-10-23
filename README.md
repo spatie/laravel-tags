@@ -30,11 +30,11 @@ $newsItem->detachTags(['tag4', 'tag5']);
 //syncing tags
 $newsItem->syncTags(['tag1', 'tag2');
 
-//retrieve models that of any of the given tags
-NewsItem::withAnyTags(['tag1, 'tag2']);
+//retrieve models that have any of the given tags
+NewsItem::withAnyTags(['tag1', 'tag2']);
 
 //retrieve models that have all of the given tags
-NewsItem::withAllTags(['tag1, 'tag2']);
+NewsItem::withAllTags(['tag1', 'tag2']);
 ```
 
 This is the core functionality of almost every other tag package out there. What makes this spatie/laravel-tags unique is the built in support for translation, tag types, slugs, and sortable tags.
