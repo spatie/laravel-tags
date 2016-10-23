@@ -99,7 +99,7 @@ class TagTest extends TestCase
         $this->assertEquals([
             'en' => 'my tag',
             'fr' => 'mon tag',
-            'nl' => 'mijn tag'
+            'nl' => 'mijn tag',
         ], $tag->getTranslations('name'));
     }
 }

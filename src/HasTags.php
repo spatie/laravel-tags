@@ -32,7 +32,7 @@ trait HasTags
      */
     public function setTagsAttribute($tags)
     {
-        if (!$this->exists) {
+        if (! $this->exists) {
             $this->queuedTags = $tags;
 
             return;
@@ -48,11 +48,11 @@ trait HasTags
      */
     public function scopeWithAllTags(Builder $query, $tags): Builder
     {
-        if (!is_array($tags)) {
+        if (! is_array($tags)) {
             $tags = [$tags];
         }
 
-        if (!count($tags)) {
+        if (! count($tags)) {
             return $query;
         }
 
@@ -75,11 +75,11 @@ trait HasTags
      */
     public function scopeWithAnyTags(Builder $query, $tags): Builder
     {
-        if (!is_array($tags)) {
+        if (! is_array($tags)) {
             $tags = [$tags];
         }
 
-        if (!count($tags)) {
+        if (! count($tags)) {
             return $query;
         }
 
@@ -108,11 +108,11 @@ trait HasTags
      */
     public function attachTags($tags)
     {
-        if (!is_array($tags)) {
+        if (! is_array($tags)) {
             $tags = [$tags];
         }
 
-        if (!count($tags)) {
+        if (! count($tags)) {
             return $this;
         }
 
@@ -142,7 +142,7 @@ trait HasTags
      */
     public function detachTags($tags)
     {
-        if (!is_array($tags)) {
+        if (! is_array($tags)) {
             $tags = [$tags];
         }
 
