@@ -37,13 +37,13 @@ NewsItem::withAnyTags(['tag1', 'tag2']);
 NewsItem::withAllTags(['tag1', 'tag2']);
 ```
 
-This is the core functionality of almost every other tag package out there. What makes this spatie/laravel-tags unique is the built in support for translation, tag types, slugs, and sortable tags.
+This is the core functionality of almost every other tag package out there. What makes this spatie/laravel-tags unique is the built in support for translations, tag types, slugs, and sortable tags.
 
 ```php
 //attaching a tag with a type
 NewsItem::attachTag(Tag::findOrCreate('string', 'myType'));
 
-// the tag model has a scope to retrieve all models with a certain tag
+// the tag model has a scope to retrieve all tags with a certain type
 Tag::type('myType')->get()
 
 // tags can hold translations
