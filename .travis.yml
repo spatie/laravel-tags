@@ -26,7 +26,7 @@ env:
 before_script:
   - travis_retry composer self-update
   - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction --prefer-source
-  - mysql -e 'create database IF NOT EXISTS laravel_tags;' -u root
+  - mysql -e 'create database IF NOT EXISTS laravel_tags;' -u root   
 
 script:
   - phpunit --coverage-text --coverage-clover=coverage.clover
