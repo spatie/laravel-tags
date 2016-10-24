@@ -2,6 +2,10 @@ sudo: required
 
 dist: trusty
 
+cache:
+  directories:
+    - $HOME/.composer/cache
+
 before_install:
   - sudo add-apt-repository -y ppa:ondrej/mysql-5.7
   - sudo apt-get update -qq
@@ -23,7 +27,7 @@ env:
 
 before_script:
   - travis_retry composer self-update
-  - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction --prefer-source
+  - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction --prefer-dist
   - mysql -e 'create database IF NOT EXISTS laravel_tags;' -u travis
 
 script:
