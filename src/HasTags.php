@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Spatie\Tags\Tag;
 
 trait HasTags
 {
@@ -37,6 +38,7 @@ trait HasTags
 
             return;
         }
+
         $this->attachTags($tags);
     }
 
@@ -56,7 +58,7 @@ trait HasTags
             return $query;
         }
 
-        $tags = Tag::find($tags);
+        $tags = static::convertToTags($tags);
 
         collect($tags)->each(function ($tag) use ($query) {
             $query->whereHas('tags', function (Builder $query) use ($tag) {
@@ -83,7 +85,7 @@ trait HasTags
             return $query;
         }
 
-        $tags = Tag::find($tags);
+        $tags = static::convertToTags($tags);
 
         return $query->whereHas('tags', function (Builder $query) use ($tags) {
             $tagIds = collect($tags)->map(function ($tag) {
@@ -94,7 +96,8 @@ trait HasTags
         });
     }
 
-    public function tagsOfType(string $type = null): Collection
+
+    public function tagsWithType(string $type = null): Collection
     {
         return $this->tags->filter(function (Tag $tag) use ($type) {
             return $tag->type === $type;
@@ -108,10 +111,6 @@ trait HasTags
      */
     public function attachTags($tags)
     {
-        if (! is_array($tags)) {
-            $tags = [$tags];
-        }
-
         if (! count($tags)) {
             return $this;
         }
@@ -126,13 +125,13 @@ trait HasTags
     }
 
     /**
-     * @param array|\ArrayAccess|\Spatie\Tags\Tag $tags
+     * @param string|\Spatie\Tags\Tag $tag
      *
      * @return $this
      */
-    public function attachTag($tags)
+    public function attachTag($tag)
     {
-        return $this->attachTags($tags);
+        return $this->attachTags([$tag]);
     }
 
     /**
@@ -146,7 +145,7 @@ trait HasTags
             $tags = [$tags];
         }
 
-        $tags = Tag::find($tags);
+        $tags = static::convertToTags($tags);
 
         collect($tags)
             ->filter()
@@ -185,4 +184,16 @@ trait HasTags
 
         return $this;
     }
+
+    protected static function convertToTags($values, $type = null, $locale = null)
+    {
+        return collect($values)->map(function (string $value) use ($type, $locale) {
+            if ($value instanceof Tag) {
+                return $value;
+            }
+
+            return Tag::findFromString($value, $type, $locale);
+        });
+    }
+
 }

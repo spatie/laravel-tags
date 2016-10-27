@@ -102,4 +102,13 @@ class TagTest extends TestCase
             'nl' => 'mijn tag',
         ], $tag->getTranslations('name'));
     }
+
+    public function it_can_find_or_create_a_tag()
+    {
+        $tag = Tag::findOrCreate('string');
+
+        $tag2 = Tag::findOrCreate($tag);
+
+        $this->assertEquals('string', $tag2->name);
+    }
 }

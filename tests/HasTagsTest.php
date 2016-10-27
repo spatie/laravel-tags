@@ -47,7 +47,7 @@ class HasTagsTest extends TestCase
     /** @test */
     public function it_can_attach_a_tag_via_the_tags_mutator()
     {
-        $this->testModel->tags = 'tag1';
+        $this->testModel->tags = ['tag1'];
 
         $this->assertCount(1, $this->testModel->tags);
     }
@@ -63,7 +63,7 @@ class HasTagsTest extends TestCase
     /** @test */
     public function it_can_attach_multiple_tags()
     {
-        $this->testModel->attachTag(['test1', 'test2']);
+        $this->testModel->attachTags(['test1', 'test2']);
 
         $this->assertCount(2, $this->testModel->tags);
     }
@@ -102,18 +102,18 @@ class HasTagsTest extends TestCase
         $this->testModel->tags()->attach(Tag::findOrCreate('test', 'type1'));
         $this->testModel->tags()->attach(Tag::findOrCreate('test2', 'type2'));
 
-        $tagsOfType2 = $this->testModel->tagsOfType('type2');
+        $tagsOfType2 = $this->testModel->tagsWithType('type2');
 
         $this->assertCount(1, $tagsOfType2);
         $this->assertEquals('type2', $tagsOfType2->first()->type);
     }
 
     /** @test */
-    public function it_provides_as_scope_to_get_all_models_that_have_any_of_the_given_tags()
+    public function it_provides_as_scope_to_get_all_models_that_have_any_of_the_given_tags_2()
     {
         TestModel::create([
             'name' => 'model1',
-            'tags' => 'tagA',
+            'tags' => ['tagA'],
         ]);
 
         TestModel::create([

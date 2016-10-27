@@ -17,25 +17,14 @@ class Tag extends Model implements Sortable
 
     public $guarded = [];
 
-    public function scopeType(Builder $query, string $type = null): Builder
-    {
-        if (is_null($type)) {
+    public function scopeWithType(Builder $query, string $type = null): Builder
+    {if (is_null($type)) {
             return $query;
         }
 
         return $query->where('type', $type)->orderBy('order_column');
     }
 
-    public static function find($values, $type = null, $locale = null)
-    {
-        return collect($values)->map(function (string $value) use ($type, $locale) {
-            if ($value instanceof Tag) {
-                return $value;
-            }
-
-            return static::findFromString($value, $type, $locale);
-        });
-    }
 
     /**
      * @param array|\ArrayAccess $values
@@ -46,7 +35,9 @@ class Tag extends Model implements Sortable
      */
     public static function findOrCreate($values, string $type = null, string $locale = null)
     {
+
         $tags = collect($values)->map(function (string $value) use ($type, $locale) {
+
             if ($value instanceof Tag) {
                 return $value;
             }
@@ -62,7 +53,7 @@ class Tag extends Model implements Sortable
         return static::type($type)->get();
     }
 
-    protected static function findFromString(string $name, string $type = null, string $locale = null)
+    public static function findFromString(string $name, string $type = null, string $locale = null)
     {
         $locale = $locale ?? app()->getLocale();
 
@@ -74,6 +65,7 @@ class Tag extends Model implements Sortable
 
     protected static function findOrCreateFromString(string $name, string $type = null, string $locale = null): Tag
     {
+
         $locale = $locale ?? app()->getLocale();
 
         $tag = static::findFromString($name, $type, $locale);
@@ -84,7 +76,6 @@ class Tag extends Model implements Sortable
                 'type' => $type,
             ]);
         }
-
         return $tag;
     }
 }

@@ -16,7 +16,7 @@ class HasTagsScopesTest extends TestCase
 
         TestModel::create([
             'name' => 'model1',
-            'tags' => 'tagA',
+            'tags' => ['tagA'],
         ]);
 
         TestModel::create([
