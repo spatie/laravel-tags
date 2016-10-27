@@ -11,6 +11,11 @@ trait HasTags
 {
     protected $queuedTags = [];
 
+    public static function getTagClassName(): string
+    {
+        return Tag::class;
+    }
+
     public static function bootHasTags()
     {
         static::created(function (Model $taggableModel) {
@@ -71,14 +76,11 @@ trait HasTags
         $tags = static::convertToTags($tags);
 
         return $query->whereHas('tags', function (Builder $query) use ($tags) {
-            $tagIds = collect($tags)->map(function ($tag) {
-                return $tag ? $tag->id : 0;
-            })->toArray();
+            $tagIds = collect($tags)->pluck('id');
 
             $query->whereIn('id', $tagIds);
         });
     }
-
 
     public function tagsWithType(string $type = null): Collection
     {
@@ -94,11 +96,9 @@ trait HasTags
      */
     public function attachTags($tags)
     {
-        if (! count($tags)) {
-            return $this;
-        }
+        $className = static::getTagClassName();
 
-        $tags = Tag::findOrCreate($tags);
+        $tags = $className::findOrCreate($tags);
 
         collect($tags)->each(function (Tag $tag) {
             $this->tags()->attach($tag);
@@ -118,16 +118,12 @@ trait HasTags
     }
 
     /**
-     * @param array|\ArrayAccess|\Spatie\Tags\Tag $tags
+     * @param array|\ArrayAccess $tags
      *
      * @return $this
      */
     public function detachTags($tags)
     {
-        if (! is_array($tags)) {
-            $tags = [$tags];
-        }
-
         $tags = static::convertToTags($tags);
 
         collect($tags)
@@ -140,13 +136,13 @@ trait HasTags
     }
 
     /**
-     * @param array|\ArrayAccess|\Spatie\Tags\Tag $tags
+     * @param string|\Spatie\Tags\Tag $tag
      *
      * @return $this
      */
-    public function detachTag($tags)
+    public function detachTag($tag)
     {
-        return $this->detachTags($tags);
+        return $this->detachTags([$tag]);
     }
 
     /**
@@ -156,7 +152,9 @@ trait HasTags
      */
     public function syncTags($tags)
     {
-        $tags = Tag::findOrCreate($tags);
+        $className = static::getTagClassName();
+
+        $tags = $className::findOrCreate($tags);
 
         if (! $tags instanceof \Illuminate\Support\Collection) {
             $tags = collect($tags);
@@ -175,7 +173,9 @@ trait HasTags
                 return $value;
             }
 
-            return Tag::findFromString($value, $type, $locale);
+            $className = static::getTagClassName();
+
+            return $className::findFromString($value, $type, $locale);
         });
     }
 

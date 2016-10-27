@@ -12,9 +12,6 @@ class TagsServiceProvider extends ServiceProvider
     public function boot()
     {
         if ($this->app->runningInConsole()) {
-            $this->publishes([
-               __DIR__.'/../config/laravel-tags.php' => config_path('laravel-tags.php'),
-           ], 'config');
 
             if (! class_exists('CreateTagTables')) {
                 $timestamp = date('Y_m_d_His', time());
@@ -30,6 +27,6 @@ class TagsServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__.'/../config/laravel-tags.php', 'laravel-tags');
+
     }
 }

@@ -1,5 +1,3 @@
-Work in progress, do not use yet...
-
 # Add tags and taggable behaviour to a Laravel app
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/spatie/laravel-tags.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-tags)
@@ -105,26 +103,6 @@ After the migration has been published you can create the `tags` and `taggables`
 ```bash
 php artisan migrate
 ```
-
-Optionally you can publish the migration with:
-
-```bash
-php artisan vendor:publish --provider="Spatie\Tags\TagsServiceProvider" --tag="config"
-```
-
-This is the contents of the published `laravel-tags.php` config file:
-
-```php
-return [
-
-    /**
-     * The model used to manage the tags. You can put any model you want here
-     * as long as it extends \Spatie\Tags\Tag
-     */
-    'model' => \Spatie\Tags\Tag::class,
-];
-```
-
 
 ## Usage
 
