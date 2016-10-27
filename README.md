@@ -104,112 +104,12 @@ After the migration has been published you can create the `tags` and `taggables`
 php artisan migrate
 ```
 
-## Usage
+## Documentation
+You'll find the documentation on [https://docs.spatie.be/laravel-medialibrary/v1](https://docs.spatie.be/laravel-tags/v1).
 
-### Basic usage
+Find yourself stuck using the package? Found a bug? Do you have general questions or suggestions for improving the media library? Feel free to [create an issue on GitHub](https://github.com/spatie/laravel-tags/issues), we'll try to address it as soon as possible.
 
-To make an Eloquent model taggable just add the `\Spatie\Tags\HasTags` trait to it:
-
-```php
-class YourModel extends \Illuminate\Database\Eloquent\Model
-{
-    use \Spatie\Tags\HasTags;
-    
-    ...
-}
-```
-
-#### Attaching tags
-
-Here's how you can add some tags:
-
-```php
-//using a string
-$yourModel->attachTag('tag 1');
-
-//using an array
-$yourModel->attachTag(['tag 2', 'tag 3']);
-
-//using an instance of \Spatie\Tags\Tag
-$yourModel->attach(\Spatie\Tags\Tag::createOrFind('tag4'));
-```
-
-The tags will be stored in the `tags`-table. WHen using these functions we'll make sure that tags are unique and a model will have a tag attached only once.
-
-#### Detaching tags
-
-Here's how tags can be detached:
-
-```php
-//using a string
-$yourModel->detachTag('tag 1');
-
-//using an array
-$yourModel->detachTags(['tag 2', 'tag 3']);
-
-//using an instance of \Spatie\Tags\Tag
-$yourModel->attach(\Spatie\Tags\Tag::Find('tag4'));
-```
-
-#### Syncing tags
-
-By syncing tags the package will make sure only the tags given will be attached to the models. All other tags will be detached
-
-```php
-$yourModel->syncTags(['tag 2', 'tag 3']);
-```
-
-#### Retrieving models with certain tags
-
-The package provides two scopes `withAnyTags` and `withAllTags` that can help you find models with certain tags.
-
-```php
-// returns models that have one or more of the given tags
-YourModel::withAnyTags(['tag 1', 'tag 2'])->get();
-
-// returns models that have all given tags
-YourModel::withAllTags(['tag 1', 'tag 2'])->get();
-```
-
-### Using tag types
-
-A tag can have a certain type.
-
-```php
-//creating a tag with a certain type
-$tag = Tag::create('tag 1, 'my type'):
-
-//a tag is just a regular eloquent model. You can change the type by chaning the `type` property
-$tag->type = 'another type';
-$tag->save();
-```
-
-### Using translations
-
-The tag model is translatable. Behind the scenes [spatie/laravel-translatable](https://github.com/spatie/laravel-translatable) is used. You can use any method provided by that package.
-
-```php
-$tag = Tag::findOrCreate('my tag');
-
-$tag->setTranslation('name', 'fr', 'mon tag');
-$tag->setTranslation('name', 'nl', 'mijn tag');
-
-$tag->save();
-
-$tag->getTranslation('fr') // returns 'mon tag'
-```
-
-## Changelog
-
-Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
-
-## Testing
-
-This packages uses `json` fields so we can't use sqlite to run our tests. To run the test you should first setup a MySQL 5.7 database called `laravel-tags`, username should be `root`, `password` should be blank.
-
-``` bash
-$ composer test
-```
+If you've found a bug regarding security please mail [freek@spatie.be](mailto:freek@spatie.be) instead of using the issue tracker.
 
 ## Contributing
 
