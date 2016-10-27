@@ -57,12 +57,21 @@ class TagTest extends TestCase
         Tag::findOrCreate('tagB', 'firstType');
         Tag::findOrCreate('tagC', 'secondType');
         Tag::findOrCreate('tagD', 'secondType');
-        Tag::findOrCreate('tagE', 'thirdType');
-        Tag::findOrCreate('tagF', 'thirdType');
 
         $this->assertEquals(['tagA', 'tagB'],Tag::withType('firstType')->pluck('name')->toArray());
         $this->assertEquals(['tagC', 'tagD'],Tag::withType('secondType')->pluck('name')->toArray());
-        $this->assertEquals(['tagE', 'tagF'],Tag::withType('thirdType')->pluck('name')->toArray());
+    }
+
+    /** @test */
+    public function it_provides_a_method_to_get_all_tags_with_a_specific_type()
+    {
+        Tag::findOrCreate('tagA', 'firstType');
+        Tag::findOrCreate('tagB', 'firstType');
+        Tag::findOrCreate('tagC', 'secondType');
+        Tag::findOrCreate('tagD', 'secondType');
+
+        $this->assertEquals(['tagA', 'tagB'],Tag::getWithType('firstType')->pluck('name')->toArray());
+        $this->assertEquals(['tagC', 'tagD'],Tag::getWithType('secondType')->pluck('name')->toArray());
     }
 
     /** @test */
