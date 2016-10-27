@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
-use Spatie\Tags\Tag;
 
 trait HasTags
 {
@@ -50,14 +49,6 @@ trait HasTags
      */
     public function scopeWithAllTags(Builder $query, $tags): Builder
     {
-        if (! is_array($tags)) {
-            $tags = [$tags];
-        }
-
-        if (! count($tags)) {
-            return $query;
-        }
-
         $tags = static::convertToTags($tags);
 
         collect($tags)->each(function ($tag) use ($query) {
@@ -77,14 +68,6 @@ trait HasTags
      */
     public function scopeWithAnyTags(Builder $query, $tags): Builder
     {
-        if (! is_array($tags)) {
-            $tags = [$tags];
-        }
-
-        if (! count($tags)) {
-            return $query;
-        }
-
         $tags = static::convertToTags($tags);
 
         return $query->whereHas('tags', function (Builder $query) use ($tags) {
