@@ -50,7 +50,7 @@ class Tag extends Model implements Sortable
 
     public static function getWithType(string $type): DbCollection
     {
-        return static::withType($type)->get();
+        return static::withType($type)->orderBy('order_column')->get();
     }
 
     public static function findFromString(string $name, string $type = null, string $locale = null)
