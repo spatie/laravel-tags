@@ -51,6 +51,21 @@ class TagTest extends TestCase
     }
 
     /** @test */
+    public function it_provides_a_scope_to_get_all_tags_with_a_specific_type()
+    {
+        Tag::findOrCreate('tagA', 'firstType');
+        Tag::findOrCreate('tagB', 'firstType');
+        Tag::findOrCreate('tagC', 'secondType');
+        Tag::findOrCreate('tagD', 'secondType');
+        Tag::findOrCreate('tagE', 'thirdType');
+        Tag::findOrCreate('tagF', 'thirdType');
+
+        $this->assertEquals(['tagA', 'tagB'],Tag::withType('firstType')->pluck('name')->toArray());
+        $this->assertEquals(['tagC', 'tagD'],Tag::withType('secondType')->pluck('name')->toArray());
+        $this->assertEquals(['tagE', 'tagF'],Tag::withType('thirdType')->pluck('name')->toArray());
+    }
+
+    /** @test */
     public function it_will_not_create_a_tag_if_the_tag_already_exists()
     {
         Tag::findOrCreate('string');
