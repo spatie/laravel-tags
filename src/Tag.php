@@ -26,7 +26,6 @@ class Tag extends Model implements Sortable
         return $query->where('type', $type)->orderBy('order_column');
     }
 
-
     /**
      * @param array|\ArrayAccess $values
      * @param string|null $type
@@ -37,7 +36,6 @@ class Tag extends Model implements Sortable
     public static function findOrCreate($values, string $type = null, string $locale = null)
     {
         $tags = collect($values)->map(function (string $value) use ($type, $locale) {
-
             if ($value instanceof Tag) {
                 return $value;
             }
@@ -65,7 +63,6 @@ class Tag extends Model implements Sortable
 
     protected static function findOrCreateFromString(string $name, string $type = null, string $locale = null): Tag
     {
-
         $locale = $locale ?? app()->getLocale();
 
         $tag = static::findFromString($name, $type, $locale);
@@ -76,6 +73,7 @@ class Tag extends Model implements Sortable
                 'type' => $type,
             ]);
         }
+
         return $tag;
     }
 }

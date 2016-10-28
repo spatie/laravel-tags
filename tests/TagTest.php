@@ -58,8 +58,8 @@ class TagTest extends TestCase
         Tag::findOrCreate('tagC', 'secondType');
         Tag::findOrCreate('tagD', 'secondType');
 
-        $this->assertEquals(['tagA', 'tagB'],Tag::withType('firstType')->pluck('name')->toArray());
-        $this->assertEquals(['tagC', 'tagD'],Tag::withType('secondType')->pluck('name')->toArray());
+        $this->assertEquals(['tagA', 'tagB'], Tag::withType('firstType')->pluck('name')->toArray());
+        $this->assertEquals(['tagC', 'tagD'], Tag::withType('secondType')->pluck('name')->toArray());
     }
 
     /** @test */
@@ -70,8 +70,8 @@ class TagTest extends TestCase
         Tag::findOrCreate('tagC', 'secondType');
         Tag::findOrCreate('tagD', 'secondType');
 
-        $this->assertEquals(['tagA', 'tagB'],Tag::getWithType('firstType')->pluck('name')->toArray());
-        $this->assertEquals(['tagC', 'tagD'],Tag::getWithType('secondType')->pluck('name')->toArray());
+        $this->assertEquals(['tagA', 'tagB'], Tag::getWithType('firstType')->pluck('name')->toArray());
+        $this->assertEquals(['tagC', 'tagD'], Tag::getWithType('secondType')->pluck('name')->toArray());
     }
 
     /** @test */

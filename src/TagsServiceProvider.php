@@ -12,7 +12,6 @@ class TagsServiceProvider extends ServiceProvider
     public function boot()
     {
         if ($this->app->runningInConsole()) {
-
             if (! class_exists('CreateTagTables')) {
                 $timestamp = date('Y_m_d_His', time());
                 $this->publishes([
@@ -27,6 +26,5 @@ class TagsServiceProvider extends ServiceProvider
      */
     public function register()
     {
-
     }
 }
