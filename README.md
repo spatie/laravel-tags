@@ -8,10 +8,14 @@
 [![StyleCI](https://styleci.io/repos/71335427/shield?branch=master)](https://styleci.io/repos/71335427)
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/laravel-tags.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-tags)
 
-This package provides you with a `HasTags` trait with which you can easily add tags to your Eloquent models. Once the package is set up you can do stuff like this:
+This package offers taggable behaviour for your models. After the package is installed to only thing you have to do is to add the `HasTags` trait to an Eloquent model to make it taggable. 
+
+But we didn't stop with the regular tagging capabilities you find in every package. Laravel Tags comes with batteries included. Out of the box it has support for [translating tags](/laravel-tags/v1/advanced-usage/adding-translations), [multiple tag types](/laravel-tags/v1/advanced-usage/using-types), add [sorting capabilities](/laravel-tags/v1/advanced-usage/sorting-tags).
+
+Here are some code examples:
 
 ```php
-// create a model with some tags
+//create a model with some tags
 $newsItem = NewsItem::create([
    'name' => 'testModel',
    'tags' => ['tag', 'tag2'], //tags will be created if they don't exist
@@ -26,38 +30,35 @@ $newsItem->detachTags('tag3');
 $newsItem->detachTags(['tag4', 'tag5']);
 
 //syncing tags
-$newsItem->syncTags(['tag1', 'tag2');
+$newsItem->syncTags(['tag1', 'tag2'); // all other tags on this model will be detached
 
-//retrieve models that have any of the given tags
+//retrieving models that have any of the given tags
 NewsItem::withAnyTags(['tag1', 'tag2']);
 
 //retrieve models that have all of the given tags
 NewsItem::withAllTags(['tag1', 'tag2']);
-```
 
-This is the core functionality of almost every other tag package out there. What makes this spatie/laravel-tags unique is the built in support for translations, tag types, slugs, and sortable tags.
-
-```php
-//attaching a tag with a type
-NewsItem::attachTag(Tag::findOrCreate('string', 'myType'));
-
-// the tag model has a scope to retrieve all tags with a certain type
-Tag::type('myType')->get()
-
-// tags can hold translations
-$tag = Tag::findOrCreate('my tag'); //uses the app's locale
+//translating a tag
+$tag = Tag::findOrCreate('my tag');
 $tag->setTranslation('fr', 'mon tag');
 $tag->setTranslation('nl', 'mijn tag');
 $tag->save();
 
-// tags are sortable
+//using tag types
+$tag = Tag::create('tag 1', 'my type'):
+
+//tags have slugs
+$tag = Tag::create('yet another tag'):
+$tag->slug; //returns "yet-another-tag"
+
+//tags are sortable
 $tag = Tag::findOrCreate('my tag');
-$tag->order_column //returns 1
+$tag->order_column; //returns 1
 $tag2 = Tag::findOrCreate('another tag');
-$tag2->order_column //returns 2
+$tag2->order_column; //returns 2
 
-// tags have slugs 
-
+//manipulating the order of tags
+$tag->swapOrder($anotherTag);
 ```
 
 Spatie is a webdesign agency based in Antwerp, Belgium. You'll find an overview of all our open source projects [on our website](https://spatie.be/opensource).
