@@ -178,5 +178,4 @@ trait HasTags
             return $className::findFromString($value, $type, $locale);
         });
     }
-
 }
