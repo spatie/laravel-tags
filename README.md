@@ -30,7 +30,7 @@ $newsItem->detachTags('tag3');
 $newsItem->detachTags(['tag4', 'tag5']);
 
 //syncing tags
-$newsItem->syncTags(['tag1', 'tag2'); // all other tags on this model will be detached
+$newsItem->syncTags(['tag1', 'tag2']); // all other tags on this model will be detached
 
 //retrieving models that have any of the given tags
 NewsItem::withAnyTags(['tag1', 'tag2']);
