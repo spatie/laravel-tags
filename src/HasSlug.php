@@ -18,6 +18,9 @@ trait HasSlug
 
     protected function generateSlug(string $locale): string
     {
-        return str_slug($this->getTranslation('name', $locale));
+        $normalizer = config('tags.normalizer');
+        $normalizer = $normalizer ?: 'str_slug';
+
+        return call_user_func($normalizer, $this->getTranslation('name', $locale));
     }
 }
