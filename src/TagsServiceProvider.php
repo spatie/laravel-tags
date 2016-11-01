@@ -20,7 +20,7 @@ class TagsServiceProvider extends ServiceProvider
             }
 
             $this->publishes([
-                __DIR__.'/../config/tags.php' => config_path('tags.php'),
+                __DIR__.'/../config/laravel-tags.php' => config_path('laravel-tags.php'),
             ], 'config');
         }
     }

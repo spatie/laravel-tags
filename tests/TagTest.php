@@ -43,6 +43,26 @@ class TagTest extends TestCase
     }
 
     /** @test */
+    public function it_uses_str_slug_if_config_slugger_value_is_empty()
+    {
+        app('config')->set('laravel-tags.slugger', '');
+
+        $tag = Tag::findOrCreateFromString('this is a tag');
+
+        $this->assertSame('this-is-a-tag', $tag->slug);
+    }
+
+    /** @test */
+    public function it_uses_the_specified_method_defiend_in_config_slugger_to_generate_a_slug()
+    {
+        app('config')->set('laravel-tags.slugger', 'str_slug');
+
+        $tag = Tag::findOrCreateFromString('this is a tag');
+
+        $this->assertSame('this-is-a-tag', $tag->slug);
+    }
+
+    /** @test */
     public function it_can_create_a_tag_with_a_type()
     {
         $tag = Tag::findOrCreate('string', 'myType');
