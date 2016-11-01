@@ -28,9 +28,21 @@ class HasTagsTest extends TestCase
     /** @test */
     public function it_can_attach_a_tag()
     {
-        $this->testModel->attachTag('test1');
+        $this->testModel->attachTag('tagName');
 
         $this->assertCount(1, $this->testModel->tags);
+
+        $this->assertEquals(['tagName'], $this->testModel->tags->pluck('name')->toArray());
+    }
+
+    /** @test */
+    public function it_can_use_a_tag_model_when_attaching_a_tag()
+    {
+        $tag = Tag::findOrCreate('tagName');
+
+        $this->testModel->attachTag($tag);
+
+        $this->assertEquals(['tagName'], $this->testModel->tags->pluck('name')->toArray());
     }
 
     /** @test */
