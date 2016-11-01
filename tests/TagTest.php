@@ -55,11 +55,11 @@ class TagTest extends TestCase
     /** @test */
     public function it_can_use_a_custom_slugger()
     {
-        app('config')->set('laravel-tags.slugger', 'str_slug');
+        app('config')->set('laravel-tags.slugger', 'strtoupper');
 
         $tag = Tag::findOrCreateFromString('this is a tag');
 
-        $this->assertSame('this-is-a-tag', $tag->slug);
+        $this->assertSame('THIS IS A TAG', $tag->slug);
     }
 
     /** @test */
