@@ -53,7 +53,7 @@ class TagTest extends TestCase
     }
 
     /** @test */
-    public function it_uses_the_specified_method_defiend_in_config_slugger_to_generate_a_slug()
+    public function it_can_use_a_custom_slugger()
     {
         app('config')->set('laravel-tags.slugger', 'str_slug');
 
