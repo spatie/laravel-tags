@@ -18,6 +18,10 @@ class TagsServiceProvider extends ServiceProvider
                     __DIR__.'/../database/migrations/create_tag_tables.php.stub' => database_path('migrations/'.$timestamp.'_create_tag_tables.php'),
                 ], 'migrations');
             }
+
+            $this->publishes([
+                __DIR__.'/../config/laravel-tags.php' => config_path('laravel-tags.php'),
+            ], 'config');
         }
     }
 

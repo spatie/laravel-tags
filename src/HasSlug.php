@@ -18,6 +18,10 @@ trait HasSlug
 
     protected function generateSlug(string $locale): string
     {
-        return str_slug($this->getTranslation('name', $locale));
+        $slugger = config('laravel-tags.slugger');
+
+        $slugger = $slugger ?: 'str_slug';
+
+        return call_user_func($slugger, $this->getTranslation('name', $locale));
     }
 }
