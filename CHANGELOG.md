@@ -2,6 +2,10 @@
 
 All Notable changes to `laravel-tags` will be documented in this file
 
+## 1.1.0 - 2016-12-03
+
+- The function that determines the value of the slug can now be modified in the config file
+
 ## 1.0.2 - 2016-11-01
 
 - fixed bug in `attachTag` where using a `Tag` model would be converted to a string
