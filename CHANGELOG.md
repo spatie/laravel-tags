@@ -2,7 +2,11 @@
 
 All Notable changes to `laravel-tags` will be documented in this file
 
-## 1.1.0 - 2016-12-03
+## 1.1.1 - 2016-11-08
+
+- fix bug where a custom tag model would not be used in `tags()`
+
+## 1.1.0 - 2016-11-03
 
 - The function that determines the value of the slug can now be modified in the config file
 
