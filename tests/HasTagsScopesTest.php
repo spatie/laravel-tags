@@ -2,6 +2,7 @@
 
 namespace Spatie\Translatable\Test;
 
+use Spatie\Tags\Tag;
 use Spatie\Tags\Test\TestCase;
 use Spatie\Tags\Test\TestModel;
 
@@ -33,6 +34,14 @@ class HasTagsScopesTest extends TestCase
             'name' => 'model4',
             'tags' => ['tagD'],
         ]);
+
+        $typedTag = Tag::findOrCreate('tagE', 'typedTag');
+        $anotherTypedTag = Tag::findOrCreate('tagF', 'typedTag');
+
+        TestModel::create([
+            'name' => 'model5',
+            'tags' => [$typedTag, $anotherTypedTag],
+        ]);
     }
 
     /** @test */
@@ -61,5 +70,25 @@ class HasTagsScopesTest extends TestCase
         $testModels = TestModel::withAllTags(['tagB', 'tagC'])->get();
 
         $this->assertEquals(['model3'], $testModels->pluck('name')->toArray());
+    }
+
+    /** @test */
+    public function it_provides_as_scope_to_get_all_models_that_have_any_of_the_given_tags_with_type()
+    {
+        $testModels = TestModel::withAnyTags(['tagE'], 'typedTag')->get();
+
+        $this->assertEquals(['model5'], $testModels->pluck('name')->toArray());
+
+        $testModels = TestModel::withAnyTags(['tagF'], 'typedTag')->get();
+
+        $this->assertEquals(['model5'], $testModels->pluck('name')->toArray());
+    }
+
+    /** @test */
+    public function it_provides_as_scope_to_get_all_models_that_have_all_of_the_given_tags_with_type()
+    {
+        $testModels = TestModel::withAllTags(['tagE', 'tagF'], 'typedTag')->get();
+
+        $this->assertEquals(['model5'], $testModels->pluck('name')->toArray());
     }
 }
