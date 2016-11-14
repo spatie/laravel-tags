@@ -2,6 +2,10 @@
 
 All Notable changes to `laravel-tags` will be documented in this file
 
+## 1.2.0 - 2016-11-14
+
+- the `withAllTags` and `withAnyTags` scopes now optionally accept a `type`
+
 ## 1.1.1 - 2016-11-08
 
 - fix bug where a custom tag model would not be used in `tags()`
