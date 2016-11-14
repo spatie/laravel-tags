@@ -52,13 +52,13 @@ trait HasTags
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeWithAllTags(Builder $query, $tags): Builder
+    public function scopeWithAllTags(Builder $query, $tags, string $type = null): Builder
     {
-        $tags = static::convertToTags($tags);
+        $tags = static::convertToTags($tags, $type);
 
-        collect($tags)->each(function ($tag) use ($query) {
-            $query->whereHas('tags', function (Builder $query) use ($tag) {
-                return $query->where('id', $tag ? $tag->id : 0);
+        collect($tags)->each(function ($tag) use ($query, $type) {
+            $query->whereHas('tags', function (Builder $query) use ($tag, $type) {
+                return $query->where('id', $tag ? $tag->id : 0)->where('tags.type', $type);
             });
         });
 
@@ -71,14 +71,14 @@ trait HasTags
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeWithAnyTags(Builder $query, $tags): Builder
+    public function scopeWithAnyTags(Builder $query, $tags, string $type = null): Builder
     {
-        $tags = static::convertToTags($tags);
+        $tags = static::convertToTags($tags, $type);
 
-        return $query->whereHas('tags', function (Builder $query) use ($tags) {
+        return $query->whereHas('tags', function (Builder $query) use ($tags, $type) {
             $tagIds = collect($tags)->pluck('id');
 
-            $query->whereIn('id', $tagIds);
+            $query->whereIn('id', $tagIds)->where('tags.type', $type);
         });
     }
 
@@ -161,7 +161,6 @@ trait HasTags
         }
 
         $this->tags()->sync($tags->pluck('id')->toArray());
-
 
         return $this;
     }
