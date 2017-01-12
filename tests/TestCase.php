@@ -3,9 +3,9 @@
 namespace Spatie\Tags\Test;
 
 use DB;
+use Spatie\Tags\TagsServiceProvider;
 use Illuminate\Database\Schema\Blueprint;
 use Orchestra\Testbench\TestCase as Orchestra;
-use Spatie\Tags\TagsServiceProvider;
 use Spatie\Translatable\TranslatableServiceProvider;
 
 abstract class TestCase extends Orchestra
