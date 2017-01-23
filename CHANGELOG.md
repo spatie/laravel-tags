@@ -2,7 +2,13 @@
 
 All Notable changes to `laravel-tags` will be documented in this file
 
+## 1.3.2 - 2016-01-23
+
+- remove classmap from `composer.json`
+
 ## 1.3.1 - 2016-01-23
+
+**THIS VERSION IS BROKEN, DO NOT USE**
 
 - fix missings deps
 
