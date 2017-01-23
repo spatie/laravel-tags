@@ -2,6 +2,10 @@
 
 All Notable changes to `laravel-tags` will be documented in this file
 
+## 1.3.0 - 2016-01-23
+
+- add compatibility with Laravel 5.4
+
 ## 1.2.0 - 2016-11-14
 
 - the `withAllTags` and `withAnyTags` scopes now optionally accept a `type`
