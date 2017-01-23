@@ -2,7 +2,13 @@
 
 All Notable changes to `laravel-tags` will be documented in this file
 
+## 1.3.1 - 2016-01-23
+
+- fix missings deps
+
 ## 1.3.0 - 2016-01-23
+
+**THIS VERSION IS BROKEN, DO NOT USE**
 
 - add compatibility with Laravel 5.4
 
