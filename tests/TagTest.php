@@ -95,6 +95,14 @@ class TagTest extends TestCase
     }
 
     /** @test */
+    public function it_can_find_a_tag_without_specifying_a_specific_type()
+    {
+        Tag::findOrCreate('tagA', 'firstType');
+
+        $this->assertEquals(['tagA'], Tag::findFromString('tagA')->pluck('name')->toArray());
+    }
+
+    /** @test */
     public function it_will_not_create_a_tag_if_the_tag_already_exists()
     {
         Tag::findOrCreate('string');
