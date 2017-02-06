@@ -167,7 +167,7 @@ trait HasTags
 
     protected static function convertToTags($values, $type = null, $locale = null)
     {
-        return collect($values)->map(function (string $value) use ($type, $locale) {
+        return collect($values)->map(function ($value) use ($type, $locale) {
             if ($value instanceof Tag) {
                 return $value;
             }
