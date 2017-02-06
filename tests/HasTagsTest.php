@@ -144,15 +144,15 @@ class HasTagsTest extends TestCase
     }
 
     /** @test */
-    public function it_provides_as_scope_to_get_all_models_that_have_any_of_the_given_tag_instances()
+    public function it_provides_a_scope_to_get_all_models_that_have_any_of_the_given_tag_instances()
     {
-        $tag = Tag::findOrCreate('tagA');
+        $tag = Tag::findOrCreate('tagA', 'typeA');
 
         TestModel::create([
             'name' => 'model1',
         ])->attachTag($tag);
 
-        $testModels = TestModel::withAnyTags([$tag]);
+        $testModels = TestModel::withAnyTags([$tag], 'typeA');
 
         $this->assertEquals(['model1'], $testModels->pluck('name')->toArray());
     }
