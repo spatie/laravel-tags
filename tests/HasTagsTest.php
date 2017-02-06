@@ -150,7 +150,7 @@ class HasTagsTest extends TestCase
         $tag = Tag::findOrCreate('tagA');
 
         TestModel::create([
-            'name' => 'model1'
+            'name' => 'model1',
         ])->attachTag($tag);
 
         $testModels = TestModel::withAnyTags([$tag]);
