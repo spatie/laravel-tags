@@ -2,6 +2,10 @@
 
 All Notable changes to `laravel-tags` will be documented in this file
 
+## 1.3.3 - 2017-02-06
+
+- removed typehint from HasTags::convertToTags to allow and instance of `Tag` to be passed in
+
 ## 1.3.2 - 2016-01-23
 
 - remove classmap from `composer.json`
