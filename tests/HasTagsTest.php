@@ -147,11 +147,11 @@ class HasTagsTest extends TestCase
     public function it_provides_a_scope_to_get_all_models_that_have_any_of_the_given_tags_without_specifying_type()
     {
         TestModel::create([
-            'name' => 'model1'
+            'name' => 'model1',
         ])->tags()->attach(Tag::findOrCreate('test1', 'type1'));
 
         TestModel::create([
-            'name' => 'model2'
+            'name' => 'model2',
         ])->tags()->attach(Tag::findOrCreate('test2', 'type2'));
 
         $testModels = TestModel::withAnyTags(['test1', 'test2']);
@@ -163,7 +163,7 @@ class HasTagsTest extends TestCase
     public function it_provides_a_scope_to_get_all_models_that_have_all_of_the_given_tags_without_specifying_type()
     {
         $model1 = TestModel::create([
-            'name' => 'model1'
+            'name' => 'model1',
         ]);
         $model1->tags()->attach(Tag::findOrCreate('test1', 'type1'));
         $model1->tags()->attach(Tag::findOrCreate('test2', 'type1'));

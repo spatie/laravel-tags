@@ -58,7 +58,7 @@ class Tag extends Model implements Sortable
         $query = static::query()
             ->where("name->{$locale}", $name);
 
-        if(! empty($type)) {
+        if (! empty($type)) {
             $query->where('type', $type);
         }
 

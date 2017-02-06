@@ -60,7 +60,7 @@ trait HasTags
             $query->whereHas('tags', function (Builder $query) use ($tag, $type) {
                 $query->where('id', $tag ? $tag->id : 0);
 
-                if(! empty($type)) {
+                if (! empty($type)) {
                     $query->where('tags.type', $type);
                 }
             });
@@ -84,7 +84,7 @@ trait HasTags
 
             $query->whereIn('id', $tagIds);
 
-            if(! empty($type)) {
+            if (! empty($type)) {
                 $query->where('tags.type', $type);
             }
         });
