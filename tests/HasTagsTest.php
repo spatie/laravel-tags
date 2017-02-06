@@ -146,7 +146,6 @@ class HasTagsTest extends TestCase
     /** @test */
     public function it_provides_as_scope_to_get_all_models_that_have_any_of_the_given_tag_instances()
     {
-
         $tag = Tag::findOrCreate('tagA');
 
         TestModel::create([
