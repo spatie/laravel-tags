@@ -58,7 +58,7 @@ trait HasTags
 
         collect($tags)->each(function ($tag) use ($query, $type) {
             $query->whereHas('tags', function (Builder $query) use ($tag, $type) {
-                return $query->where('id', $tag ? $tag->id : 0)->where('tags.type', $type);
+                return $query->where('id', $tag ? $tag->id : 0);
             });
         });
 
@@ -78,7 +78,7 @@ trait HasTags
         return $query->whereHas('tags', function (Builder $query) use ($tags, $type) {
             $tagIds = collect($tags)->pluck('id');
 
-            $query->whereIn('id', $tagIds)->where('tags.type', $type);
+            $query->whereIn('id', $tagIds);
         });
     }
 
