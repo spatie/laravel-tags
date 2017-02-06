@@ -160,6 +160,26 @@ class HasTagsTest extends TestCase
     }
 
     /** @test */
+    public function it_provides_a_scope_to_get_all_models_that_have_all_of_the_given_tags_without_specifying_type()
+    {
+        $model1 = TestModel::create([
+            'name' => 'model1'
+        ]);
+        $model1->tags()->attach(Tag::findOrCreate('test1', 'type1'));
+        $model1->tags()->attach(Tag::findOrCreate('test2', 'type1'));
+
+        $model2 = TestModel::create([
+            'name' => 'model2'
+        ]);
+        $model2->tags()->attach(Tag::findOrCreate('test1', 'type2'));
+        $model2->tags()->attach(Tag::findOrCreate('test2', 'type2'));
+
+        $testModels = TestModel::withAllTags(['test1', 'test2']);
+
+        $this->assertEquals(['model1', 'model2'], $testModels->pluck('name')->toArray());
+    }
+
+    /** @test */
     public function it_can_sync_a_single_tag()
     {
         $this->testModel->attachTags(['tag1', 'tag2', 'tag3']);
