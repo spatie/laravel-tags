@@ -168,15 +168,9 @@ class HasTagsTest extends TestCase
         $model1->tags()->attach(Tag::findOrCreate('test1', 'type1'));
         $model1->tags()->attach(Tag::findOrCreate('test2', 'type1'));
 
-        $model2 = TestModel::create([
-            'name' => 'model2'
-        ]);
-        $model2->tags()->attach(Tag::findOrCreate('test1', 'type2'));
-        $model2->tags()->attach(Tag::findOrCreate('test2', 'type2'));
-
         $testModels = TestModel::withAllTags(['test1', 'test2']);
 
-        $this->assertEquals(['model1', 'model2'], $testModels->pluck('name')->toArray());
+        $this->assertEquals(['model1'], $testModels->pluck('name')->toArray());
     }
 
     /** @test */
