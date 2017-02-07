@@ -36,6 +36,15 @@ class HasTagsTest extends TestCase
     }
 
     /** @test */
+    public function it_can_attach_a_tag_multiple_times_without_creating_duplicate_entries()
+    {
+        $this->testModel->attachTag('tagName');
+        $this->testModel->attachTag('tagName');
+
+        $this->assertCount(1, $this->testModel->tags);
+    }
+
+    /** @test */
     public function it_can_use_a_tag_model_when_attaching_a_tag()
     {
         $tag = Tag::findOrCreate('tagName');
