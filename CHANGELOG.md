@@ -2,6 +2,10 @@
 
 All Notable changes to `laravel-tags` will be documented in this file
 
+## 1.3.4 - 2017-02-07
+
+- fix bug where the same tag would be created multiple times
+
 ## 1.3.3 - 2017-02-06
 
 - removed typehint from HasTags::convertToTags to allow and instance of `Tag` to be passed in
