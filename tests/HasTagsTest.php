@@ -152,7 +152,7 @@ class HasTagsTest extends TestCase
             'name' => 'model1',
         ])->attachTag($tag);
 
-        $testModels = TestModel::withAnyTags([$tag], 'typeA');
+        $testModels = TestModel::withAnyTags([$tag]);
 
         $this->assertEquals(['model1'], $testModels->pluck('name')->toArray());
     }
