@@ -100,11 +100,11 @@ trait HasTags
 
         $tags = $className::findOrCreate($tags);
 
-        collect($tags)->each(function (Tag $tag) {
-            if (! $this->tags()->get()->contains('id', $tag->id)) {
-                $this->tags()->attach($tag);
-            }
-        });
+        if (! $tags instanceof \Illuminate\Support\Collection) {
+            $tags = collect($tags);
+        }
+
+        $this->tags()->syncWithoutDetaching($tags->pluck('id')->toArray());
 
         return $this;
     }
