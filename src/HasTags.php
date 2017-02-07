@@ -101,7 +101,9 @@ trait HasTags
         $tags = $className::findOrCreate($tags);
 
         collect($tags)->each(function (Tag $tag) {
-            $this->tags()->attach($tag);
+            if (! $this->tags()->get()->contains('id', $tag->id)) {
+                $this->tags()->attach($tag);
+            }
         });
 
         return $this;
