@@ -98,11 +98,7 @@ trait HasTags
     {
         $className = static::getTagClassName();
 
-        $tags = $className::findOrCreate($tags);
-
-        if (! $tags instanceof \Illuminate\Support\Collection) {
-            $tags = collect($tags);
-        }
+        $tags = collect($className::findOrCreate($tags));
 
         $this->tags()->syncWithoutDetaching($tags->pluck('id')->toArray());
 
@@ -156,11 +152,7 @@ trait HasTags
     {
         $className = static::getTagClassName();
 
-        $tags = $className::findOrCreate($tags);
-
-        if (! $tags instanceof \Illuminate\Support\Collection) {
-            $tags = collect($tags);
-        }
+        $tags = collect($className::findOrCreate($tags));
 
         $this->tags()->sync($tags->pluck('id')->toArray());
 
