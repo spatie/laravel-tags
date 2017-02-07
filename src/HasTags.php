@@ -57,7 +57,7 @@ trait HasTags
         $tags = static::convertToTags($tags, $type);
 
         collect($tags)->each(function ($tag) use ($query, $type) {
-            $query->whereHas('tags', function (Builder $query) use ($tag, $type) {
+            $query->whereHas('tags', function (Builder $query) use ($tag) {
                 return $query->where('id', $tag ? $tag->id : 0);
             });
         });
@@ -75,7 +75,7 @@ trait HasTags
     {
         $tags = static::convertToTags($tags, $type);
 
-        return $query->whereHas('tags', function (Builder $query) use ($tags, $type) {
+        return $query->whereHas('tags', function (Builder $query) use ($tags) {
             $tagIds = collect($tags)->pluck('id');
 
             $query->whereIn('id', $tagIds);
