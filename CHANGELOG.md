@@ -2,6 +2,10 @@
 
 All Notable changes to `laravel-tags` will be documented in this file
 
+## 1.3.5 - 2017-02-13
+
+- allow the name of a tag to be set by changing the name property
+
 ## 1.3.4 - 2017-02-07
 
 - fix bug where the same tag would be created multiple times

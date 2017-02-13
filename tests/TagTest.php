@@ -155,4 +155,16 @@ class TagTest extends TestCase
 
         $this->assertEquals('string', $tag2->name);
     }
+
+    /** @test */
+    public function its_name_can_be_changed_by_setting_its_name_property_to_a_new_value()
+    {
+        $tag = Tag::findOrCreate('my tag');
+
+        $tag->name = 'new name';
+
+        $tag->save();
+
+        $this->assertEquals('new name', $tag->name);
+    }
 }

@@ -76,4 +76,13 @@ class Tag extends Model implements Sortable
 
         return $tag;
     }
+
+    public function setAttribute($key, $value)
+    {
+        if ($key === 'name' && ! is_array($value)) {
+            return $this->setTranslation($key, app()->getLocale(), $value);
+        }
+
+        return parent::setAttribute($key, $value);
+    }
 }
