@@ -61,6 +61,7 @@ class Tag extends Model implements Sortable
                 ->where('type', $type)
                 ->first();
         }
+
         return static::query()
             ->where('name', 'LIKE', '%'.$name.'%')
             ->where('type', $type)
