@@ -63,7 +63,7 @@ class Tag extends Model implements Sortable
         }
 
         return static::query()
-            ->where('name', 'LIKE', '%'.$name.'%')
+            ->where('name', 'LIKE', '%"'.$name.'"%')
             ->where('type', $type)
             ->get()
             ->filter(function (Tag $tag) use ($name, $locale) {
