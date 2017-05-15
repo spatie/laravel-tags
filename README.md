@@ -53,7 +53,6 @@ $newsItem->syncTags(['tag 2', 'tag 3'], 'another type');
 //retrieve tags for a particular type
 $newsItem->tagsWithType('my type');
 
-
 //tags have slugs
 $tag = Tag::create('yet another tag');
 $tag->slug; //returns "yet-another-tag"
