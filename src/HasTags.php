@@ -56,7 +56,7 @@ trait HasTags
     {
         $tags = static::convertToTags($tags, $type);
 
-        collect($tags)->each(function ($tag) use ($query, $type) {
+        collect($tags)->each(function ($tag) use ($query) {
             $query->whereHas('tags', function (Builder $query) use ($tag) {
                 return $query->where('id', $tag ? $tag->id : 0);
             });
@@ -203,7 +203,7 @@ trait HasTags
         $current = $this->tags()
             ->newPivotStatement()
             ->where('taggable_id', $this->getKey())
-            ->when(!empty($type), function($query) use ($type) {
+            ->when(! empty($type), function ($query) use ($type) {
                 $tagModel = $this->tags()->getRelated();
                 $query->join(
                         $tagModel->getTable(),
@@ -226,7 +226,7 @@ trait HasTags
         // Attach any new ids
         $attach = array_diff($ids, $current);
         if (count($attach) > 0) {
-            collect($attach)->each(function($id) {
+            collect($attach)->each(function ($id) {
                 $this->tags()->attach($id, []);
             });
             $isUpdated = true;
