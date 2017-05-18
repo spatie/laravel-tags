@@ -33,6 +33,14 @@ $newsItem->detachTags(['tag4', 'tag5']);
 //syncing tags
 $newsItem->syncTags(['tag1', 'tag2']); // all other tags on this model will be detached
 
+//syncing tags with a type
+$newsItem->syncTagsWithType(['tag1', 'tag2'], 'typeA'); 
+$newsItem->syncTagsWithType(['tag1', 'tag2'], 'typeB'); 
+
+//retrieving tags with a type
+$newsItem->tagsWithType('typeA'); 
+$newsItem->tagsWithType('typeB'); 
+
 //retrieving models that have any of the given tags
 NewsItem::withAnyTags(['tag1', 'tag2']);
 
@@ -47,11 +55,6 @@ $tag->save();
 
 //using tag types
 $tag = Tag::create('tag 1', 'my type');
-$newsItem->syncTags($tag);
-$newsItem->syncTags(['tag 2', 'tag 3'], 'another type');
-
-//retrieve tags for a particular type
-$newsItem->tagsWithType('my type');
 
 //tags have slugs
 $tag = Tag::create('yet another tag');

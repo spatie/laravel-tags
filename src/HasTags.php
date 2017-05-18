@@ -56,7 +56,7 @@ trait HasTags
     {
         $tags = static::convertToTags($tags, $type);
 
-        collect($tags)->each(function ($tag) use ($query) {
+        collect($tags)->each(function ($tag) use ($query, $type) {
             $query->whereHas('tags', function (Builder $query) use ($tag) {
                 return $query->where('id', $tag ? $tag->id : 0);
             });
@@ -82,10 +82,6 @@ trait HasTags
         });
     }
 
-    /**
-     * @param string|null $type
-     * @return Collection
-     */
     public function tagsWithType(string $type = null): Collection
     {
         return $this->tags->filter(function (Tag $tag) use ($type) {
@@ -95,30 +91,28 @@ trait HasTags
 
     /**
      * @param array|\ArrayAccess|\Spatie\Tags\Tag $tags
-     * @param string|null $type
      *
      * @return $this
      */
-    public function attachTags($tags, string $type = null)
+    public function attachTags($tags)
     {
         $className = static::getTagClassName();
 
-        $tags = collect($className::findOrCreate($tags, $type));
+        $tags = collect($className::findOrCreate($tags));
 
-        $this->tags()->syncTagIds($tags->pluck('id')->toArray(), $type, false);
+        $this->tags()->syncWithoutDetaching($tags->pluck('id')->toArray());
 
         return $this;
     }
 
     /**
      * @param string|\Spatie\Tags\Tag $tag
-     * @param string|null $type
      *
      * @return $this
      */
-    public function attachTag($tag, string $type = null)
+    public function attachTag($tag)
     {
-        return $this->attachTags([$tag], $type);
+        return $this->attachTags([$tag]);
     }
 
     /**
@@ -151,33 +145,43 @@ trait HasTags
 
     /**
      * @param array|\ArrayAccess $tags
-     * @param string|null $type
      *
      * @return $this
      */
-    public function syncTags($tags, string $type = null)
+    public function syncTags($tags)
     {
         $className = static::getTagClassName();
 
-        $tags = collect($className::findOrCreate($tags, $type));
-        $this->syncTagIds($tags->pluck('id')->toArray(), $type);
+        $tags = collect($className::findOrCreate($tags));
+
+        $this->tags()->sync($tags->pluck('id')->toArray());
 
         return $this;
     }
 
     /**
-     * @param mixed $values
+     * @param array|\ArrayAccess $tags
      * @param string|null $type
-     * @param string|null $locale
      *
-     * @return static
+     * @return $this
      */
-    protected static function convertToTags($values, string $type = null, $locale = null)
+    public function syncTagsWithType($tags, string $type = null)
+    {
+        $className = static::getTagClassName();
+
+        $tags = collect($className::findOrCreate($tags, $type));
+
+        $this->syncTagIds($tags->pluck('id')->toArray(), $type);
+
+        return $this;
+    }
+
+    protected static function convertToTags($values, $type = null, $locale = null)
     {
         return collect($values)->map(function ($value) use ($type, $locale) {
             if ($value instanceof Tag) {
                 if (isset($type) && $value->type != $type) {
-                    new \InvalidArgumentException("Type was set to {$type} but tag is of type {$value->type}");
+                    throw new \InvalidArgumentException("Type was set to {$type} but tag is of type {$value->type}");
                 }
 
                 return $value;
@@ -203,14 +207,14 @@ trait HasTags
         $current = $this->tags()
             ->newPivotStatement()
             ->where('taggable_id', $this->getKey())
-            ->when(! empty($type), function ($query) use ($type) {
+            ->when($type !== null, function ($query) use ($type) {
                 $tagModel = $this->tags()->getRelated();
                 $query->join(
-                        $tagModel->getTable(),
-                        'taggables.tag_id',
-                        '=',
-                        $tagModel->getTable().'.'.$tagModel->getKeyName()
-                    )
+                    $tagModel->getTable(),
+                    'taggables.tag_id',
+                    '=',
+                    $tagModel->getTable().'.'.$tagModel->getKeyName()
+                )
                     ->where('tags.type', $type);
             })
             ->pluck('tag_id')
