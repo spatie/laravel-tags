@@ -198,5 +198,4 @@ class HasTagsTest extends TestCase
         $tagsOfTypeB = $this->testModel->tagsWithType('typeB');
         $this->assertEquals(['tagB1', 'tagB2'], $tagsOfTypeB->pluck('name')->toArray());
     }
-
 }
