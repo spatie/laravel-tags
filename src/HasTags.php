@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use InvalidArgumentException;
 
 trait HasTags
 {
@@ -181,7 +182,7 @@ trait HasTags
         return collect($values)->map(function ($value) use ($type, $locale) {
             if ($value instanceof Tag) {
                 if (isset($type) && $value->type != $type) {
-                    throw new \InvalidArgumentException("Type was set to {$type} but tag is of type {$value->type}");
+                    throw new InvalidArgumentException("Type was set to {$type} but tag is of type {$value->type}");
                 }
 
                 return $value;
@@ -195,6 +196,7 @@ trait HasTags
 
     /**
      * Use in place of eloquent's sync() method so that the tag type may be optionally specified.
+     *
      * @param $ids
      * @param string|null $type
      * @param bool $detaching
