@@ -3,14 +3,15 @@
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/spatie/laravel-tags.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-tags)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
 [![Build Status](https://img.shields.io/travis/spatie/laravel-tags/master.svg?style=flat-square)](https://travis-ci.org/spatie/laravel-tags)
-[![SensioLabsInsight](https://img.shields.io/sensiolabs/i/b9e28680-fffe-4e6f-90fa-8c83417f6a86.svg?style=flat-square)](https://insight.sensiolabs.com/projects/b9e28680-fffe-4e6f-90fa-8c83417f6a86)
 [![Quality Score](https://img.shields.io/scrutinizer/g/spatie/laravel-tags.svg?style=flat-square)](https://scrutinizer-ci.com/g/spatie/laravel-tags)
 [![StyleCI](https://styleci.io/repos/71335427/shield?branch=master)](https://styleci.io/repos/71335427)
 [![Total Downloads](https://img.shields.io/packagist/dt/spatie/laravel-tags.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-tags)
 
 This package offers taggable behaviour for your models. After the package is installed the only thing you have to do is add the `HasTags` trait to an Eloquent model to make it taggable. 
 
-But we didn't stop with the regular tagging capabilities you find in every package. Laravel Tags comes with batteries included. Out of the box it has support for [translating tags](/laravel-tags/v1/advanced-usage/adding-translations), [multiple tag types](/laravel-tags/v1/advanced-usage/using-types) and [sorting capabilities](/laravel-tags/v1/advanced-usage/sorting-tags).
+But we didn't stop with the regular tagging capabilities you find in every package. Laravel Tags comes with batteries included. Out of the box it has support for [translating tags](https://docs.spatie.be/laravel-tags/v1/advanced-usage/adding-translations), [multiple tag types](https://docs.spatie.be/laravel-tags/v1/advanced-usage/using-types) and [sorting capabilities](https://docs.spatie.be/laravel-tags/v1/advanced-usage/sorting-tags).
+
+You'll find the documentation on https://docs.spatie.be/laravel-tags/v1.
 
 Here are some code examples:
 
@@ -31,6 +32,14 @@ $newsItem->detachTags(['tag4', 'tag5']);
 
 //syncing tags
 $newsItem->syncTags(['tag1', 'tag2']); // all other tags on this model will be detached
+
+//syncing tags with a type
+$newsItem->syncTagsWithType(['tag1', 'tag2'], 'typeA'); 
+$newsItem->syncTagsWithType(['tag1', 'tag2'], 'typeB'); 
+
+//retrieving tags with a type
+$newsItem->tagsWithType('typeA'); 
+$newsItem->tagsWithType('typeB'); 
 
 //retrieving models that have any of the given tags
 NewsItem::withAnyTags(['tag1', 'tag2']);
@@ -65,11 +74,11 @@ Spatie is a webdesign agency based in Antwerp, Belgium. You'll find an overview 
 
 ## Postcardware
 
-You're free to use this package (it's [MIT-licensed](LICENSE.md)), but if it makes it to your production environment you are required to send us a postcard from your hometown, mentioning which of our package(s) you are using.
+You're free to use this package (it's [MIT-licensed](LICENSE.md)), but if it makes it to your production environment we highly appreciate you sending us a postcard from your hometown, mentioning which of our package(s) you are using.
 
 Our address is: Spatie, Samberstraat 69D, 2060 Antwerp, Belgium.
 
-The best postcards will get published on the open source page on our website.
+All postcards are published [on our website](https://spatie.be/en/opensource/postcards).
 
 ## Requirements
 

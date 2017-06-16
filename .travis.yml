@@ -1,42 +1,33 @@
-sudo: required
-
-dist: trusty
-
-cache:
-  directories:
-    - $HOME/.composer/cache
-
-before_install:
-  - wget http://dev.mysql.com/get/mysql-apt-config_0.3.3-1ubuntu14.04_all.deb
-  - sudo dpkg -i mysql-apt-config_0.3.3-1ubuntu14.04_all.deb
-  - sudo apt-get update
-  - sudo apt-get install mysql-server-5.7
-  - sudo service mysql stop
-  - sudo rm -Rf /var/lib/mysql
-  - sudo mysqld --initialize-insecure --user=mysql
-  - sudo service mysql start
-
 language: php
 
 services:
-  - mysql
-
-php:
-  - 7.0
-  - 7.1
+    - docker
 
 env:
   matrix:
     - COMPOSER_FLAGS="--prefer-lowest"
     - COMPOSER_FLAGS=""
 
+php:
+    - 7.0
+    - 7.1
+
+sudo: false
+
+install:
+    - travis_retry composer install
+
 before_script:
-  - travis_retry composer self-update
-  - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction --prefer-dist
-  - mysql -e 'create database laravel_tags;' -uroot
+    - travis_retry composer self-update
+    - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction --prefer-dist
+    - sudo service mysql stop
+    - docker-compose -f ./tests/docker-compose.yml up -d
+    - php tests/wait.php
+    - php tests/setup-schema.php
 
 script:
   - phpunit --coverage-text --coverage-clover=coverage.clover
 
 after_script:
-  - php vendor/bin/ocular code-coverage:upload --format=php-clover coverage.clover
+    - docker-compose -f ./tests/docker-compose.yml down
+    - php vendor/bin/ocular code-coverage:upload --format=php-clover coverage.clover

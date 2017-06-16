@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-tags` will be documented in this file
 
+## 1.4.0 - 2017-05-25
+
+- add `syncWithType`
+
 ## 1.3.5 - 2017-02-13
 
 - allow the name of a tag to be set by changing the name property
