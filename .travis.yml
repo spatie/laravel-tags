@@ -25,8 +25,7 @@ before_script:
     - php tests/wait.php
 
 script:
-  - phpunit --coverage-text --coverage-clover=coverage.clover
+  - phpunit
 
 after_script:
     - docker-compose -f ./tests/docker-compose.yml down
-    - php vendor/bin/ocular code-coverage:upload --format=php-clover coverage.clover
