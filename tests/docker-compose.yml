@@ -7,7 +7,7 @@ services:
             MYSQL_ROOT_PASSWORD: ""
             MYSQL_DATABASE: "laravel-tags"
             MYSQL_USER: "user"
-            MYSQL_PASSWORD: ""
+            MYSQL_PASSWORD: "password"
             MYSQL_ROOT_HOST: "0.0.0.0"
         ports:
             - "3306:3306"
