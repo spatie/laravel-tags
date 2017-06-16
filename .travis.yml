@@ -6,9 +6,6 @@ cache:
   directories:
     - $HOME/.composer/cache
 
-before_script:
-  - bash .travis.install-mysql-5.7.sh
-
 language: php
 
 services:
@@ -24,6 +21,7 @@ env:
     - COMPOSER_FLAGS=""
 
 before_script:
+  - bash .travis.install-mysql-5.7.sh
   - travis_retry composer self-update
   - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction --prefer-dist
   - mysql -e 'create database laravel_tags;' -uroot
