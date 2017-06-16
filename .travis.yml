@@ -23,7 +23,6 @@ before_script:
     - sudo service mysql stop
     - docker-compose -f ./tests/docker-compose.yml up -d
     - php tests/wait.php
-    - php tests/setup-schema.php
 
 script:
   - phpunit --coverage-text --coverage-clover=coverage.clover
