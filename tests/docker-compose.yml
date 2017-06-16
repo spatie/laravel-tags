@@ -5,7 +5,7 @@ services:
         image: mysql/mysql-server:5.7
         environment:
             MYSQL_ROOT_PASSWORD: ""
-            MYSQL_DATABASE: "laravel-tags"
+            MYSQL_DATABASE: "laravel_tags"
             MYSQL_USER: "user"
             MYSQL_PASSWORD: ""
             MYSQL_ROOT_HOST: "0.0.0.0"
