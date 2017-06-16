@@ -198,4 +198,20 @@ class HasTagsTest extends TestCase
         $tagsOfTypeB = $this->testModel->tagsWithType('typeB');
         $this->assertEquals(['tagB1', 'tagB2'], $tagsOfTypeB->pluck('name')->toArray());
     }
+
+    /** @test */
+    public function it_can_detach_tags_on_model_delete()
+    {
+        $this->testModel->attachTag('tagDeletable');
+
+        $this->testModel->delete();
+
+        $this->assertEquals(0, $this->testModel->tags()->get()->count());
+    }
+
+    /** @test */
+    public function it_can_delete_models_without_tags()
+    {
+        $this->assertTrue($this->testModel->delete());
+    }
 }
