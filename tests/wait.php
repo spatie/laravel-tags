@@ -18,4 +18,4 @@ while (true) {
         fwrite(STDOUT, 'Waiting for container to start...'.PHP_EOL);
         sleep(1);
     }
-};
+}
