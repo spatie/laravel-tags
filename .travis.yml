@@ -25,7 +25,7 @@ before_script:
     - php tests/wait.php
 
 script:
-  - phpunit
+  - vendor/bin/phpunit
 
 after_script:
     - docker-compose -f ./tests/docker-compose.yml down
