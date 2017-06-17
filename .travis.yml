@@ -21,7 +21,7 @@ before_script:
     - travis_retry composer self-update
     - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction --prefer-dist
     - sudo service mysql stop
-    - docker-compose -f ./tests/docker-compose.yml up -d
+    - docker-compose -f ./tests/docker-compose.yml up
     - php tests/wait.php
 
 script:
