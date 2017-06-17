@@ -186,9 +186,7 @@ class HasTagsTest extends TestCase
         $this->assertEquals(['tag3', 'tag4'], $this->testModel->tags->pluck('name')->toArray());
     }
 
-    /**
-     * @todo revisit this test and make sure it's working as it's supposed to
-     */
+    /** @test */
     public function it_can_sync_tags_with_different_types()
     {
         $this->testModel->syncTagsWithType(['tagA1', 'tagA2', 'tagA3'], 'typeA');
