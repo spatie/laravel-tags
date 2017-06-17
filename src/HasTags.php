@@ -211,6 +211,7 @@ trait HasTags
             ->where('taggable_id', $this->getKey())
             ->when($type !== null, function ($query) use ($type) {
                 $tagModel = $this->tags()->getRelated();
+
                 return $query->join(
                     $tagModel->getTable(),
                     'taggables.tag_id',
