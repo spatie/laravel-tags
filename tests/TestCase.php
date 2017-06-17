@@ -3,6 +3,7 @@
 namespace Spatie\Tags\Test;
 
 use DB;
+use Dotenv\Dotenv;
 use Spatie\Tags\TagsServiceProvider;
 use Illuminate\Database\Schema\Blueprint;
 use Orchestra\Testbench\TestCase as Orchestra;
@@ -30,13 +31,19 @@ abstract class TestCase extends Orchestra
      */
     protected function getEnvironmentSetUp($app)
     {
+        //If we're not in travis, load our local .env file
+        if (empty(getenv('CI'))) {
+            $dotenv = new Dotenv(realpath(__DIR__.'/..'));
+            $dotenv->load();
+        }
+
         $app['config']->set('database.default', 'mysql');
         $app['config']->set('database.connections.mysql', [
             'driver' => 'mysql',
             'host' => '127.0.0.1',
-            'database' => 'laravel_tags',
-            'username' => env('DB_USERNAME', 'root'),
-            'password' => env('DB_PASSWORD', ''),
+            'database' => env('DB_DATABASE', 'laravel_tags'),
+            'username' => env('DB_USERNAME', 'username'),
+            'password' => env('DB_PASSWORD', 'password'),
             'charset' => 'utf8',
             'collation' => 'utf8_unicode_ci',
             'prefix' => '',
