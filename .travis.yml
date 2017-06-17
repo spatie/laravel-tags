@@ -25,7 +25,8 @@ before_script:
     - php tests/wait.php
 
 script:
-  - vendor/bin/phpunit
+  - if [[ "$COMPOSER_FLAGS" == '--prefer-lowest' ]]; then vendor/bin/phpunit; fi
+  - if [[ "$COMPOSER_FLAGS" == '' ]]; then phpunit; fi
 
 after_script:
     - docker-compose -f ./tests/docker-compose.yml down
