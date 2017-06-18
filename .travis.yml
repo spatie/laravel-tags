@@ -1,33 +1,31 @@
-sudo: true
-
-dist: trusty
-
-cache:
-  directories:
-    - $HOME/.composer/cache
-
 language: php
 
 services:
-  - mysql
-
-php:
-  - 7.0
-  - 7.1
+    - docker
 
 env:
   matrix:
     - COMPOSER_FLAGS="--prefer-lowest"
     - COMPOSER_FLAGS=""
 
+php:
+    - 7.0
+    - 7.1
+
+sudo: false
+
+install:
+    - travis_retry composer install
+
 before_script:
-  - bash .travis.install-mysql-5.7.sh
-  - travis_retry composer self-update
-  - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction --prefer-dist
-  - mysql -e 'create database laravel_tags;' -uroot
+    - travis_retry composer self-update
+    - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction --prefer-dist
+    - sudo service mysql stop
+    - docker-compose -f ./tests/docker-compose.yml up -d
+    - php tests/wait.php
 
 script:
-  - phpunit --coverage-text --coverage-clover=coverage.clover
+  - phpunit
 
 after_script:
-  - php vendor/bin/ocular code-coverage:upload --format=php-clover coverage.clover
+    - docker-compose -f ./tests/docker-compose.yml down

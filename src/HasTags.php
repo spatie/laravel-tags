@@ -63,7 +63,7 @@ trait HasTags
     {
         $tags = static::convertToTags($tags, $type);
 
-        collect($tags)->each(function ($tag) use ($query, $type) {
+        collect($tags)->each(function ($tag) use ($query) {
             $query->whereHas('tags', function (Builder $query) use ($tag) {
                 return $query->where('id', $tag ? $tag->id : 0);
             });
@@ -217,7 +217,8 @@ trait HasTags
             ->where('taggable_id', $this->getKey())
             ->when($type !== null, function ($query) use ($type) {
                 $tagModel = $this->tags()->getRelated();
-                $query->join(
+
+                return $query->join(
                     $tagModel->getTable(),
                     'taggables.tag_id',
                     '=',

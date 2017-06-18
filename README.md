@@ -147,6 +147,11 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 If you discover any security related issues, please email freek@spatie.be instead of using the issue tracker.
 
+## Running the tests
+
+1. Copy `.env.example` to `.env` and fill in your database credentials.
+2. Run `vendor/bin/phpunit`.
+
 ## Credits
 
 - [Freek Van der Herten](https://github.com/freekmurze)
