@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-tags` will be documented in this file
 
+## 1.4.1 - 2017-06-18
+
+- deleting a model with tags will nog delete related records in the `taggables` table
+
 ## 1.4.0 - 2017-05-25
 
 - add `syncWithType`
