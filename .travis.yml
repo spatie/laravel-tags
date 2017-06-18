@@ -25,9 +25,7 @@ before_script:
     - php tests/wait.php
 
 script:
-
-  - if [[ "$TRAVIS_PHP_VERSION" != '7.1' ]]; then phpunit ; fi
-  - if [[ "$TRAVIS_PHP_VERSION" == '7.1' ]]; then vendor/bin/phpunit ; fi
+    - vendor/bin/phpunit
 
 after_script:
     - docker-compose -f ./tests/docker-compose.yml down
