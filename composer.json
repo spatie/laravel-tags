@@ -21,7 +21,7 @@
         "illuminate/contracts": "5.5.x-dev",
         "illuminate/database": "5.5.x-dev",
         "illuminate/support": "5.5.x-dev",
-        "spatie/eloquent-sortable": "^3.2",
+        "spatie/eloquent-sortable": "laravel-55-dev",
         "spatie/laravel-translatable": "laravel-55-dev"
     },
     "require-dev": {
@@ -51,5 +51,7 @@
                 "Spatie\\Tags\\TagsServiceProvider"
             ]
         }
-    }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
