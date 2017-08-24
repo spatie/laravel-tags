@@ -92,16 +92,7 @@ You can install the package via composer:
 composer require spatie/laravel-tags
 ```
 
-Next up, the service provider must be registered:
-
-```php
-// config/app.php
-'providers' => [
-    ...
-    Spatie\Tags\TagsServiceProvider::class,
-
-];
-```
+The package will automatically register itself.
 
 You can publish the migration with:
 ```bash
