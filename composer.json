@@ -17,16 +17,16 @@
     ],
     "require": {
         "php": "^7.0",
-        "illuminate/container": "5.5.x-dev",
-        "illuminate/contracts": "5.5.x-dev",
-        "illuminate/database": "5.5.x-dev",
-        "illuminate/support": "5.5.x-dev",
-        "spatie/eloquent-sortable": "laravel-55-dev",
-        "spatie/laravel-translatable": "laravel-55-dev"
+        "illuminate/container": "~5.5.0",
+        "illuminate/contracts": "~5.5.0",
+        "illuminate/database": "~5.5.0",
+        "illuminate/support": "~5.5.0",
+        "spatie/eloquent-sortable": "^2.0",
+        "spatie/laravel-translatable": "^2.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^6.2",
-        "orchestra/testbench": "3.5.x-dev"
+        "orchestra/testbench": "~3.5.0"
     },
     "autoload": {
         "psr-4": {
@@ -51,7 +51,5 @@
                 "Spatie\\Tags\\TagsServiceProvider"
             ]
         }
-    },
-    "minimum-stability": "dev",
-    "prefer-stable": true
+    }
 }
