@@ -2,7 +2,7 @@
 
 All notable changes to `laravel-tags` will be documented in this file
 
-## 2.0.0 - 2017-XX-XX
+## 2.0.0 - 2017-08-31
 
 - added compatiblity with Laravel 5.5, dropped support for all older versions
 - renamed config file from `laravel-tags` to `tags`
