@@ -18,7 +18,7 @@ trait HasSlug
 
     protected function generateSlug(string $locale): string
     {
-        $slugger = config('laravel-tags.slugger');
+        $slugger = config('tags.slugger');
 
         $slugger = $slugger ?: 'str_slug';
 
