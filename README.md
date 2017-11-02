@@ -9,9 +9,9 @@
 
 This package offers taggable behaviour for your models. After the package is installed the only thing you have to do is add the `HasTags` trait to an Eloquent model to make it taggable. 
 
-But we didn't stop with the regular tagging capabilities you find in every package. Laravel Tags comes with batteries included. Out of the box it has support for [translating tags](https://docs.spatie.be/laravel-tags/v1/advanced-usage/adding-translations), [multiple tag types](https://docs.spatie.be/laravel-tags/v1/advanced-usage/using-types) and [sorting capabilities](https://docs.spatie.be/laravel-tags/v1/advanced-usage/sorting-tags).
+But we didn't stop with the regular tagging capabilities you find in every package. Laravel Tags comes with batteries included. Out of the box it has support for [translating tags](https://docs.spatie.be/laravel-tags/v2/advanced-usage/adding-translations), [multiple tag types](https://docs.spatie.be/laravel-tags/v2/advanced-usage/using-types) and [sorting capabilities](https://docs.spatie.be/laravel-tags/v2/advanced-usage/sorting-tags).
 
-You'll find the documentation on https://docs.spatie.be/laravel-tags/v1.
+You'll find the documentation on https://docs.spatie.be/laravel-tags/v2.
 
 Here are some code examples:
 
@@ -116,7 +116,7 @@ return [
 
 
 ## Documentation
-You'll find the documentation on [https://docs.spatie.be/laravel-tags/v1](https://docs.spatie.be/laravel-tags/v1).
+You'll find the documentation on [https://docs.spatie.be/laravel-tags/v2](https://docs.spatie.be/laravel-tags/v2).
 
 Find yourself stuck using the package? Found a bug? Do you have general questions or suggestions for improving the `laravel-tags` package? Feel free to [create an issue on GitHub](https://github.com/spatie/laravel-tags/issues), we'll try to address it as soon as possible.
 
