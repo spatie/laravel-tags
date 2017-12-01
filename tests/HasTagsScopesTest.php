@@ -42,6 +42,14 @@ class HasTagsScopesTest extends TestCase
             'name' => 'model5',
             'tags' => [$typedTag, $anotherTypedTag],
         ]);
+
+        $typedTag2 = Tag::findOrCreate('tagH', 'typedTag');
+        $nonTypedTag = Tag::findOrCreate('tagJ');
+
+        TestModel::create([
+            'name' => 'model6',
+            'tags' => [$nonTypedTag, $typedTag2],
+        ]);
     }
 
     /** @test */
@@ -94,5 +102,29 @@ class HasTagsScopesTest extends TestCase
         $testModels = TestModel::withAllTags(['tagE', 'tagF'], 'typedTag')->get();
 
         $this->assertEquals(['model5'], $testModels->pluck('name')->toArray());
+    }
+
+    /** @test */
+    public function the_with_any_tags_scopes_all_models_that_have_any_of_the_given_tags_with_any_type_when_not_passing_type()
+    {
+        $testModels = TestModel::withAnyTags(['tagE'])->get();
+
+        $this->assertEquals(['model5'], $testModels->pluck('name')->toArray());
+
+        $testModels = TestModel::withAnyTags(['tagE', 'tagJ'])->get();
+
+        $this->assertEquals(['model5', 'model6'], $testModels->pluck('name')->toArray());
+    }
+
+    /** @test */
+    public function the_with_all_tags_scopes_all_models_that_have_all_of_the_given_tags_with_any_type_when_not_passing_type()
+    {
+        $testModels = TestModel::withAllTags(['tagE', 'tagF'])->get();
+
+        $this->assertEquals(['model5'], $testModels->pluck('name')->toArray());
+
+        $testModels = TestModel::withAllTags(['tagH', 'tagJ'])->get();
+
+        $this->assertEquals(['model6'], $testModels->pluck('name')->toArray());
     }
 }
