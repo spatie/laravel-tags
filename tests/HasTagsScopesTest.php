@@ -82,6 +82,10 @@ class HasTagsScopesTest extends TestCase
         $testModels = TestModel::withAnyTags(['tagF'], 'typedTag')->get();
 
         $this->assertEquals(['model5'], $testModels->pluck('name')->toArray());
+
+        $testModels = TestModel::withAnyTags(['tagF'])->get();
+
+        $this->assertEquals([], $testModels->pluck('name')->toArray());
     }
 
     /** @test */
