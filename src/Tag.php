@@ -8,6 +8,7 @@ use Spatie\Translatable\HasTranslations;
 use Illuminate\Database\Eloquent\Builder;
 use Spatie\EloquentSortable\SortableTrait;
 use Illuminate\Database\Eloquent\Collection as DbCollection;
+use Illuminate\Support\Facades\DB;
 
 class Tag extends Model implements Sortable
 {
@@ -56,7 +57,7 @@ class Tag extends Model implements Sortable
         $locale = $locale ?? app()->getLocale();
 
         return static::query()
-            ->where("name->{$locale}", $name)
+            ->whereRaw(DB::raw("JSON_EXTRACT(name, '\$.{$locale}') = '{$name}'"))
             ->where('type', $type)
             ->first();
     }
