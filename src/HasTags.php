@@ -104,7 +104,7 @@ trait HasTags
 	 *
 	 * @return \Illuminate\Database\Eloquent\Builder
 	 */
-	public function scopeWithoutAllTags(Builder $query, $tags, string $type = null)
+	public function scopeWithoutAllTags(Builder $query, $tags, string $type = null): Builder
 	{
 		return $this->scopeWithAllTags($query, $tags, $type, true);
 	}
@@ -116,7 +116,7 @@ trait HasTags
 	 *
 	 * @return \Illuminate\Database\Eloquent\Builder
 	 */
-	public function scopeWithoutAnyTags(Builder $query, $tags, string $type = null)
+	public function scopeWithoutAnyTags(Builder $query, $tags, string $type = null): Builder
 	{
 		return $this->scopeWithAnyTags($query, $tags, $type, true);
 	}
