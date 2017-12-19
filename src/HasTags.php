@@ -63,7 +63,7 @@ trait HasTags
 	 */
     public function scopeWithAllTags(Builder $query, $tags, string $type = null, bool $not = false): Builder
     {
-        $method = $not ? 'whereDoesntHave' : 'whereHas';
+        $method = $not ? 'orWhereDoesntHave' : 'whereHas';
 
     	$tags = static::convertToTags($tags, $type);
 
