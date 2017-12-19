@@ -53,14 +53,14 @@ trait HasTags
         $this->attachTags($tags);
     }
 
-	/**
-	 * @param \Illuminate\Database\Eloquent\Builder $query
-	 * @param array|\ArrayAccess|\Spatie\Tags\Tag   $tags
-	 * @param string|null                           $type
-	 * @param bool                                  $not
-	 *
-	 * @return \Illuminate\Database\Eloquent\Builder
-	 */
+    /**
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param array|\ArrayAccess|\Spatie\Tags\Tag   $tags
+     * @param string|null                           $type
+     * @param bool                                  $not
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
     public function scopeWithAllTags(Builder $query, $tags, string $type = null, bool $not = false): Builder
     {
         $method = $not ? 'orWhereDoesntHave' : 'whereHas';
@@ -76,17 +76,17 @@ trait HasTags
         return $query;
     }
 
-	/**
-	 * @param \Illuminate\Database\Eloquent\Builder $query
-	 * @param array|\ArrayAccess|\Spatie\Tags\Tag   $tags
-	 * @param string|null                           $type
-	 * @param bool                                  $not
-	 *
-	 * @return \Illuminate\Database\Eloquent\Builder
-	 */
+    /**
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param array|\ArrayAccess|\Spatie\Tags\Tag   $tags
+     * @param string|null                           $type
+     * @param bool                                  $not
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
     public function scopeWithAnyTags(Builder $query, $tags, string $type = null, bool $not = false): Builder
     {
-	    $method = $not ? 'whereDoesntHave' : 'whereHas';
+        $method = $not ? 'whereDoesntHave' : 'whereHas';
 
         $tags = static::convertToTags($tags, $type);
 
@@ -97,29 +97,29 @@ trait HasTags
         });
     }
 
-	/**
-	 * @param \Illuminate\Database\Eloquent\Builder $query
-	 * @param array|\ArrayAccess|\Spatie\Tags\Tag   $tags
-	 * @param string|null                           $type
-	 *
-	 * @return \Illuminate\Database\Eloquent\Builder
-	 */
-	public function scopeWithoutAllTags(Builder $query, $tags, string $type = null): Builder
-	{
-		return $this->scopeWithAllTags($query, $tags, $type, true);
-	}
+    /**
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param array|\ArrayAccess|\Spatie\Tags\Tag   $tags
+     * @param string|null                           $type
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeWithoutAllTags(Builder $query, $tags, string $type = null): Builder
+    {
+        return $this->scopeWithAllTags($query, $tags, $type, true);
+    }
 
-	/**
-	 * @param \Illuminate\Database\Eloquent\Builder $query
-	 * @param array|\ArrayAccess|\Spatie\Tags\Tag   $tags
-	 * @param string|null                           $type
-	 *
-	 * @return \Illuminate\Database\Eloquent\Builder
-	 */
-	public function scopeWithoutAnyTags(Builder $query, $tags, string $type = null): Builder
-	{
-		return $this->scopeWithAnyTags($query, $tags, $type, true);
-	}
+    /**
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param array|\ArrayAccess|\Spatie\Tags\Tag   $tags
+     * @param string|null                           $type
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeWithoutAnyTags(Builder $query, $tags, string $type = null): Builder
+    {
+        return $this->scopeWithAnyTags($query, $tags, $type, true);
+    }
 
     public function tagsWithType(string $type = null): Collection
     {
