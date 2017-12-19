@@ -63,7 +63,7 @@ class HasTagsScopesTest extends TestCase
     /** @test */
     public function it_provides_as_scope_to_get_all_models_that_have_all_of_the_given_tags()
     {
-	    $testModels = TestModel::withAllTags(['tagA', 'tagB'])->get();
+        $testModels = TestModel::withAllTags(['tagA', 'tagB'])->get();
 
         $this->assertEquals(['model2', 'model3'], $testModels->pluck('name')->toArray());
 

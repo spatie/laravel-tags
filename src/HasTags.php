@@ -65,7 +65,7 @@ trait HasTags
     {
         $method = $not ? 'orWhereDoesntHave' : 'whereHas';
 
-    	$tags = static::convertToTags($tags, $type);
+        $tags = static::convertToTags($tags, $type);
 
         collect($tags)->each(function ($tag) use ($method, $query) {
             $query->{$method}('tags', function (Builder $query) use ($tag) {
