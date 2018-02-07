@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-tags` will be documented in this file
 
+## 2.0.1 - 2018-02-08
+
+- add L5.6 compatibility
+
 ## 2.0.0 - 2017-08-31
 
 - added compatiblity with Laravel 5.5, dropped support for all older versions
