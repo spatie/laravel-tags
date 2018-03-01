@@ -56,12 +56,12 @@ class Tag extends Model implements Sortable
         $locale = $locale ?? app()->getLocale();
 
         return static::query()
-            ->where("name->{$locale}", $name)
+            ->whereRaw("JSON_EXTRACT(name, '$.{$locale}') = '".$name."'")
             ->where('type', $type)
             ->first();
     }
 
-    protected static function findOrCreateFromString(string $name, string $type = null, string $locale = null): Tag
+    protected static function findOrCreateFromString(string $name, string $type = null, string $locale = null): self
     {
         $locale = $locale ?? app()->getLocale();
 
