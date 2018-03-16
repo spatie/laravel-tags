@@ -42,10 +42,10 @@ $newsItem->tagsWithType('typeA');
 $newsItem->tagsWithType('typeB'); 
 
 //retrieving models that have any of the given tags
-NewsItem::withAnyTags(['tag1', 'tag2']);
+NewsItem::withAnyTags(['tag1', 'tag2'])->get();
 
 //retrieve models that have all of the given tags
-NewsItem::withAllTags(['tag1', 'tag2']);
+NewsItem::withAllTags(['tag1', 'tag2'])->get();
 
 //translating a tag
 $tag = Tag::findOrCreate('my tag');
