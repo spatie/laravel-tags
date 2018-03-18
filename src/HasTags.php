@@ -26,7 +26,7 @@ trait HasTags
         });
 
         static::deleted(function (Model $deletedModel) {
-            if (method_exists($deletedModel, 'isForceDeleting') && !$deletedModel->isForceDeleting()) {
+            if (method_exists($deletedModel, 'isForceDeleting') && ! $deletedModel->isForceDeleting()) {
                 return;
             }
             
