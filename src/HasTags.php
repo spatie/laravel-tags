@@ -26,6 +26,10 @@ trait HasTags
         });
 
         static::deleted(function (Model $deletedModel) {
+            if (method_exists($deletedModel, 'isForceDeleting') && ! $deletedModel->isForceDeleting()) {
+                return;
+            }
+            
             $tags = $deletedModel->tags()->get();
 
             $deletedModel->detachTags($tags);
