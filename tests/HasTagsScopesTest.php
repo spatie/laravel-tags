@@ -95,4 +95,56 @@ class HasTagsScopesTest extends TestCase
 
         $this->assertEquals(['model5'], $testModels->pluck('name')->toArray());
     }
+
+    /** @test */
+    public function it_provides_as_scope_to_get_all_models_that_dont_have_any_of_the_given_tags()
+    {
+        $testModels = TestModel::withoutAnyTags(['tagC', 'tagD'])->get();
+
+        $this->assertEquals(['model1', 'model2', 'model5'], $testModels->pluck('name')->toArray());
+    }
+
+    /** @test */
+    public function the_without_any_tags_scopes_will_still_items_when_passing_a_non_existing_tag()
+    {
+        $testModels = TestModel::withoutAnyTags(['tagB', 'tagC', 'nonExistingTag'])->get();
+
+        $this->assertEquals(['model1', 'model4', 'model5'], $testModels->pluck('name')->toArray());
+    }
+
+    /** @test */
+    public function it_provides_as_scope_to_get_all_models_that_dont_have_all_of_the_given_tags()
+    {
+        $testModels = TestModel::withoutAllTags(['tagA', 'tagB'])->get();
+
+        $this->assertEquals(['model1', 'model4', 'model5'], $testModels->pluck('name')->toArray());
+
+        $testModels = TestModel::withoutAllTags(['tagB', 'tagC'])->get();
+
+        $this->assertEquals(['model1', 'model2', 'model4', 'model5'], $testModels->pluck('name')->toArray());
+    }
+
+    /** @test */
+    public function it_provides_as_scope_to_get_all_models_that_dont_have_any_of_the_given_tags_with_type()
+    {
+        $testModels = TestModel::withoutAnyTags(['tagE'], 'typedTag')->get();
+
+        $this->assertEquals(['model1', 'model2', 'model3', 'model4'], $testModels->pluck('name')->toArray());
+
+        $testModels = TestModel::withoutAnyTags(['tagF'], 'typedTag')->get();
+
+        $this->assertEquals(['model1', 'model2', 'model3', 'model4'], $testModels->pluck('name')->toArray());
+
+        $testModels = TestModel::withoutAnyTags(['tagF'])->get();
+
+        $this->assertEquals(['model1', 'model2', 'model3', 'model4', 'model5'], $testModels->pluck('name')->toArray());
+    }
+
+    /** @test */
+    public function it_provides_as_scope_to_get_all_models_that_dont_have_all_of_the_given_tags_with_type()
+    {
+        $testModels = TestModel::withoutAllTags(['tagE', 'tagF'], 'typedTag')->get();
+
+        $this->assertEquals(['model1', 'model2', 'model3', 'model4'], $testModels->pluck('name')->toArray());
+    }
 }
