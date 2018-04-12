@@ -40,7 +40,7 @@ trait HasTags
     }
 
     /**
-     * @param string|array|\ArrayAccess|\Spatie\Tags\Tags $tags
+     * @param string|array|\ArrayAccess|\Spatie\Tags\Tag $tags
      */
     public function setTagsAttribute($tags)
     {
@@ -55,7 +55,7 @@ trait HasTags
 
     /**
      * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param array|\ArrayAccess|\Spatie\Tags\Tags $tags
+     * @param array|\ArrayAccess|\Spatie\Tags\Tag $tags
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
@@ -74,7 +74,7 @@ trait HasTags
 
     /**
      * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param array|\ArrayAccess|\Spatie\Tags\Tags $tags
+     * @param array|\ArrayAccess|\Spatie\Tags\Tag $tags
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
