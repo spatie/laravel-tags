@@ -83,6 +83,24 @@ class TagTest extends TestCase
     }
 
     /** @test */
+    public function it_provides_a_scope_to_get_all_tags_the_contain_a_certain_string()
+    {
+        Tag::findOrCreate('one');
+        Tag::findOrCreate('another-one');
+        Tag::findOrCreate('another-ONE-with-different-casing');
+        Tag::findOrCreate('two');
+
+        $this->assertEquals([
+            'one',
+            'another-one',
+            'another-ONE-with-different-casing'
+        ], Tag::containing('on')->pluck('name')->toArray());
+        $this->assertEquals(['two'], Tag::containing('tw')->pluck('name')->toArray());
+
+    }
+
+
+    /** @test */
     public function it_provides_a_method_to_get_all_tags_with_a_specific_type()
     {
         Tag::findOrCreate('tagA', 'firstType');

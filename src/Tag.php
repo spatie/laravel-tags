@@ -2,6 +2,7 @@
 
 namespace Spatie\Tags;
 
+use Illuminate\Support\Facades\DB;
 use Spatie\EloquentSortable\Sortable;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Translatable\HasTranslations;
@@ -24,6 +25,13 @@ class Tag extends Model implements Sortable
         }
 
         return $query->where('type', $type)->orderBy('order_column');
+    }
+
+    public function scopeContaining(Builder $query, string $name, $locale = null): Builder
+    {
+        $locale = $locale ?? app()->getLocale();
+
+        return $query->whereRaw('LOWER(JSON_EXTRACT(name, "$.' . $locale .'")) like ?', ['"%' . strtolower($name) . '%"']);
     }
 
     /**
