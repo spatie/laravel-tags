@@ -2,6 +2,23 @@
 
 All notable changes to `laravel-tags` will be documented in this file
 
+## 2.0.2 - 2018-08-24
+
+- add L5.7 compatibility
+
+## 2.0.1 - 2018-02-08
+
+- add L5.6 compatibility
+
+## 2.0.0 - 2017-08-31
+
+- added compatiblity with Laravel 5.5, dropped support for all older versions
+- renamed config file from `laravel-tags` to `tags`
+
+## 1.4.1 - 2017-06-18
+
+- deleting a model with tags will now delete related records in the `taggables` table
+
 ## 1.4.0 - 2017-05-25
 
 - add `syncWithType`

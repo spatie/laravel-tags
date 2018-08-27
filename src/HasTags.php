@@ -24,6 +24,12 @@ trait HasTags
 
             $taggableModel->queuedTags = [];
         });
+
+        static::deleted(function (Model $deletedModel) {
+            $tags = $deletedModel->tags()->get();
+
+            $deletedModel->detachTags($tags);
+        });
     }
 
     public function tags(): MorphToMany
@@ -34,7 +40,7 @@ trait HasTags
     }
 
     /**
-     * @param string|array|\ArrayAccess|\Spatie\Tags\Tags $tags
+     * @param string|array|\ArrayAccess|\Spatie\Tags\Tag $tags
      */
     public function setTagsAttribute($tags)
     {
@@ -49,7 +55,7 @@ trait HasTags
 
     /**
      * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param array|\ArrayAccess|\Spatie\Tags\Tags $tags
+     * @param array|\ArrayAccess|\Spatie\Tags\Tag $tags
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
@@ -57,7 +63,7 @@ trait HasTags
     {
         $tags = static::convertToTags($tags, $type);
 
-        collect($tags)->each(function ($tag) use ($query, $type) {
+        collect($tags)->each(function ($tag) use ($query) {
             $query->whereHas('tags', function (Builder $query) use ($tag) {
                 return $query->where('id', $tag ? $tag->id : 0);
             });
@@ -68,7 +74,7 @@ trait HasTags
 
     /**
      * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param array|\ArrayAccess|\Spatie\Tags\Tags $tags
+     * @param array|\ArrayAccess|\Spatie\Tags\Tag $tags
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
@@ -211,7 +217,8 @@ trait HasTags
             ->where('taggable_id', $this->getKey())
             ->when($type !== null, function ($query) use ($type) {
                 $tagModel = $this->tags()->getRelated();
-                $query->join(
+
+                return $query->join(
                     $tagModel->getTable(),
                     'taggables.tag_id',
                     '=',
