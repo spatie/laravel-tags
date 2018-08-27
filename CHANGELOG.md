@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-tags` will be documented in this file
 
+## 2.1.0 - 2018-08-27
+
+- add `containing` scope
+
 ## 2.0.2 - 2018-08-24
 
 - add L5.7 compatibility
