@@ -6,7 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 trait HasSlug
 {
-    protected function generateSlug(string $locale): string
+    public static function bootHasSlug()
+    {
+        static::saving(function (Model $model) {
+            $model->slug = $model->generateSlug();
+        });
+    }
+
+    protected function generateSlug(): string
     {
         $slugger = config('tags.slugger');
 
