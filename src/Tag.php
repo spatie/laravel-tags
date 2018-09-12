@@ -4,16 +4,13 @@ namespace Spatie\Tags;
 
 use Spatie\EloquentSortable\Sortable;
 use Illuminate\Database\Eloquent\Model;
-use Spatie\Translatable\HasTranslations;
 use Illuminate\Database\Eloquent\Builder;
 use Spatie\EloquentSortable\SortableTrait;
 use Illuminate\Database\Eloquent\Collection as DbCollection;
 
 class Tag extends Model implements Sortable
 {
-    use SortableTrait, HasTranslations, HasSlug;
-
-    public $translatable = ['name', 'slug'];
+    use SortableTrait, HasSlug;
 
     public $guarded = [];
 
@@ -26,28 +23,20 @@ class Tag extends Model implements Sortable
         return $query->where('type', $type)->orderBy('order_column');
     }
 
-    public function scopeContaining(Builder $query, string $name, $locale = null): Builder
-    {
-        $locale = $locale ?? app()->getLocale();
-
-        return $query->whereRaw('LOWER(JSON_EXTRACT(name, "$.' . $locale .'")) like ?', ['"%' . strtolower($name) . '%"']);
-    }
-
     /**
      * @param array|\ArrayAccess $values
      * @param string|null $type
-     * @param string|null $locale
      *
      * @return \Spatie\Tags\Tag|static
      */
-    public static function findOrCreate($values, string $type = null, string $locale = null)
+    public static function findOrCreate($values, string $type = null)
     {
-        $tags = collect($values)->map(function ($value) use ($type, $locale) {
+        $tags = collect($values)->map(function ($value) use ($type) {
             if ($value instanceof Tag) {
                 return $value;
             }
 
-            return static::findOrCreateFromString($value, $type, $locale);
+            return static::findOrCreateFromString($value, $type);
         });
 
         return is_string($values) ? $tags->first() : $tags;
@@ -58,38 +47,25 @@ class Tag extends Model implements Sortable
         return static::withType($type)->orderBy('order_column')->get();
     }
 
-    public static function findFromString(string $name, string $type = null, string $locale = null)
+    public static function findFromString(string $name, string $type = null)
     {
-        $locale = $locale ?? app()->getLocale();
-
         return static::query()
-            ->where("name->{$locale}", $name)
+            ->where('name', $name)
             ->where('type', $type)
             ->first();
     }
 
-    protected static function findOrCreateFromString(string $name, string $type = null, string $locale = null): self
+    protected static function findOrCreateFromString(string $name, string $type = null): self
     {
-        $locale = $locale ?? app()->getLocale();
-
-        $tag = static::findFromString($name, $type, $locale);
+        $tag = static::findFromString($name, $type);
 
         if (! $tag) {
             $tag = static::create([
-                'name' => [$locale => $name],
+                'name' => $name,
                 'type' => $type,
             ]);
         }
 
         return $tag;
-    }
-
-    public function setAttribute($key, $value)
-    {
-        if ($key === 'name' && ! is_array($value)) {
-            return $this->setTranslation($key, app()->getLocale(), $value);
-        }
-
-        return parent::setAttribute($key, $value);
     }
 }
