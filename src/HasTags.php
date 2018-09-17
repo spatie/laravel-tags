@@ -64,8 +64,10 @@ trait HasTags
         $tags = static::convertToTags($tags, $type);
 
         collect($tags)->each(function ($tag) use ($query) {
-            $query->whereHas('tags', function (Builder $query) use ($tag) {
-                return $query->where('id', $tag ? $tag->id : 0);
+            $query->whereIn("{$this->table}.{$this->getKeyName()}", function($query) use ($tag) {
+                $query->from('taggables')
+                    ->select('taggables.taggable_id')
+                    ->where('taggables.tag_id', $tag ? $tag->id : 0);
             });
         });
 
