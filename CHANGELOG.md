@@ -2,6 +2,11 @@
 
 All notable changes to `laravel-tags` will be documented in this file
 
+
+## 2.1.1 - 2018-09-17
+
+- improve performance
+
 ## 2.1.0 - 2018-08-27
 
 - add `containing` scope
