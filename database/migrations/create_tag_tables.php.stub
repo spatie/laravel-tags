@@ -21,6 +21,7 @@ class CreateTagTables extends Migration
             $table->integer('tag_id')->unsigned();
             $table->integer('taggable_id')->unsigned();
             $table->string('taggable_type');
+            $table->timestamp('expires_at')->nullable();
 
             $table->foreign('tag_id')->references('id')->on('tags')->onDelete('cascade');
         });
