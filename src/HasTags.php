@@ -2,6 +2,7 @@
 
 namespace Spatie\Tags;
 
+use Carbon\Carbon;
 use InvalidArgumentException;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
@@ -36,7 +37,10 @@ trait HasTags
     {
         return $this
             ->morphToMany(self::getTagClassName(), 'taggable')
-            ->orderBy('order_column');
+            ->where(function ($query) {
+                $query->whereNull('expires_at')
+                    ->orWhere('expires_at', '>', Carbon::now()->toDateTimeString());
+            })->orderBy('order_column');
     }
 
     /**
@@ -67,7 +71,11 @@ trait HasTags
             $query->whereIn("{$this->table}.{$this->getKeyName()}", function ($query) use ($tag) {
                 $query->from('taggables')
                     ->select('taggables.taggable_id')
-                    ->where('taggables.tag_id', $tag ? $tag->id : 0);
+                    ->where('taggables.tag_id', $tag ? $tag->id : 0)
+                    ->where(function ($query) {
+                        $query->whereNull('taggables.expires_at')
+                            ->orWhere('taggables.expires_at', '>', Carbon::now()->toDateTimeString());
+                    });
             });
         });
 
@@ -101,15 +109,20 @@ trait HasTags
     /**
      * @param array|\ArrayAccess|\Spatie\Tags\Tag $tags
      *
+     * @param bool $expires
      * @return $this
      */
-    public function attachTags($tags)
+    public function attachTags($tags, $expires = null)
     {
         $className = static::getTagClassName();
 
-        $tags = collect($className::findOrCreate($tags));
+        $tags = collect($className::findOrCreate($tags))
+            ->pluck('id')
+            ->mapWithKeys(function ($id) use ($expires) {
+                return [$id => ['expires_at' => $expires]];
+            })->toArray();
 
-        $this->tags()->syncWithoutDetaching($tags->pluck('id')->toArray());
+        $this->tags()->syncWithoutDetaching($tags);
 
         return $this;
     }
@@ -117,11 +130,12 @@ trait HasTags
     /**
      * @param string|\Spatie\Tags\Tag $tag
      *
+     * @param null $expires
      * @return $this
      */
-    public function attachTag($tag)
+    public function attachTag($tag, $expires = null)
     {
-        return $this->attachTags([$tag]);
+        return $this->attachTags([$tag], $expires);
     }
 
     /**

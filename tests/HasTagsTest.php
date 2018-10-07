@@ -2,6 +2,8 @@
 
 namespace Spatie\Translatable\Test;
 
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Spatie\Tags\Tag;
 use Spatie\Tags\Test\TestCase;
 use Spatie\Tags\Test\TestModel;
@@ -213,5 +215,90 @@ class HasTagsTest extends TestCase
     public function it_can_delete_models_without_tags()
     {
         $this->assertTrue($this->testModel->delete());
+    }
+
+    /** @test */
+    public function it_can_tag_for_a_brief_time()
+    {
+        $time = Carbon::now()->addDay(3);
+
+        $this->testModel->attachTags(['tag1'], $time);
+
+        $this->assertCount(1, $this->testModel->tags);
+
+        Carbon::setTestNow($time);
+
+        $this->assertCount(0, $this->testModel->fresh()->tags);
+
+        Carbon::setTestNow($time->subDay(2));
+
+        $this->assertCount(1, $this->testModel->fresh()->tags);
+    }
+
+    /** @test */
+    public function it_does_not_show_expired_tags_on_withAny_scope()
+    {
+        $time = Carbon::now()->addDay(3);
+
+        $tag = Tag::findOrCreate('tagA', 'typeA');
+
+        TestModel::create([
+            'name' => 'model1',
+        ])->attachTag($tag, $time);
+
+        $this->assertEquals(['model1'], TestModel::withAnyTags([$tag])->pluck('name')->toArray());
+
+        Carbon::setTestNow($time);
+
+        $this->assertEmpty(TestModel::withAnyTags([$tag])->pluck('name')->toArray());
+
+        Carbon::setTestNow($time->subDay(2));
+
+        $this->assertEquals(['model1'], TestModel::withAnyTags([$tag])->pluck('name')->toArray());
+    }
+
+    /** @test */
+    public function it_does_not_show_expired_tags_on_withAll_scope()
+    {
+        $time = Carbon::now()->addDay(3);
+
+        $tag = Tag::findOrCreate('tagA', 'typeA');
+
+        TestModel::create([
+            'name' => 'model1',
+        ])->attachTag($tag, $time);
+
+        $this->assertEquals(['model1'], TestModel::withAllTags([$tag])->pluck('name')->toArray());
+
+        Carbon::setTestNow($time);
+
+        $this->assertEmpty(TestModel::withAllTags([$tag])->pluck('name')->toArray());
+
+        Carbon::setTestNow($time->subDay(2));
+
+        $this->assertEquals(['model1'], TestModel::withAllTags([$tag])->pluck('name')->toArray());
+    }
+
+
+    /** @test */
+    public function it_can_truncate_expired_tagables()
+    {
+        $time = Carbon::now()->addDay(3);
+
+        $this->testModel->attachTags(['tag1'], $time);
+
+        $this->assertCount(1, $this->testModel->tags);
+
+        Carbon::setTestNow($time);
+
+        $this->artisan('tags:flush');
+
+        $this->assertCount(0, $this->testModel->fresh()->tags);
+        $this->assertCount(0, DB::table('taggables')->get());
+
+        Carbon::setTestNow($time->subDay(2));
+
+        $this->assertCount(0, $this->testModel->fresh()->tags);
+        $this->assertCount(0, DB::table('taggables')->get());
     }
 }

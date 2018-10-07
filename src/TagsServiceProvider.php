@@ -3,6 +3,7 @@
 namespace Spatie\Tags;
 
 use Illuminate\Support\ServiceProvider;
+use Spatie\Tags\Console\TruncateExpiredObjects;
 
 class TagsServiceProvider extends ServiceProvider
 {
@@ -30,5 +31,10 @@ class TagsServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->app->bind('command.truncateExpiredObjects', TruncateExpiredObjects::class);
+
+        $this->commands([
+            'command.truncateExpiredObjects',
+        ]);
     }
 }
