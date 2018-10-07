@@ -107,7 +107,7 @@ trait HasTags
     }
 
     /**
-     * @param array|\ArrayAccess|\App\Tags\Tag $tags
+     * @param array|\ArrayAccess|\Spatie\Tags\Tag $tags
      *
      * @param bool $expires
      * @return $this
