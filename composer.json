@@ -1,11 +1,11 @@
 {
-    "name": "spatie/laravel-tags",
+    "name": "zaengle/laravel-tags",
     "description": "Add tags and taggable behaviour to your Laravel app",
     "keywords": [
         "spatie",
         "laravel-tags"
     ],
-    "homepage": "https://github.com/spatie/laravel-tags",
+    "homepage": "https://github.com/zaengle/laravel-tags",
     "license": "MIT",
     "authors": [
         {
