@@ -26,9 +26,20 @@ class Tag extends Model implements Sortable
         return $query->where('type', $type)->orderBy('order_column');
     }
 
+    /**
+     * @param Builder $query
+     * @param string  $name
+     * @param null    $locale
+     *
+     * @return Builder
+     */
     public function scopeContaining(Builder $query, string $name, $locale = null): Builder
     {
         $locale = $locale ?? app()->getLocale();
+
+        if(config('database.connections.' . config('database.default') . '.driver') === 'pgsql') {
+            return $query->where('name->' . $locale,  'ILIKE', '%' . strtolower($name) . '%');
+        }
 
         return $query->whereRaw('LOWER(JSON_EXTRACT(name, "$.'.$locale.'")) like ?', ['"%'.strtolower($name).'%"']);
     }
