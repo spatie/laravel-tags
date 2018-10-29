@@ -87,7 +87,7 @@ trait HasTags
         return $query->whereHas('tags', function (Builder $query) use ($tags) {
             $tagIds = collect($tags)->pluck('id');
 
-            $query->whereIn('id', $tagIds);
+            $query->whereIn('tags.id', $tagIds);
         });
     }
 
