@@ -83,7 +83,7 @@ class Tag extends Model implements Sortable
     {
         $locale = $locale ?? app()->getLocale();
 
-        $tag = static::findFromString($name, $type, $locale);
+        $tag = static::findFromString('name', $name, $type, $locale);
 
         if (! $tag) {
             $tag = static::create([

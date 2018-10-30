@@ -59,9 +59,9 @@ trait HasTags
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeWithAllTags(Builder $query, $tags, string $type = null): Builder
+    public function scopeWithAllTags(Builder $query, $tags, $column = 'name', string $type = null): Builder
     {
-        $tags = static::convertToTags('name', $tags, $type);
+        $tags = static::convertToTags($column, $tags, $type);
 
         collect($tags)->each(function ($tag) use ($query) {
             $query->whereIn("{$this->table}.{$this->getKeyName()}", function ($query) use ($tag) {
