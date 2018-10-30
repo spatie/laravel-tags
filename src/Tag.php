@@ -69,12 +69,12 @@ class Tag extends Model implements Sortable
         return static::withType($type)->orderBy('order_column')->get();
     }
 
-    public static function findFromString(string $name, string $type = null, string $locale = null)
+    public static function findFromString(string $column, string $name, string $type = null, string $locale = null)
     {
         $locale = $locale ?? app()->getLocale();
 
         return static::query()
-            ->where("name->{$locale}", $name)
+            ->where("{$column}->{$locale}", $name)
             ->where('type', $type)
             ->first();
     }
@@ -83,7 +83,7 @@ class Tag extends Model implements Sortable
     {
         $locale = $locale ?? app()->getLocale();
 
-        $tag = static::findFromString($name, $type, $locale);
+        $tag = static::findFromString('name', $name, $type, $locale);
 
         if (! $tag) {
             $tag = static::create([

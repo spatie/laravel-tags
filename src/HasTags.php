@@ -59,9 +59,9 @@ trait HasTags
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeWithAllTags(Builder $query, $tags, string $type = null): Builder
+    public function scopeWithAllTags(Builder $query, $tags, $column = 'name', string $type = null): Builder
     {
-        $tags = static::convertToTags($tags, $type);
+        $tags = static::convertToTags($column, $tags, $type);
 
         collect($tags)->each(function ($tag) use ($query) {
             $query->whereIn("{$this->table}.{$this->getKeyName()}", function ($query) use ($tag) {
@@ -80,10 +80,10 @@ trait HasTags
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeWithAnyTags(Builder $query, $tags, string $type = null): Builder
+    public function scopeWithAnyTags(Builder $query, $tags, $column = 'name', string $type = null): Builder
     {
-        $tags = static::convertToTags($tags, $type);
-
+        $tags = static::convertToTags($column, $tags, $type);
+        
         return $query->whereHas('tags', function (Builder $query) use ($tags) {
             $tagIds = collect($tags)->pluck('id');
 
@@ -131,7 +131,7 @@ trait HasTags
      */
     public function detachTags($tags)
     {
-        $tags = static::convertToTags($tags);
+        $tags = static::convertToTags('name', $tags);
 
         collect($tags)
             ->filter()
@@ -185,9 +185,9 @@ trait HasTags
         return $this;
     }
 
-    protected static function convertToTags($values, $type = null, $locale = null)
+    protected static function convertToTags($column, $values, $type = null, $locale = null)
     {
-        return collect($values)->map(function ($value) use ($type, $locale) {
+        return collect($values)->map(function ($value) use ($type, $locale, $column) {
             if ($value instanceof Tag) {
                 if (isset($type) && $value->type != $type) {
                     throw new InvalidArgumentException("Type was set to {$type} but tag is of type {$value->type}");
@@ -198,7 +198,7 @@ trait HasTags
 
             $className = static::getTagClassName();
 
-            return $className::findFromString($value, $type, $locale);
+            return $className::findFromString($column, $value, $type, $locale);
         });
     }
 
