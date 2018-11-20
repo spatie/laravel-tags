@@ -66,6 +66,11 @@ abstract class TestCase extends Orchestra
             $table->increments('id');
             $table->string('name')->nullable();
         });
+
+        $app['db']->connection()->getSchemaBuilder()->create('test_another_models', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('name')->nullable();
+        });
     }
 
     protected function dropAllTables()
