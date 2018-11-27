@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-tags` will be documented in this file
 
+## 2.1.5 - 2018-11-27
+
+- fix for locales with hypens in their name
+
 ## 2.1.4 - 2018-11-03
 
 - use `getTable()` instead of `$table` in the scope
