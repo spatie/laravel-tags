@@ -201,13 +201,17 @@ class HasTagsTest extends TestCase
     }
 
     /** @test */
-    public function it_can_sync_same_tag_type_with_different_models()
+    public function it_can_sync_same_tag_type_with_different_models_with_same_foreign_id()
     {
         $this->testModel->syncTagsWithType(['tagA1', 'tagA2', 'tagA3'], 'typeA');
 
         $testAnotherModel = TestAnotherModel::create([
             'name' => 'model2',
         ])->syncTagsWithType(['tagA1'], 'typeA');
+
+        // They should have the same foreign ID in taggables table
+        $this->assertEquals('1', $this->testModel->id);
+        $this->assertEquals('1', $testAnotherModel->id);
 
         $testAnotherModelTagsOfTypeA = $testAnotherModel->tagsWithType('typeA');
         $this->assertEquals(['tagA1'], $testAnotherModelTagsOfTypeA->pluck('name')->toArray());
