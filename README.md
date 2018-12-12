@@ -47,6 +47,9 @@ NewsItem::withAnyTags(['tag1', 'tag2'])->get();
 //retrieve models that have all of the given tags
 NewsItem::withAllTags(['tag1', 'tag2'])->get();
 
+//retrieve models that have all of the given tags, having any type
+NewsItem::withAllTags(['tag1', 'tag2'], false)->get();
+
 //translating a tag
 $tag = Tag::findOrCreate('my tag');
 $tag->setTranslation('fr', 'mon tag');

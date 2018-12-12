@@ -172,6 +172,15 @@ class TagTest extends TestCase
         $this->assertEquals('string', $tag2->name);
     }
 
+    public function it_can_find_tags_disregarding_type_when_passed_type_equal_to_false()
+    {
+        $tag = Tag::findOrCreate('tag with type', 'thisType');
+
+        $fetchedTag = Tag::findFromString('tag with type', false);
+
+        $this->assertEquals($tag->name, $fetchedTag->name);
+    }
+
     /** @test */
     public function its_name_can_be_changed_by_setting_its_name_property_to_a_new_value()
     {

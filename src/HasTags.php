@@ -189,7 +189,7 @@ trait HasTags
     {
         return collect($values)->map(function ($value) use ($type, $locale) {
             if ($value instanceof Tag) {
-                if (isset($type) && $value->type != $type) {
+                if (! empty($type) && $value->type != $type) {
                     throw new InvalidArgumentException("Type was set to {$type} but tag is of type {$value->type}");
                 }
 
