@@ -27,6 +27,6 @@ before_script:
 
 script:
     - vendor/bin/phpunit
-
+ 
 after_script:
     - docker-compose -f ./tests/docker-compose.yml down
