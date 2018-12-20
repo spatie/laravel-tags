@@ -217,6 +217,7 @@ trait HasTags
         $current = $this->tags()
             ->newPivotStatement()
             ->where('taggable_id', $this->getKey())
+            ->where('taggable_type', self::class)
             ->when($type !== null, function ($query) use ($type) {
                 $tagModel = $this->tags()->getRelated();
 
