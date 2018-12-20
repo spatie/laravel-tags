@@ -125,7 +125,7 @@ If you've found a bug regarding security please mail [freek@spatie.be](mailto:fr
 ## Testing
 
 1. Copy `.env.example` to `.env` and fill in your database credentials.
-2. Run `vendor/bin/phpunit`.
+2. Run `composer test`.
 
 ### Changelog
 
