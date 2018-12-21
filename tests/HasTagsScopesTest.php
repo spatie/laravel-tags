@@ -104,7 +104,7 @@ class HasTagsScopesTest extends TestCase
     /** @test */
     public function it_provides_as_scope_to_get_all_models_that_have_any_of_the_given_tags_with_any_type()
     {
-        $testModels = TestModel::withAnyTagsOfAnyType(['tagE' ,'tagF'])->get();
+        $testModels = TestModel::withAnyTagsOfAnyType(['tagE', 'tagF'])->get();
 
         $this->assertEquals(['model5', 'model6'], $testModels->pluck('name')->toArray());
     }
@@ -112,7 +112,7 @@ class HasTagsScopesTest extends TestCase
     /** @test */
     public function it_provides_as_scope_to_get_all_models_that_have_all_of_the_given_tags_with_any_type()
     {
-        $testModels = TestModel::withAllTagsOfAnyType(['tagE' ,'tagF'])->get();
+        $testModels = TestModel::withAllTagsOfAnyType(['tagE', 'tagF'])->get();
 
         $this->assertEquals(['model5'], $testModels->pluck('name')->toArray());
     }
