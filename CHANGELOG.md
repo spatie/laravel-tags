@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-tags` will be documented in this file
 
+## 2.2.0 - 2018-12-21
+
+- add`scopeWithAllTagsOfAnyType` and `scopeWithAnyTagsOfAnyType`
+
 ## 2.1.6 - 2018-12-20
 
 - update deps
