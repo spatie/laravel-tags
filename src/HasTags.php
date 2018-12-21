@@ -91,6 +91,32 @@ trait HasTags
         });
     }
 
+    public function scopeWithAllTagsOfAnyType(Builder $query, $tags): Builder
+    {
+        $tags = static::convertToTagsOfAnyType($tags);
+
+        collect($tags)->each(function ($tag) use ($query) {
+            $query->whereIn("{$this->getTable()}.{$this->getKeyName()}", function ($query) use ($tag) {
+                $query->from('taggables')
+                    ->select('taggables.taggable_id')
+                    ->where('taggables.tag_id', $tag ? $tag->id : 0);
+            });
+        });
+
+        return $query;
+    }
+
+    public function scopeWithAnyTagsOfAnyType(Builder $query, $tags): Builder
+    {
+        $tags = static::convertToTagsOfAnyType($tags);
+
+        return $query->whereHas('tags', function (Builder $query) use ($tags) {
+            $tagIds = collect($tags)->pluck('id');
+
+            $query->whereIn('tags.id', $tagIds);
+        });
+    }
+
     public function tagsWithType(string $type = null): Collection
     {
         return $this->tags->filter(function (Tag $tag) use ($type) {
@@ -199,6 +225,19 @@ trait HasTags
             $className = static::getTagClassName();
 
             return $className::findFromString($value, $type, $locale);
+        });
+    }
+
+    protected static function convertToTagsOfAnyType($values, $locale = null)
+    {
+        return collect($values)->map(function ($value) use ($locale) {
+            if ($value instanceof Tag) {
+                return $value;
+            }
+
+            $className = static::getTagClassName();
+
+            return $className::findFromStringOfAnyType($value, $locale);
         });
     }
 

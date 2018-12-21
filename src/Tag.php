@@ -70,6 +70,15 @@ class Tag extends Model implements Sortable
             ->first();
     }
 
+    public static function findFromStringOfAnyType(string $name, string $locale = null)
+    {
+        $locale = $locale ?? app()->getLocale();
+
+        return static::query()
+            ->where("name->{$locale}", $name)
+            ->first();
+    }
+
     protected static function findOrCreateFromString(string $name, string $type = null, string $locale = null): self
     {
         $locale = $locale ?? app()->getLocale();
