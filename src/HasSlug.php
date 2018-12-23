@@ -24,4 +24,16 @@ trait HasSlug
 
         return call_user_func($slugger, $this->getTranslation('name', $locale));
     }
+    
+    public function resolveRouteBinding($value)
+    {
+        $locale = app()->getLocale();
+
+        return $this->where("slug->{$locale}", $value)->first();
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
 }
