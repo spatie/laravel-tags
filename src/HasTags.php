@@ -24,12 +24,6 @@ trait HasTags
 
             $taggableModel->queuedTags = [];
         });
-
-        static::deleted(function (Model $deletedModel) {
-            $tags = $deletedModel->tags()->get();
-
-            $deletedModel->detachTags($tags);
-        });
     }
 
     public function tags(): MorphToMany
