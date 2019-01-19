@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-tags` will be documented in this file
 
+## 2.2.1 - 2019-01-19
+
+- use morph map name for taggable_type if it exists
+
 ## 2.2.0 - 2018-12-21
 
 - add`scopeWithAllTagsOfAnyType` and `scopeWithAnyTagsOfAnyType`
