@@ -47,6 +47,7 @@ trait HasTags
         if (is_null($locale)) {
             $locale = app()->getLocale();
         }
+        
         return $this
             ->morphToMany(self::getTagClassName(), 'taggable')
             ->select('id', 'name', "name->{$locale} as name_translated", 'slug', "slug->{$locale} as slug_translated", 'type', 'order_column', 'created_at', 'updated_at')
