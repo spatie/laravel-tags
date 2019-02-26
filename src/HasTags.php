@@ -40,6 +40,20 @@ trait HasTags
     }
 
     /**
+     * @param string $locale
+     */
+    public function tagsTranslated($locale = null): MorphToMany
+    {
+        if (is_null($locale)) {
+            $locale = app()->getLocale();
+        }
+        return $this
+            ->morphToMany(self::getTagClassName(), 'taggable')
+            ->select('id', 'name', "name->{$locale} as name_translated", 'slug', "slug->{$locale} as slug_translated", 'type', 'order_column', 'created_at', 'updated_at')
+            ->orderBy('order_column');
+    }
+
+    /**
      * @param string|array|\ArrayAccess|\Spatie\Tags\Tag $tags
      */
     public function setTagsAttribute($tags)
