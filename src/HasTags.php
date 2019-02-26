@@ -44,13 +44,13 @@ trait HasTags
      */
     public function tagsTranslated($locale = null): MorphToMany
     {
-        $locale = !is_null($locale) ? $locale : app()->getLocale();
+        $locale = ! is_null($locale) ? $locale : app()->getLocale();
 
         return $this
             ->morphToMany(self::getTagClassName(), 'taggable')
             ->select('*')
             ->selectRaw("JSON_UNQUOTE(JSON_EXTRACT(name, '$.\"{$locale}\"')) as name_translated")
-            ->selectRaw("JSON_UNQUOTE(JSON_EXTRACT(slug, '$.\"{$locale}\"')) as slug_translated") 
+            ->selectRaw("JSON_UNQUOTE(JSON_EXTRACT(slug, '$.\"{$locale}\"')) as slug_translated")
             ->orderBy('order_column');
     }
 
