@@ -4,7 +4,6 @@ namespace Spatie\Tags\Test;
 
 use DB;
 use Dotenv\Dotenv;
-use Dotenv\Loader;
 use Spatie\Tags\TagsServiceProvider;
 use Illuminate\Database\Schema\Blueprint;
 use Orchestra\Testbench\TestCase as Orchestra;
@@ -23,7 +22,6 @@ abstract class TestCase extends Orchestra
     {
         return [
             TagsServiceProvider::class,
-            TranslatableServiceProvider::class,
         ];
     }
 
