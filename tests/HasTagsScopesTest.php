@@ -11,7 +11,7 @@ class HasTagsScopesTest extends TestCase
     /** @var \Spatie\Tags\Test\TestModel */
     protected $testModel;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

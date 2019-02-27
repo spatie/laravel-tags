@@ -7,7 +7,7 @@ use Spatie\Tags\Test\TestCase;
 
 class TagTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
