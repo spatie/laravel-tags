@@ -7,11 +7,10 @@ use Dotenv\Dotenv;
 use Spatie\Tags\TagsServiceProvider;
 use Illuminate\Database\Schema\Blueprint;
 use Orchestra\Testbench\TestCase as Orchestra;
-use Spatie\Translatable\TranslatableServiceProvider;
 
 abstract class TestCase extends Orchestra
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -22,7 +21,6 @@ abstract class TestCase extends Orchestra
     {
         return [
             TagsServiceProvider::class,
-            TranslatableServiceProvider::class,
         ];
     }
 
@@ -33,7 +31,7 @@ abstract class TestCase extends Orchestra
     {
         //If we're not in travis, load our local .env file
         if (empty(getenv('CI'))) {
-            $dotenv = new Dotenv(realpath(__DIR__.'/..'));
+            $dotenv = Dotenv::create(realpath(__DIR__.'/..'));
             $dotenv->load();
         }
 
@@ -63,6 +61,11 @@ abstract class TestCase extends Orchestra
         (new \CreateTagTables())->up();
 
         $app['db']->connection()->getSchemaBuilder()->create('test_models', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('name')->nullable();
+        });
+
+        $app['db']->connection()->getSchemaBuilder()->create('test_another_models', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name')->nullable();
         });

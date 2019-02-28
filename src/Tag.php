@@ -23,6 +23,11 @@ class Tag extends Model implements Sortable
         return $query->where('type', $type)->orderBy('order_column');
     }
 
+    public function scopeContaining(Builder $query, string $name, $locale = null): Builder
+    {
+        return $query->where('name', 'LIKE', '%' . strtolower($name) . '%');
+    }
+
     /**
      * @param array|\ArrayAccess $values
      * @param string|null $type
@@ -52,6 +57,15 @@ class Tag extends Model implements Sortable
         return static::query()
             ->where('name', $name)
             ->where('type', $type)
+            ->first();
+    }
+
+    public static function findFromStringOfAnyType(string $name, string $locale = null)
+    {
+        $locale = $locale ?? app()->getLocale();
+
+        return static::query()
+            ->where('name', $name)
             ->first();
     }
 

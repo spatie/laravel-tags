@@ -7,7 +7,7 @@ use Spatie\Tags\Test\TestCase;
 
 class TagTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -93,12 +93,10 @@ class TagTest extends TestCase
         $this->assertEquals([
             'one',
             'another-one',
-            'another-ONE-with-different-casing'
+            'another-ONE-with-different-casing',
         ], Tag::containing('on')->pluck('name')->toArray());
         $this->assertEquals(['two'], Tag::containing('tw')->pluck('name')->toArray());
-
     }
-
 
     /** @test */
     public function it_provides_a_method_to_get_all_tags_with_a_specific_type()

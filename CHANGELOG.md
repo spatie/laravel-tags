@@ -2,6 +2,47 @@
 
 All notable changes to `laravel-tags` will be documented in this file
 
+## 2.3.0 - 2019-02-27
+
+- drop support for Laravel 5.7 and below
+- drop support for PHP 7.1 and below
+
+## 2.2.2 - 2019-02-27
+
+- add support for Laravel 5.8
+
+## 2.2.1 - 2019-01-19
+
+- use morph map name for taggable_type if it exists
+
+## 2.2.0 - 2018-12-21
+
+- add`scopeWithAllTagsOfAnyType` and `scopeWithAnyTagsOfAnyType`
+
+## 2.1.6 - 2018-12-20
+
+- update deps
+
+## 2.1.5 - 2018-11-27
+
+- fix for locales with hypens in their name
+
+## 2.1.4 - 2018-11-03
+
+- use `getTable()` instead of `$table` in the scope
+
+## 2.1.3 - 2018-01-29
+
+- fix for `withAnyTags`
+
+## 2.1.2 - 2018-10-24
+
+- add support for laravel-translatable v3
+
+## 2.1.1 - 2018-09-17
+
+- improve performance
+
 ## 2.1.0 - 2018-08-27
 
 - add `containing` scope

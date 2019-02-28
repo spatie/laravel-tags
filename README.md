@@ -74,7 +74,7 @@ Spatie is a webdesign agency based in Antwerp, Belgium. You'll find an overview 
 
 ## Requirements
 
-This package requires Laravel 5.5 or higher, PHP 7.0 or higher and a database that supports `json` fields and functions such as MySQL 5.7 or higher.
+This package requires Laravel 5.7 or higher, PHP 7.0 or higher and a database that supports `json` fields and functions such as MySQL 5.7 or higher. 
 
 ## Installation
 
@@ -125,7 +125,7 @@ If you've found a bug regarding security please mail [freek@spatie.be](mailto:fr
 ## Testing
 
 1. Copy `.env.example` to `.env` and fill in your database credentials.
-2. Run `vendor/bin/phpunit`.
+2. Run `composer test`.
 
 ### Changelog
 
@@ -154,7 +154,7 @@ We publish all received postcards [on our company website](https://spatie.be/en/
 
 ## Support us
 
-Spatie is a webdesign agency based in Antwerp, Belgium. You'll find an overview of all our open source projects [on our website](https://spatie.be/opensource).
+Spatie is a webdesign agency based in Antwerp, Belgium. You'll find an overview of all our open source projects [on our website](https://spatie.be/open-source).
 
 Does your business depend on our contributions? Reach out and support us on [Patreon](https://www.patreon.com/spatie). 
 All pledges will be dedicated to allocating workforce on maintenance and new awesome stuff.

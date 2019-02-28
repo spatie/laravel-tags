@@ -5,6 +5,7 @@ namespace Spatie\Translatable\Test;
 use Spatie\Tags\Tag;
 use Spatie\Tags\Test\TestCase;
 use Spatie\Tags\Test\TestModel;
+use Spatie\Tags\Test\TestAnotherModel;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 class HasTagsTest extends TestCase
@@ -12,7 +13,7 @@ class HasTagsTest extends TestCase
     /** @var \Spatie\Tags\Test\TestModel */
     protected $testModel;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -197,6 +198,23 @@ class HasTagsTest extends TestCase
 
         $tagsOfTypeB = $this->testModel->tagsWithType('typeB');
         $this->assertEquals(['tagB1', 'tagB2'], $tagsOfTypeB->pluck('name')->toArray());
+    }
+
+    /** @test */
+    public function it_can_sync_same_tag_type_with_different_models_with_same_foreign_id()
+    {
+        $this->testModel->syncTagsWithType(['tagA1', 'tagA2', 'tagA3'], 'typeA');
+
+        $testAnotherModel = TestAnotherModel::create([
+            'name' => 'model2',
+        ])->syncTagsWithType(['tagA1'], 'typeA');
+
+        // They should have the same foreign ID in taggables table
+        $this->assertEquals('1', $this->testModel->id);
+        $this->assertEquals('1', $testAnotherModel->id);
+
+        $testAnotherModelTagsOfTypeA = $testAnotherModel->tagsWithType('typeA');
+        $this->assertEquals(['tagA1'], $testAnotherModelTagsOfTypeA->pluck('name')->toArray());
     }
 
     /** @test */

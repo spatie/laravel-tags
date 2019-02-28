@@ -58,8 +58,10 @@ trait HasTags
         $tags = static::convertToTags($tags, $type);
 
         collect($tags)->each(function ($tag) use ($query) {
-            $query->whereHas('tags', function (Builder $query) use ($tag) {
-                return $query->where('id', $tag ? $tag->id : 0);
+            $query->whereIn("{$this->getTable()}.{$this->getKeyName()}", function ($query) use ($tag) {
+                $query->from('taggables')
+                    ->select('taggables.taggable_id')
+                    ->where('taggables.tag_id', $tag ? $tag->id : 0);
             });
         });
 
@@ -79,7 +81,33 @@ trait HasTags
         return $query->whereHas('tags', function (Builder $query) use ($tags) {
             $tagIds = collect($tags)->pluck('id');
 
-            $query->whereIn('id', $tagIds);
+            $query->whereIn('tags.id', $tagIds);
+        });
+    }
+
+    public function scopeWithAllTagsOfAnyType(Builder $query, $tags): Builder
+    {
+        $tags = static::convertToTagsOfAnyType($tags);
+
+        collect($tags)->each(function ($tag) use ($query) {
+            $query->whereIn("{$this->getTable()}.{$this->getKeyName()}", function ($query) use ($tag) {
+                $query->from('taggables')
+                    ->select('taggables.taggable_id')
+                    ->where('taggables.tag_id', $tag ? $tag->id : 0);
+            });
+        });
+
+        return $query;
+    }
+
+    public function scopeWithAnyTagsOfAnyType(Builder $query, $tags): Builder
+    {
+        $tags = static::convertToTagsOfAnyType($tags);
+
+        return $query->whereHas('tags', function (Builder $query) use ($tags) {
+            $tagIds = collect($tags)->pluck('id');
+
+            $query->whereIn('tags.id', $tagIds);
         });
     }
 
@@ -194,6 +222,19 @@ trait HasTags
         });
     }
 
+    protected static function convertToTagsOfAnyType($values, $locale = null)
+    {
+        return collect($values)->map(function ($value) use ($locale) {
+            if ($value instanceof Tag) {
+                return $value;
+            }
+
+            $className = static::getTagClassName();
+
+            return $className::findFromStringOfAnyType($value, $locale);
+        });
+    }
+
     /**
      * Use in place of eloquent's sync() method so that the tag type may be optionally specified.
      *
@@ -209,6 +250,7 @@ trait HasTags
         $current = $this->tags()
             ->newPivotStatement()
             ->where('taggable_id', $this->getKey())
+            ->where('taggable_type', $this->getMorphClass())
             ->when($type !== null, function ($query) use ($type) {
                 $tagModel = $this->tags()->getRelated();
 
