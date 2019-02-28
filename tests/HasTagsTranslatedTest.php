@@ -26,8 +26,8 @@ class HasTagsTranslatedTest extends TestCase
         $locale = app()->getLocale();
         $translated = $this->testModel->tagsTranslated->first()->toArray();
 
-        $this->assertEquals($translated['name_translated'], $translated['name'][$locale]);        
-        $this->assertEquals($translated['slug_translated'], $translated['slug'][$locale]);        
+        $this->assertEquals($translated['name_translated'], $translated['name'][$locale]);
+        $this->assertEquals($translated['slug_translated'], $translated['slug'][$locale]);
     }
 
     /** @test */
@@ -43,8 +43,7 @@ class HasTagsTranslatedTest extends TestCase
 
         $translated = $this->testModel->tagsTranslated($locale)->first()->toArray();
 
-        $this->assertEquals($translated['name_translated'], $translated['name'][$locale]);        
-        $this->assertEquals($translated['slug_translated'], $translated['slug'][$locale]);        
+        $this->assertEquals($translated['name_translated'], $translated['name'][$locale]);
+        $this->assertEquals($translated['slug_translated'], $translated['slug'][$locale]);
     }
-
 }
