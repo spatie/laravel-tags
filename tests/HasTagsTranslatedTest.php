@@ -5,8 +5,6 @@ namespace Spatie\Translatable\Test;
 use Spatie\Tags\Tag;
 use Spatie\Tags\Test\TestCase;
 use Spatie\Tags\Test\TestModel;
-use Spatie\Tags\Test\TestAnotherModel;
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 class HasTagsTranslatedTest extends TestCase
 {
@@ -25,12 +23,11 @@ class HasTagsTranslatedTest extends TestCase
     {
         $this->testModel->attachTag('My Tag');
 
-        $locale     = app()->getLocale();
+        $locale = app()->getLocale();
         $translated = $this->testModel->tagsTranslated->first()->toArray();
 
         $this->assertEquals($translated['name_translated'], $translated['name'][$locale]);        
         $this->assertEquals($translated['slug_translated'], $translated['slug'][$locale]);        
-
     }
 
     /** @test */
@@ -48,7 +45,6 @@ class HasTagsTranslatedTest extends TestCase
 
         $this->assertEquals($translated['name_translated'], $translated['name'][$locale]);        
         $this->assertEquals($translated['slug_translated'], $translated['slug'][$locale]);        
-
     }
 
 }
