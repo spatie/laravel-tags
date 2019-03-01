@@ -49,9 +49,17 @@ NewsItem::withAllTags(['tag1', 'tag2'])->get();
 
 //translating a tag
 $tag = Tag::findOrCreate('my tag');
-$tag->setTranslation('fr', 'mon tag');
-$tag->setTranslation('nl', 'mijn tag');
+$tag->setTranslation('name', 'fr', 'mon tag');
+$tag->setTranslation('name', 'nl', 'mijn tag');
 $tag->save();
+
+//getting translations
+$tag->translate('name'); //returns my name
+$tag->translate('name', 'fr'); //returns mon tag (optional locale param)
+
+//convenient translations through taggable models
+$newsItem->tagsTranslated();// returns tags with slug_translated and name_translated properties
+$newsItem->tagsTranslated('fr');// returns tags with slug_translated and name_translated properties set for specified locale
 
 //using tag types
 $tag = Tag::findOrCreate('tag 1', 'my type');
