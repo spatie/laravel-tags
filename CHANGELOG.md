@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-tags` will be documented in this file
 
+## 2.4.0 - 2019-03-01
+
+- add `tagsTranslated`
+
 ## 2.3.0 - 2019-02-27
 
 - drop support for Laravel 5.7 and below
