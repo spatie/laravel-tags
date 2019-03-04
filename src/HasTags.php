@@ -114,7 +114,7 @@ trait HasTags
      */
     public function scopeWithType(Builder $query, array $type) : Builder
     {
-        return $query->whereHas('tags', function (Builder $query) use ($type){
+        return $query->whereHas('tags', function (Builder $query) use ($type) {
             $query->whereIn('tags.type', $type);
         });
     }
