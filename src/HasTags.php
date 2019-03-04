@@ -106,6 +106,19 @@ trait HasTags
         });
     }
 
+    /**
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param array $type
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeWithType(Builder $query, array $type) : Builder
+    {
+        return $query->whereHas('tags', function (Builder $query) use ($type){
+            $query->whereIn('tags.type', $type);
+        });
+    }
+
     public function scopeWithAllTagsOfAnyType(Builder $query, $tags): Builder
     {
         $tags = static::convertToTagsOfAnyType($tags);

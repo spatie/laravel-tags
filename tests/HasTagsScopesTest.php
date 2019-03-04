@@ -116,4 +116,12 @@ class HasTagsScopesTest extends TestCase
 
         $this->assertEquals(['model5'], $testModels->pluck('name')->toArray());
     }
+
+    /** @test */
+    public function it_provides_as_scope_to_get_all_models_that_have_the_given_type()
+    {
+        $testModels = TestModel::withType(['typedTag'])->get();
+
+        $this->assertEquals(['model5'], $testModels->pluck('name')->toArray());
+    }
 }
