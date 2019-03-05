@@ -20,9 +20,11 @@ trait HasTags
     public static function bootHasTags()
     {
         static::created(function (Model $taggableModel) {
-            $taggableModel->attachTags($taggableModel->queuedTags);
+            if (count($taggableModel->queuedTags) > 0) {
+                $taggableModel->attachTags($taggableModel->queuedTags);
 
-            $taggableModel->queuedTags = [];
+                $taggableModel->queuedTags = [];
+            }
         });
 
         static::deleted(function (Model $deletedModel) {
