@@ -2,7 +2,6 @@
 
 namespace Spatie\Tags;
 
-use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 
 trait HasSlug
@@ -21,7 +20,7 @@ trait HasSlug
     {
         $slugger = config('tags.slugger');
 
-        $slugger = $slugger ?: 'Str::slug';
+        $slugger = $slugger ?: '\Illuminate\Support\Str::slug';
 
         return call_user_func($slugger, $this->getTranslation('name', $locale));
     }
