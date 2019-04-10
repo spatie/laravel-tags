@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-tags` will be documented in this file
 
+## 2.4.2 - 2019-04-10
+
+- added ability to work with multibyte charset
+
 ## 2.4.1 - 2019-03-06
 
 - performance enhanchements
