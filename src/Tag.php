@@ -32,7 +32,7 @@ class Tag extends Model implements Sortable
 
         $locale = '"'.$locale.'"';
 
-        return $query->whereRaw("LOWER(JSON_EXTRACT(name, '$.".$locale."')) like ?", ['"%'.strtolower($name).'%"']);
+        return $query->whereRaw("LOWER(JSON_EXTRACT(name, '$.".$locale."')) like ?", ['"%'.mb_strtolower($name).'%"']);
     }
 
     /**
