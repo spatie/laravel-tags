@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-tags` will be documented in this file
 
+## 2.4.4 - 2019-04-17
+
+- use `ordered()` scope to determine order column name (#193)
+
 ## 2.4.3 - 2019-04-10
 
 - fix `str_slug` being deprecated
