@@ -23,7 +23,7 @@ class Tag extends Model implements Sortable
             return $query;
         }
 
-        return $query->where('type', $type)->orderBy('order_column');
+        return $query->where('type', $type)->ordered();
     }
 
     public function scopeContaining(Builder $query, string $name, $locale = null): Builder
@@ -57,7 +57,7 @@ class Tag extends Model implements Sortable
 
     public static function getWithType(string $type): DbCollection
     {
-        return static::withType($type)->orderBy('order_column')->get();
+        return static::withType($type)->ordered()->get();
     }
 
     public static function findFromString(string $name, string $type = null, string $locale = null)
