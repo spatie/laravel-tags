@@ -60,6 +60,16 @@ class Tag extends Model implements Sortable
         return static::withType($type)->ordered()->get();
     }
 
+    public static function getTranslated(string $locale = null)
+    {
+        $locale = $locale ?? app()->getLocale();
+
+        return self::select('*')
+            ->selectRaw("JSON_UNQUOTE(JSON_EXTRACT(name, '$.\"{$locale}\"')) as name_translated")
+            ->selectRaw("JSON_UNQUOTE(JSON_EXTRACT(slug, '$.\"{$locale}\"')) as slug_translated")
+            ->ordered();
+    }
+
     public static function findFromString(string $name, string $type = null, string $locale = null)
     {
         $locale = $locale ?? app()->getLocale();
