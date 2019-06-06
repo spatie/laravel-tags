@@ -183,4 +183,31 @@ class TagTest extends TestCase
 
         $this->assertEquals('new name', $tag->name);
     }
+
+    /** @test */
+    public function it_provides_tags_with_name_and_slug_already_translated()
+    {
+        Tag::findOrCreate('Tag name');
+
+        $translated = Tag::getTranslated()->first()->toArray();
+
+        $this->assertEquals($translated['name_translated'], 'Tag name');
+        $this->assertEquals($translated['slug_translated'], 'tag-name');
+    }
+
+    /** @test */
+    public function it_provides_tags_with_name_and_slug_translated_for_alternate_locales()
+    {
+        $tag = Tag::findOrCreate('My tag');
+
+        $locale = 'fr';
+
+        $tag->setTranslation('name', $locale, 'Mon tag');
+        $tag->save();
+
+        $translated = Tag::getTranslated($locale)->first()->toArray();
+
+        $this->assertEquals($translated['name_translated'], 'Mon tag');
+        $this->assertEquals($translated['slug_translated'], 'mon-tag');
+    }
 }
