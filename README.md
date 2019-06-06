@@ -57,9 +57,13 @@ $tag->save();
 $tag->translate('name'); //returns my name
 $tag->translate('name', 'fr'); //returns mon tag (optional locale param)
 
+//get all tags with translations
+$tags = Tag::getTranslated(); // returns all tags with slug_translated and name_translated properties
+$tags = Tag::getTranslated('fr'); // returns all tags with slug_translated and name_translated properties set for specified locale
+
 //convenient translations through taggable models
-$newsItem->tagsTranslated();// returns tags with slug_translated and name_translated properties
-$newsItem->tagsTranslated('fr');// returns tags with slug_translated and name_translated properties set for specified locale
+$newsItem->tagsTranslated();// returns a model's tags with slug_translated and name_translated properties
+$newsItem->tagsTranslated('fr');// returns a model's tags with slug_translated and name_translated properties set for specified locale
 
 //using tag types
 $tag = Tag::findOrCreate('tag 1', 'my type');
