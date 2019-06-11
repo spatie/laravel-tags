@@ -46,7 +46,11 @@ trait HasTags
      */
     public function tagsTranslated($locale = null): MorphToMany
     {
-        $locale = ! is_null($locale) ? $locale : app()->getLocale();
+        if (app() instanceof \Illuminate\Foundation\Application) {
+            $locale = ! is_null($locale) ? $locale : app()->getLocale();
+        } else {
+            $locale = ! is_null($locale) ? $locale : app('translator')->getLocale();
+        }
 
         return $this
             ->morphToMany(self::getTagClassName(), 'taggable')

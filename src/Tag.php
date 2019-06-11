@@ -28,7 +28,11 @@ class Tag extends Model implements Sortable
 
     public function scopeContaining(Builder $query, string $name, $locale = null): Builder
     {
-        $locale = $locale ?? app()->getLocale();
+        if (app() instanceof \Illuminate\Foundation\Application) {
+            $locale = $locale ?? app()->getLocale();
+        } else {
+            $locale = $locale ?? app('translator')->getLocale();
+        }
 
         $locale = '"'.$locale.'"';
 
@@ -62,7 +66,11 @@ class Tag extends Model implements Sortable
 
     public static function findFromString(string $name, string $type = null, string $locale = null)
     {
-        $locale = $locale ?? app()->getLocale();
+        if (app() instanceof \Illuminate\Foundation\Application) {
+            $locale = $locale ?? app()->getLocale();
+        } else {
+            $locale = $locale ?? app('translator')->getLocale();
+        }
 
         return static::query()
             ->where("name->{$locale}", $name)
@@ -72,7 +80,11 @@ class Tag extends Model implements Sortable
 
     public static function findFromStringOfAnyType(string $name, string $locale = null)
     {
-        $locale = $locale ?? app()->getLocale();
+        if (app() instanceof \Illuminate\Foundation\Application) {
+            $locale = $locale ?? app()->getLocale();
+        } else {
+            $locale = $locale ?? app('translator')->getLocale();
+        }
 
         return static::query()
             ->where("name->{$locale}", $name)
@@ -81,7 +93,11 @@ class Tag extends Model implements Sortable
 
     protected static function findOrCreateFromString(string $name, string $type = null, string $locale = null): self
     {
-        $locale = $locale ?? app()->getLocale();
+        if (app() instanceof \Illuminate\Foundation\Application) {
+            $locale = $locale ?? app()->getLocale();
+        } else {
+            $locale = $locale ?? app('translator')->getLocale();
+        }
 
         $tag = static::findFromString($name, $type, $locale);
 
@@ -98,7 +114,11 @@ class Tag extends Model implements Sortable
     public function setAttribute($key, $value)
     {
         if ($key === 'name' && ! is_array($value)) {
-            return $this->setTranslation($key, app()->getLocale(), $value);
+            if (app() instanceof \Illuminate\Foundation\Application) {
+                return $this->setTranslation($key, app()->getLocale(), $value);
+            } else {
+                return $this->setTranslation($key, app()->getLocale('translator'), $value);
+            }
         }
 
         return parent::setAttribute($key, $value);
