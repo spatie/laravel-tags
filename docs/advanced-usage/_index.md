@@ -1,4 +1,4 @@
 ---
 title: Advanced usage
-weight: 1
+weight: 2
 ---
