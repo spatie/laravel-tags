@@ -2,7 +2,6 @@
 
 namespace Spatie\Translatable\Test;
 
-use Spatie\Tags\Tag;
 use Spatie\Tags\Test\TestCase;
 use Spatie\Tags\Test\TestModel;
 
