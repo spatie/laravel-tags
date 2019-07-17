@@ -81,10 +81,8 @@ trait HasTags
         $tags = static::convertToTags($tags, $type);
 
         collect($tags)->each(function ($tag) use ($query) {
-            $query->whereIn("{$this->getTable()}.{$this->getKeyName()}", function ($query) use ($tag) {
-                $query->from('taggables')
-                    ->select('taggables.taggable_id')
-                    ->where('taggables.tag_id', $tag ? $tag->id : 0);
+            $query->whereHas('tags', function (Builder $query) use ($tag) {
+                $query->where('tags.id', $tag ? $tag->id : 0);
             });
         });
 
@@ -113,10 +111,8 @@ trait HasTags
         $tags = static::convertToTagsOfAnyType($tags);
 
         collect($tags)->each(function ($tag) use ($query) {
-            $query->whereIn("{$this->getTable()}.{$this->getKeyName()}", function ($query) use ($tag) {
-                $query->from('taggables')
-                    ->select('taggables.taggable_id')
-                    ->where('taggables.tag_id', $tag ? $tag->id : 0);
+            $query->whereHas('tags', function (Builder $query) use ($tag) {
+                $query->where('tags.id', $tag ? $tag->id : 0);
             });
         });
 
