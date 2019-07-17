@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-tags` will be documented in this file
 
+## 2.4.5 - 2019-07-18
+
+- fix `scopeWithAllTags`* scopes
+
 ## 2.4.4 - 2019-04-17
 
 - use `ordered()` scope to determine order column name (#193)
