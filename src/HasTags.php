@@ -48,6 +48,15 @@ trait HasTags
     {
         $locale = ! is_null($locale) ? $locale : app()->getLocale();
 
+        if(config('database.connections.' . config('database.default') . '.driver') === 'pgsql') {
+            return $this
+                ->morphToMany(self::getTagClassName(), 'taggable')
+                ->select('*')
+                ->selectRaw("name->>'$locale' as name_translated")
+                ->selectRaw("slug->>'$locale' as slug_translated")
+                ->ordered();
+        }
+
         return $this
             ->morphToMany(self::getTagClassName(), 'taggable')
             ->select('*')
