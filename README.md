@@ -82,7 +82,7 @@ Spatie is a webdesign agency based in Antwerp, Belgium. You'll find an overview 
 
 ## Requirements
 
-This package requires Laravel 5.8 or higher, PHP 7.2 or higher and a database that supports `json` fields and functions such as MySQL 5.7 or higher. 
+This package requires Laravel 5.8 or higher, PHP 7.2 or higher and a database that supports `json` fields and MySQL compatible functions.
 
 ## Installation
 
