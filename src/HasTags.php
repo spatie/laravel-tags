@@ -12,6 +12,11 @@ trait HasTags
 {
     protected $queuedTags = [];
 
+    public function getConnectionName(): string
+    {
+        return config('tags.storage.database.connection');
+    }
+
     public static function getTagClassName(): string
     {
         return Tag::class;

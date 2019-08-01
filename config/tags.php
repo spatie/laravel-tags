@@ -7,4 +7,13 @@ return [
      * Defaults to Str::slug (https://laravel.com/docs/5.8/helpers#method-str-slug)
      */
     'slugger' => null,
+
+    /*
+     * If using a different DB connection, specify it here
+     */
+    'storage' => [
+        'database' => [
+            'connection' => env('DB_CONNECTION', 'mysql'),
+        ],
+    ],
 ];
