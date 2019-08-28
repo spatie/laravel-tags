@@ -36,7 +36,7 @@ class Tag extends Model implements Sortable
     }
 
     /**
-     * @param array|\ArrayAccess $values
+     * @param string|array|\ArrayAccess $values
      * @param string|null $type
      * @param string|null $locale
      *
