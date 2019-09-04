@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-tags` will be documented in this file
 
+## 2.5.0 - 2019-09-04
+
+- add support for Laravel 6
+
 ## 2.4.5 - 2019-07-18
 
 - fix `scopeWithAllTags`* scopes
