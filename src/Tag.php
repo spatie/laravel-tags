@@ -29,10 +29,8 @@ class Tag extends Model implements Sortable
     public function scopeContaining(Builder $query, string $name, $locale = null): Builder
     {
         $locale = $locale ?? app()->getLocale();
-
-        $locale = '"'.$locale.'"';
-
-        return $query->whereRaw("LOWER(JSON_EXTRACT(name, '$.".$locale."')) like ?", ['"%'.mb_strtolower($name).'%"']);
+        
+        return $query->whereRaw('lower('.$this->getQuery()->getGrammar()->wrap('name->'.$locale).') like ?', ['%'.mb_strtolower($name).'%']);
     }
 
     /**
