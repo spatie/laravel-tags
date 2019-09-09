@@ -4,8 +4,8 @@ namespace Spatie\Tags\Test;
 
 use Dotenv\Dotenv;
 use Spatie\Tags\TagsServiceProvider;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
 use Orchestra\Testbench\TestCase as Orchestra;
 
 abstract class TestCase extends Orchestra
