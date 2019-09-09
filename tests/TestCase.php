@@ -2,10 +2,10 @@
 
 namespace Spatie\Tags\Test;
 
-use DB;
 use Dotenv\Dotenv;
 use Spatie\Tags\TagsServiceProvider;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 use Orchestra\Testbench\TestCase as Orchestra;
 
 abstract class TestCase extends Orchestra
@@ -54,7 +54,7 @@ abstract class TestCase extends Orchestra
      */
     protected function setUpDatabase($app)
     {
-        $this->dropAllTables();
+        Schema::dropAllTables();
 
         include_once __DIR__.'/../database/migrations/create_tag_tables.php.stub';
 
@@ -69,26 +69,5 @@ abstract class TestCase extends Orchestra
             $table->increments('id');
             $table->string('name')->nullable();
         });
-    }
-
-    protected function dropAllTables()
-    {
-        $rows = collect(DB::select('SHOW TABLES'));
-
-        if ($rows->isEmpty()) {
-            return;
-        }
-
-        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
-
-        $rows
-            ->map(function ($row) {
-                return $row->Tables_in_laravel_tags;
-            })
-            ->each(function (string $tableName) {
-                DB::statement("DROP TABLE {$tableName}");
-            });
-
-        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }
