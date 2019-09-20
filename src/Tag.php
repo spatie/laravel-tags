@@ -80,7 +80,7 @@ class Tag extends Model implements Sortable
     public static function findFromSlug(string $name, string $type = null, string $locale = null)
     {
         $locale = $locale ?? app()->getLocale();
-        
+
         return static::query()
             ->where("slug->{$locale}", $name)
             ->where('type', $type)
