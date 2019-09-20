@@ -76,19 +76,21 @@ class Tag extends Model implements Sortable
             ->where("name->{$locale}", $name)
             ->first();
     }
-    
-    
+
     public static function findFromSlug(string $name, string $type = null, string $locale = null)
     {
         $locale = $locale ?? app()->getLocale();
+        
         return static::query()
             ->where("slug->{$locale}", $name)
             ->where('type', $type)
             ->first();
     }
+
     public static function findFromSlugOfAnyType(string $name, string $locale = null)
     {
         $locale = $locale ?? app()->getLocale();
+
         return static::query()
             ->where("slug->{$locale}", $name)
             ->first();
