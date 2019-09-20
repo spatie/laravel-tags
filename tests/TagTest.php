@@ -33,6 +33,26 @@ class TagTest extends TestCase
         $tag = Tag::findOrCreateFromString('string2');
         $this->assertSame(2, $tag->order_column);
     }
+    
+    /** @test */
+    public function it_finds_a_tag_based_on_a_slug()
+    {
+	    Tag::findOrCreate('This is a slug test one', 'slugType');
+	    
+        $tag = Tag::findFromSlug('this-is-a-slug-test-one', 'slugType');
+        
+        $this->assertSame('this-is-a-slug-test-one', $tag->slug);
+    }
+    
+    /** @test */
+    public function it_finds_a_tag_with_type_based_on_a_slug()
+    {
+	    Tag::findOrCreate('This is a slug test two', 'slugType');
+	    
+        $tag = Tag::findFromSlugOfAnyType('this-is-a-slug-test-two');
+        
+        $this->assertSame('this-is-a-slug-test-two', $tag->slug);
+    }
 
     /** @test */
     public function it_automatically_generates_a_slug()

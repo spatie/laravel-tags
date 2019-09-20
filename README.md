@@ -76,6 +76,14 @@ $tag2->order_column; //returns 2
 
 //manipulating the order of tags
 $tag->swapOrder($anotherTag);
+
+//tags can be found by slug
+Tag::findOrCreateFromString('My tag', 'customTagType');
+$tag = Tag::findFromSlugOfAnyType('my-tag'); //returns Tag 'My tag'
+
+//tags can be found by slug and type
+Tag::findOrCreateFromString('My custom tag', 'customType');
+$tag = Tag::findFromSlug('my-custom-tag', 'customType'); //returns Tag 'My custom tag'
 ```
 
 Spatie is a webdesign agency based in Antwerp, Belgium. You'll find an overview of all our open source projects [on our website](https://spatie.be/opensource).
