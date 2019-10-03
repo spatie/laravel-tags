@@ -18,34 +18,34 @@ Here are some code examples:
 ```php
 //create a model with some tags
 $newsItem = NewsItem::create([
-   'name' => 'testModel',
-   'tags' => ['tag', 'tag2'], //tags will be created if they don't exist
+   'name' => 'The Article Title',
+   'tags' => ['first tag', 'second tag'], //tags will be created if they don't exist
 ]);
 
 //attaching tags
-$newsItem->attachTag('tag3');
-$newsItem->attachTags(['tag4', 'tag5']);
+$newsItem->attachTag('third tag');
+$newsItem->attachTags(['fourth tag', 'fifth tag']);
 
 //detaching tags
-$newsItem->detachTags('tag3');
-$newsItem->detachTags(['tag4', 'tag5']);
+$newsItem->detachTags('third tag');
+$newsItem->detachTags(['fourth tag', 'fifth tag']);
 
 //syncing tags
-$newsItem->syncTags(['tag1', 'tag2']); // all other tags on this model will be detached
+$newsItem->syncTags(['first tag', 'second tag']); // all other tags on this model will be detached
 
 //syncing tags with a type
-$newsItem->syncTagsWithType(['tag1', 'tag2'], 'typeA'); 
-$newsItem->syncTagsWithType(['tag1', 'tag2'], 'typeB'); 
+$newsItem->syncTagsWithType(['category 1', 'category 2'], 'categories'); 
+$newsItem->syncTagsWithType(['topic 1', 'topic 2'], 'topics'); 
 
 //retrieving tags with a type
-$newsItem->tagsWithType('typeA'); 
-$newsItem->tagsWithType('typeB'); 
+$newsItem->tagsWithType('categories'); 
+$newsItem->tagsWithType('topics'); 
 
 //retrieving models that have any of the given tags
-NewsItem::withAnyTags(['tag1', 'tag2'])->get();
+NewsItem::withAnyTags(['first tag', 'second tag'])->get();
 
 //retrieve models that have all of the given tags
-NewsItem::withAllTags(['tag1', 'tag2'])->get();
+NewsItem::withAllTags(['first tag', 'second tag'])->get();
 
 //translating a tag
 $tag = Tag::findOrCreate('my tag');
