@@ -27,7 +27,7 @@ $newsItem->attachTag('third tag');
 $newsItem->attachTags(['fourth tag', 'fifth tag']);
 
 //detaching tags
-$newsItem->detachTags('third');
+$newsItem->detachTags('third tag');
 $newsItem->detachTags(['fourth tag', 'fifth tag']);
 
 //syncing tags
