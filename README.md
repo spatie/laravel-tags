@@ -11,7 +11,7 @@ This package offers taggable behaviour for your models. After the package is ins
 
 But we didn't stop with the regular tagging capabilities you find in every package. Laravel Tags comes with batteries included. Out of the box it has support for [translating tags](https://docs.spatie.be/laravel-tags/v2/advanced-usage/adding-translations), [multiple tag types](https://docs.spatie.be/laravel-tags/v2/advanced-usage/using-types) and [sorting capabilities](https://docs.spatie.be/laravel-tags/v2/advanced-usage/sorting-tags).
 
-You'll find the documentation on https://docs.spatie.be/laravel-tags/v2.
+You'll find the documentation on https://docs.spatie.be/laravel-tags/v2/introduction/.
 
 Here are some code examples:
 
