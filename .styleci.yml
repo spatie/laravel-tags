@@ -5,5 +5,4 @@ enabled:
 
 disabled:
   - length_ordered_imports
-  - unused_use
   - single_class_element_per_statement
