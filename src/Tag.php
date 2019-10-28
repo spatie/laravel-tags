@@ -77,7 +77,7 @@ class Tag extends Model implements Sortable
             ->first();
     }
 
-    protected static function findOrCreateFromString(string $name, string $type = null, string $locale = null): self
+    protected static function findOrCreateFromString(string $name, string $type = null, string $locale = null)
     {
         $locale = $locale ?? app()->getLocale();
 
