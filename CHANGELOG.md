@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-tags` will be documented in this file
 
+## 2.5.2 - 2019-09-29
+
+- `findOrCreateFromString` can now be overloaded (#231)
+
 ## 2.5.1 - 2019-09-08
 
 - make `scopeContaining` compatible with Postgresql
