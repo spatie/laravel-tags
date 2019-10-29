@@ -2,8 +2,8 @@
 
 namespace Spatie\Tags\Test;
 
-use Spatie\Tags\HasTags;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Tags\HasTags;
 
 class TestModel extends Model
 {
