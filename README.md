@@ -16,7 +16,7 @@ You'll find the documentation on https://docs.spatie.be/laravel-tags/v2/introduc
 Here are some code examples:
 
 ```php
-//create a model with some tags
+//create a model with some tags, don't forget to put "tags" on $fillable array on referred model
 $newsItem = NewsItem::create([
    'name' => 'The Article Title',
    'tags' => ['first tag', 'second tag'], //tags will be created if they don't exist
