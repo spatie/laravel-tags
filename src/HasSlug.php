@@ -11,7 +11,11 @@ trait HasSlug
         static::saving(function (Model $model) {
             collect($model->getTranslatedLocales('name'))
                 ->each(function (string $locale) use ($model) {
-                    $model->setTranslation('slug', $locale, $model->generateSlug($model->getTranslation('name', $locale)));
+                    $model->setTranslation(
+                        'slug',
+                        $locale,
+                        $model->generateSlug($model->getTranslation('name', $locale))
+                    );
                 });
         });
     }
