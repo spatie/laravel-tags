@@ -2,12 +2,12 @@
 
 namespace Spatie\Tags;
 
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection as DbCollection;
-use Illuminate\Database\Eloquent\Model;
 use Spatie\EloquentSortable\Sortable;
-use Spatie\EloquentSortable\SortableTrait;
+use Illuminate\Database\Eloquent\Model;
 use Spatie\Translatable\HasTranslations;
+use Illuminate\Database\Eloquent\Builder;
+use Spatie\EloquentSortable\SortableTrait;
+use Illuminate\Database\Eloquent\Collection as DbCollection;
 
 class Tag extends Model implements Sortable
 {
