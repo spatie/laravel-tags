@@ -33,6 +33,19 @@ class Tag extends Model implements Sortable
         return $query->whereRaw('lower('.$this->getQuery()->getGrammar()->wrap('name->'.$locale).') like ?', ['%'.mb_strtolower($name).'%']);
     }
 
+    public function scopeColumnByLocale(Builder $query, string $value, string $locale = null): Builder
+    {
+        $locale = $locale ?? app()->getLocale();
+        $column = 'name';
+
+        if (config('tags.find_by_slug')) {
+            $column = 'slug';
+            $value = (new self)->generateSlug($value) ?? $value;
+        }
+
+        return $query->where("{$column}->{$locale}", $value);
+    }
+
     /**
      * @param string|array|\ArrayAccess $values
      * @param string|null $type
