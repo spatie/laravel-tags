@@ -7,4 +7,5 @@ return [
      * Defaults to Str::slug (https://laravel.com/docs/5.8/helpers#method-str-slug)
      */
     'slugger' => null,
+    'find_by_slug' => false, // default search column is: name
 ];
