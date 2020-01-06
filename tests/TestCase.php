@@ -2,7 +2,6 @@
 
 namespace Spatie\Tags\Test;
 
-use Dotenv\Dotenv;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Orchestra\Testbench\TestCase as Orchestra;
