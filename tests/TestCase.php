@@ -27,25 +27,6 @@ abstract class TestCase extends Orchestra
     /**
      * @param \Illuminate\Foundation\Application $app
      */
-    protected function getEnvironmentSetUp($app)
-    {
-        $app['config']->set('database.default', 'mysql');
-        $app['config']->set('database.connections.mysql', [
-            'driver' => 'mysql',
-            'host' => '127.0.0.1',
-            'database' => env('DB_DATABASE', 'laravel_tags'),
-            'username' => env('DB_USERNAME', 'username'),
-            'password' => env('DB_PASSWORD', 'password'),
-            'charset' => 'utf8',
-            'collation' => 'utf8_unicode_ci',
-            'prefix' => '',
-            'strict' => false,
-        ]);
-    }
-
-    /**
-     * @param \Illuminate\Foundation\Application $app
-     */
     protected function setUpDatabase($app)
     {
         Schema::dropAllTables();
