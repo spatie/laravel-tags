@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-tags` will be documented in this file
 
+## 2.5.4 - 2020-02-12
+
+- make sure each tag is unique on the database level (#251)
+
 ## 2.5.3 - 2019-11-07
 
 - use `morphs` in migration
