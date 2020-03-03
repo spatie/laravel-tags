@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-tags` will be documented in this file
 
+## 2.6.0 - 2020-03-03
+
+- add support for Laravel 7
+
 ## 2.5.4 - 2020-02-12
 
 - make sure each tag is unique on the database level (#251)
