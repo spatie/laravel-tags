@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-tags` will be documented in this file
 
+## 2.6.1 - 2020-05-28
+
+- change mutator behaviour: use sync instead of attach (#260)
+
 ## 2.6.0 - 2020-03-03
 
 - add support for Laravel 7
