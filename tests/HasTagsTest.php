@@ -83,6 +83,15 @@ class HasTagsTest extends TestCase
     }
 
     /** @test */
+    public function it_can_override_tags_via_the_tags_mutator()
+    {
+        $this->testModel->tags = ['tag1', 'tag2'];
+        $this->testModel->tags = ['tag2', 'tag3', 'tag4'];
+
+        $this->assertCount(3, $this->testModel->tags);
+    }
+
+    /** @test */
     public function it_can_attach_multiple_tags()
     {
         $this->testModel->attachTags(['test1', 'test2']);
