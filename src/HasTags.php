@@ -67,7 +67,7 @@ trait HasTags
             return;
         }
 
-        $this->attachTags($tags);
+        $this->syncTags($tags);
     }
 
     /**
