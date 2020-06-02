@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class YourModel extends Model
 {
+    use \Spatie\Tags\HasTags;
+    
     public static function getTagClassName(): string
     {
         return YourTagModel::class;
