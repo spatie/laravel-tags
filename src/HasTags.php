@@ -139,14 +139,14 @@ trait HasTags
 
     /**
      * @param array|\ArrayAccess|\Spatie\Tags\Tag $tags
-     *
+     * @param string type
      * @return $this
      */
-    public function attachTags($tags)
+    public function attachTags($tags,string $type = null)
     {
         $className = static::getTagClassName();
 
-        $tags = collect($className::findOrCreate($tags));
+        $tags = collect($className::findOrCreate($tags,$type));
 
         $this->tags()->syncWithoutDetaching($tags->pluck('id')->toArray());
 
