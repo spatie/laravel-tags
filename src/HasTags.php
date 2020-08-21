@@ -166,11 +166,12 @@ trait HasTags
     /**
      * @param array|\ArrayAccess $tags
      *
+     * @param string|null $type
      * @return $this
      */
-    public function detachTags($tags)
+    public function detachTags($tags, string $type = null)
     {
-        $tags = static::convertToTags($tags);
+        $tags = static::convertToTags($tags, $type);
 
         collect($tags)
             ->filter()
@@ -184,11 +185,12 @@ trait HasTags
     /**
      * @param string|\Spatie\Tags\Tag $tag
      *
+     * @param string|null $type
      * @return $this
      */
-    public function detachTag($tag)
+    public function detachTag($tag, string $type = null)
     {
-        return $this->detachTags([$tag]);
+        return $this->detachTags([$tag], $type);
     }
 
     /**
