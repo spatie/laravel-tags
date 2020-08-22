@@ -36,6 +36,17 @@ class HasTagsTest extends TestCase
         $this->assertEquals(['tagName'], $this->testModel->tags->pluck('name')->toArray());
     }
 
+    public function it_can_attach_a_tag_with_a_type()
+    {
+        $this->testModel->attachTag('tagName', 'testType');
+
+        $this->assertCount(1, $this->testModel->tags);
+
+        $this->assertEquals(['tagName'], $this->testModel->tags->pluck('name')->toArray());
+
+        $this->assertEquals(['testType'], $this->testModel->tags->pluck('type')->toArray());
+    }
+
     /** @test */
     public function it_can_attach_a_tag_multiple_times_without_creating_duplicate_entries()
     {
@@ -100,6 +111,14 @@ class HasTagsTest extends TestCase
     }
 
     /** @test */
+    public function it_can_attach_multiple_tags_with_a_type()
+    {
+        $this->testModel->attachTags(['test1', 'test2'], 'testType');
+
+        $this->assertCount(2, $this->testModel->tags->where('type', '=', 'testType')->toArray());
+    }
+
+    /** @test */
     public function it_can_attach_a_existing_tag()
     {
         $this->testModel->attachTag(Tag::findOrCreate('test'));
@@ -115,6 +134,44 @@ class HasTagsTest extends TestCase
         $this->testModel->detachTag('test2');
 
         $this->assertEquals(['test1', 'test3'], $this->testModel->tags->pluck('name')->toArray());
+    }
+
+    /** @test */
+    public function it_can_detach_a_tag_with_a_type()
+    {
+        $this->testModel->attachTags(['test1', 'test2'], 'testType');
+
+        $this->testModel->detachTag('test2', 'testType');
+
+        $this->assertEquals(['test1'], $this->testModel->tags->pluck('name')->toArray());
+    }
+
+    /** @test */
+    public function it_can_detach_a_tag_with_a_type_and_not_affect_a_tag_without_a_type()
+    {
+        $this->testModel->attachTag('test1', 'testType');
+
+        $this->testModel->attachTag('test1');
+
+        $this->testModel->detachTag('test1', 'testType');
+
+        $this->assertEquals(['test1'], $this->testModel->tags->pluck('name')->toArray());
+
+        $this->assertNull($this->testModel->tags->where('name', '=', 'test1')->first()->type);
+    }
+
+    /** @test */
+    public function it_can_detach_a_tag_with_a_type_while_leaving_another_of_a_different_type()
+    {
+        $this->testModel->attachTag('test1', 'testType');
+
+        $this->testModel->attachTag('test1', 'otherType');
+
+        $this->testModel->detachTag('test1', 'testType');
+
+        $this->assertEquals(['test1'], $this->testModel->tags->pluck('name')->sort()->toArray());
+
+        $this->assertEquals('otherType', $this->testModel->tags->where('name', '=', 'test1')->first()->type);
     }
 
     /** @test */

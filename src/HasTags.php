@@ -139,14 +139,14 @@ trait HasTags
 
     /**
      * @param array|\ArrayAccess|\Spatie\Tags\Tag $tags
-     *
+     * @param string|null $type
      * @return $this
      */
-    public function attachTags($tags)
+    public function attachTags($tags, string $type = null)
     {
         $className = static::getTagClassName();
 
-        $tags = collect($className::findOrCreate($tags));
+        $tags = collect($className::findOrCreate($tags, $type));
 
         $this->tags()->syncWithoutDetaching($tags->pluck('id')->toArray());
 
@@ -156,21 +156,23 @@ trait HasTags
     /**
      * @param string|\Spatie\Tags\Tag $tag
      *
+     * @param string|null $type
      * @return $this
      */
-    public function attachTag($tag)
+    public function attachTag($tag, string $type = null)
     {
-        return $this->attachTags([$tag]);
+        return $this->attachTags([$tag], $type);
     }
 
     /**
      * @param array|\ArrayAccess $tags
      *
+     * @param string|null $type
      * @return $this
      */
-    public function detachTags($tags)
+    public function detachTags($tags, string $type = null)
     {
-        $tags = static::convertToTags($tags);
+        $tags = static::convertToTags($tags, $type);
 
         collect($tags)
             ->filter()
@@ -184,11 +186,12 @@ trait HasTags
     /**
      * @param string|\Spatie\Tags\Tag $tag
      *
+     * @param string|null $type
      * @return $this
      */
-    public function detachTag($tag)
+    public function detachTag($tag, string $type = null)
     {
-        return $this->detachTags([$tag]);
+        return $this->detachTags([$tag], $type);
     }
 
     /**
