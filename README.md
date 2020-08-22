@@ -24,11 +24,15 @@ $newsItem = NewsItem::create([
 
 //attaching tags
 $newsItem->attachTag('third tag');
+$newsItem->attachTag('third tag','some_type');
 $newsItem->attachTags(['fourth tag', 'fifth tag']);
+$newsItem->attachTags(['fourth_tag','fifth_tag'],'some_type');
 
 //detaching tags
 $newsItem->detachTags('third tag');
+$newsItem->detachTags('third tag','some_type');
 $newsItem->detachTags(['fourth tag', 'fifth tag']);
+$newsItem->detachTags(['fourth tag', 'fifth tag'],'some_type');
 
 //syncing tags
 $newsItem->syncTags(['first tag', 'second tag']); // all other tags on this model will be detached
