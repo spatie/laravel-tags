@@ -139,7 +139,7 @@ trait HasTags
 
     /**
      * @param array|\ArrayAccess|\Spatie\Tags\Tag $tags
-     * @param string type
+     * @param string|null $type
      * @return $this
      */
     public function attachTags($tags, string $type = null)
@@ -156,11 +156,12 @@ trait HasTags
     /**
      * @param string|\Spatie\Tags\Tag $tag
      *
+     * @param string|null $type
      * @return $this
      */
-    public function attachTag($tag)
+    public function attachTag($tag, string $type = null)
     {
-        return $this->attachTags([$tag]);
+        return $this->attachTags([$tag], $type);
     }
 
     /**
