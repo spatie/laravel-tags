@@ -295,7 +295,7 @@ trait HasTags
         }
 
         // Attach any new ids
-        $attach = array_diff($ids, $current);
+        $attach = array_unique(array_diff($ids, $current));
         if (count($attach) > 0) {
             collect($attach)->each(function ($id) {
                 $this->tags()->attach($id, []);

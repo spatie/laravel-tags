@@ -298,4 +298,13 @@ class HasTagsTest extends TestCase
     {
         $this->assertTrue($this->testModel->delete());
     }
+
+    /** @test */
+    public function it_can_sync_tags_with_same_name()
+    {
+        $this->testModel->syncTagsWithType(['tagA1', 'tagA1'], 'typeA');
+
+        $tagsOfTypeA = $this->testModel->tagsWithType('typeA');
+        $this->assertEquals(['tagA1'], $tagsOfTypeA->pluck('name')->toArray());
+    }
 }
