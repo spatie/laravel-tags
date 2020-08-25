@@ -284,6 +284,14 @@ class HasTagsTest extends TestCase
     }
 
     /** @test */
+    public function trying_to_sync_with_duplicate_tags_does_not_throw_error()
+    {
+        $this->testModel->syncTagsWithType(['tagA', 'tagA'], 'typeA');
+
+        $this->assertSame(['tagA'], $this->testModel->tags->pluck('name')->toArray());
+    }
+
+    /** @test */
     public function it_can_detach_tags_on_model_delete()
     {
         $this->testModel->attachTag('tagDeletable');

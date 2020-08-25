@@ -220,11 +220,23 @@ trait HasTags
     {
         $className = static::getTagClassName();
 
-        $tags = collect($className::findOrCreate($tags, $type));
+        $tags = collect($className::findOrCreate(self::filterDuplicate($tags), $type));
 
         $this->syncTagIds($tags->pluck('id')->toArray(), $type);
 
         return $this;
+    }
+
+    /**
+     * @param array|\ArrayAccess $tags
+     *
+     * @return array
+     */
+    private static function filterDuplicate(array $tags): array
+    {
+        return collect($tags)->unique()->map(function ($tag) {
+            return trim($tag);
+        })->all();
     }
 
     protected static function convertToTags($values, $type = null, $locale = null)
