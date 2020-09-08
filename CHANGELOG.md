@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-tags` will be documented in this file
 
+## 2.7.2 - 2020-09-08
+
+- add support for Laravel 8
+
 ## 2.7.1 - 2020-08-24
 
 - avoid duplicate error on syncTagsWithType (#274)
