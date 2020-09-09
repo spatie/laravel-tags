@@ -10,7 +10,7 @@ trait HasSlug
     {
         static::saving(function (Model $model) {
             collect($model->getTranslatedLocales('name'))
-                ->each(fn(string $locale) => $model->setTranslation('slug', $locale, $model->generateSlug($locale)));
+                ->each(fn (string $locale) => $model->setTranslation('slug', $locale, $model->generateSlug($locale)));
         });
     }
 
