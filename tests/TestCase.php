@@ -2,6 +2,7 @@
 
 namespace Spatie\Tags\Test;
 
+use CreateTagTables;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Orchestra\Testbench\TestCase as Orchestra;
@@ -32,14 +33,14 @@ abstract class TestCase extends Orchestra
 
         include_once __DIR__.'/../database/migrations/create_tag_tables.php.stub';
 
-        (new \CreateTagTables())->up();
+        (new CreateTagTables())->up();
 
-        $app['db']->connection()->getSchemaBuilder()->create('test_models', function (Blueprint $table) {
+        Schema::create('test_models', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name')->nullable();
         });
 
-        $app['db']->connection()->getSchemaBuilder()->create('test_another_models', function (Blueprint $table) {
+        Schema::create('test_another_models', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name')->nullable();
         });

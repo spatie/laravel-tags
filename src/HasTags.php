@@ -10,7 +10,7 @@ use InvalidArgumentException;
 
 trait HasTags
 {
-    protected $queuedTags = [];
+    protected array $queuedTags = [];
 
     public static function getTagClassName(): string
     {

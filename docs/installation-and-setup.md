@@ -34,7 +34,7 @@ This is the contents of the published config file:
 return [
     /*
      * The given function generates a URL friendly "slug" from the tag name property before saving it.
-     * Defaults to Str::slug (https://laravel.com/docs/5.8/helpers#method-str-slug)
+     * Defaults to Str::slug (https://laravel.com/docs/8.0/helpers#method-str-slug)
      */
     'slugger' => null,
 ];

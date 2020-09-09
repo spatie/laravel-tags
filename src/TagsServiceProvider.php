@@ -6,9 +6,7 @@ use Illuminate\Support\ServiceProvider;
 
 class TagsServiceProvider extends ServiceProvider
 {
-    /**
-     * Bootstrap the application services.
-     */
+
     public function boot()
     {
         if ($this->app->runningInConsole()) {
@@ -23,12 +21,5 @@ class TagsServiceProvider extends ServiceProvider
                 __DIR__.'/../config/tags.php' => config_path('tags.php'),
             ], 'config');
         }
-    }
-
-    /**
-     * Register the application services.
-     */
-    public function register()
-    {
     }
 }
