@@ -2,11 +2,6 @@
 
 All notable changes to `laravel-tags` will be documented in this file
 
-## 3.0.0 - 2020-09-08
-
-- drop support for anything below Laravel 8
-- add `HasFactory` to tags model.
-
 ## 2.7.2 - 2020-09-08
 
 - add support for Laravel 8
