@@ -49,6 +49,9 @@ NewsItem::withAnyTags(['first tag', 'second tag'])->get();
 //retrieve models that have all of the given tags
 NewsItem::withAllTags(['first tag', 'second tag'])->get();
 
+//retrieve models that have all of the given tags with a specific locale
+NewsItem::withAllTags(['first tag', 'second tag'], 'topics', 'fr')->get();
+
 //translating a tag
 $tag = Tag::findOrCreate('my tag');
 $tag->setTranslation('name', 'fr', 'mon tag');

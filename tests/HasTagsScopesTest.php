@@ -46,6 +46,19 @@ class HasTagsScopesTest extends TestCase
             'name' => 'model6',
             'tags' => [$typedTag],
         ]);
+
+        $translatedTag = Tag::findOrCreate('tagG', 'translatedTag', 'fr');
+        $anotherTranslatedTag = Tag::findOrCreate('tagH', null, 'nl');
+
+        TestModel::create([
+            'name' => 'model7',
+            'tags' => [$translatedTag],
+        ]);
+
+        TestModel::create([
+            'name' => 'model8',
+            'tags' => [$anotherTranslatedTag],
+        ]);
     }
 
     /** @test */
@@ -114,5 +127,61 @@ class HasTagsScopesTest extends TestCase
         $testModels = TestModel::withAllTagsOfAnyType(['tagE', 'tagF'])->get();
 
         $this->assertEquals(['model5'], $testModels->pluck('name')->toArray());
+    }
+
+    /** @test */
+    public function it_provides_as_scope_to_get_all_models_that_have_all_of_the_given_tags_with_type_and_a_specific_locale()
+    {
+        $frTestModels = TestModel::withAllTags(['tagG'], 'translatedTag', 'fr')->get();
+        $nlTestModels = TestModel::withAllTags(['tagH'], null, 'nl')->get();
+        $noLocaleProvidedTestModels = TestModel::withAllTags(['tagA'], null, 'fr')->get();
+        $noLocaleSpecifiedTestModels = TestModel::withAllTags(['tagB'], null, null)->get();
+
+        $this->assertEquals(['model7'], $frTestModels->pluck('name')->toArray());
+        $this->assertEquals(['model8'], $nlTestModels->pluck('name')->toArray());
+        $this->assertEquals([], $noLocaleProvidedTestModels->pluck('name')->toArray());
+        $this->assertEquals(['model2', 'model3'], $noLocaleSpecifiedTestModels->pluck('name')->toArray());
+    }
+
+    /** @test */
+    public function it_provides_as_scope_to_get_all_models_that_have_any_of_the_given_tags_and_a_specific_locale()
+    {
+        $frTestModels = TestModel::withAnyTags(['tagG'], 'translatedTag', 'fr')->get();
+        $nlTestModels = TestModel::withAnyTags(['tagH'], null, 'nl')->get();
+        $noLocaleProvidedTestModels = TestModel::withAnyTags(['tagA'], null, 'fr')->get();
+        $noLocaleSpecifiedTestModels = TestModel::withAnyTags(['tagB'], null, null)->get();
+
+        $this->assertEquals(['model7'], $frTestModels->pluck('name')->toArray());
+        $this->assertEquals(['model8'], $nlTestModels->pluck('name')->toArray());
+        $this->assertEquals([], $noLocaleProvidedTestModels->pluck('name')->toArray());
+        $this->assertEquals(['model2', 'model3'], $noLocaleSpecifiedTestModels->pluck('name')->toArray());
+    }
+
+    /** @test */
+    public function it_provides_as_scope_to_get_all_models_that_have_any_of_the_given_tags_with_any_type_and_a_specific_locale()
+    {
+        $frTestModels = TestModel::withAnyTagsOfAnyType(['tagG'], 'fr')->get();
+        $nlTestModels = TestModel::withAnyTagsOfAnyType(['tagH'], 'nl')->get();
+        $noLocaleProvidedTestModels = TestModel::withAnyTagsOfAnyType(['tagA'], 'fr')->get();
+        $noLocaleSpecifiedTestModels = TestModel::withAnyTagsOfAnyType(['tagB'], null)->get();
+
+        $this->assertEquals(['model7'], $frTestModels->pluck('name')->toArray());
+        $this->assertEquals(['model8'], $nlTestModels->pluck('name')->toArray());
+        $this->assertEquals([], $noLocaleProvidedTestModels->pluck('name')->toArray());
+        $this->assertEquals(['model2', 'model3'], $noLocaleSpecifiedTestModels->pluck('name')->toArray());
+    }
+
+    /** @test */
+    public function it_provides_as_scope_to_get_all_models_that_have_all_of_the_given_tags_with_any_type_and_a_specific_locale()
+    {
+        $frTestModels = TestModel::withAllTagsOfAnyType(['tagG'], 'fr')->get();
+        $nlTestModels = TestModel::withAllTagsOfAnyType(['tagH'], 'nl')->get();
+        $noLocaleProvidedTestModels = TestModel::withAllTagsOfAnyType(['tagA'], 'fr')->get();
+        $noLocaleSpecifiedTestModels = TestModel::withAllTagsOfAnyType(['tagB'], null)->get();
+
+        $this->assertEquals(['model7'], $frTestModels->pluck('name')->toArray());
+        $this->assertEquals(['model8'], $nlTestModels->pluck('name')->toArray());
+        $this->assertEquals([], $noLocaleProvidedTestModels->pluck('name')->toArray());
+        $this->assertEquals(['model2', 'model3'], $noLocaleSpecifiedTestModels->pluck('name')->toArray());
     }
 }

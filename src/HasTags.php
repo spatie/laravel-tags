@@ -73,12 +73,14 @@ trait HasTags
     /**
      * @param \Illuminate\Database\Eloquent\Builder $query
      * @param array|\ArrayAccess|\Spatie\Tags\Tag $tags
+     * @param string|null $type
+     * @param string|null $locale
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeWithAllTags(Builder $query, $tags, string $type = null): Builder
+    public function scopeWithAllTags(Builder $query, $tags, string $type = null, string $locale = null): Builder
     {
-        $tags = static::convertToTags($tags, $type);
+        $tags = static::convertToTags($tags, $type, $locale);
 
         collect($tags)->each(function ($tag) use ($query) {
             $query->whereHas('tags', function (Builder $query) use ($tag) {
@@ -92,12 +94,14 @@ trait HasTags
     /**
      * @param \Illuminate\Database\Eloquent\Builder $query
      * @param array|\ArrayAccess|\Spatie\Tags\Tag $tags
+     * @param string|null $type
+     * @param string|null $locale
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeWithAnyTags(Builder $query, $tags, string $type = null): Builder
+    public function scopeWithAnyTags(Builder $query, $tags, string $type = null, string $locale = null): Builder
     {
-        $tags = static::convertToTags($tags, $type);
+        $tags = static::convertToTags($tags, $type, $locale);
 
         return $query->whereHas('tags', function (Builder $query) use ($tags) {
             $tagIds = collect($tags)->pluck('id');
@@ -106,9 +110,16 @@ trait HasTags
         });
     }
 
-    public function scopeWithAllTagsOfAnyType(Builder $query, $tags): Builder
+    /**
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param array|\ArrayAccess|\Spatie\Tags\Tag $tags
+     * @param string|null $locale
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeWithAllTagsOfAnyType(Builder $query, $tags, string $locale = null): Builder
     {
-        $tags = static::convertToTagsOfAnyType($tags);
+        $tags = static::convertToTagsOfAnyType($tags, $locale);
 
         collect($tags)->each(function ($tag) use ($query) {
             $query->whereHas('tags', function (Builder $query) use ($tag) {
@@ -119,9 +130,16 @@ trait HasTags
         return $query;
     }
 
-    public function scopeWithAnyTagsOfAnyType(Builder $query, $tags): Builder
+    /**
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param array|\ArrayAccess|\Spatie\Tags\Tag $tags
+     * @param string|null $locale
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeWithAnyTagsOfAnyType(Builder $query, $tags, string $locale = null): Builder
     {
-        $tags = static::convertToTagsOfAnyType($tags);
+        $tags = static::convertToTagsOfAnyType($tags, $locale);
 
         return $query->whereHas('tags', function (Builder $query) use ($tags) {
             $tagIds = collect($tags)->pluck('id');
