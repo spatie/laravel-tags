@@ -82,7 +82,8 @@ trait HasTags
 
         collect($tags)->each(function ($tag) use ($query) {
             $query->whereHas('tags', function (Builder $query) use ($tag) {
-                $query->where('tags.id', $tag ? $tag->id : 0);
+                $alias = $this->convertForQueryAlias($query);
+                $query->where("$alias.id", $tag ? $tag->id : 0);
             });
         });
 
@@ -102,7 +103,8 @@ trait HasTags
         return $query->whereHas('tags', function (Builder $query) use ($tags) {
             $tagIds = collect($tags)->pluck('id');
 
-            $query->whereIn('tags.id', $tagIds);
+            $alias = $this->convertForQueryAlias($query);
+            $query->whereIn("$alias.id", $tagIds);
         });
     }
 
@@ -112,7 +114,8 @@ trait HasTags
 
         collect($tags)->each(function ($tag) use ($query) {
             $query->whereHas('tags', function (Builder $query) use ($tag) {
-                $query->where('tags.id', $tag ? $tag->id : 0);
+                $alias = $this->convertForQueryAlias($query);
+                $query->where("$alias.id", $tag ? $tag->id : 0);
             });
         });
 
@@ -126,7 +129,8 @@ trait HasTags
         return $query->whereHas('tags', function (Builder $query) use ($tags) {
             $tagIds = collect($tags)->pluck('id');
 
-            $query->whereIn('tags.id', $tagIds);
+            $alias = $this->convertForQueryAlias($query);
+            $query->whereIn("$alias.id", $tagIds);
         });
     }
 
@@ -309,5 +313,18 @@ trait HasTags
         if ($isUpdated) {
             $this->tags()->touchIfTouching();
         }
+    }
+
+    /**
+     * Check the query "from" statement for an alias and return it if found
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @return string
+     */
+    protected function convertForQueryAlias(Builder $query): string
+    {
+        return \Illuminate\Support\Str::contains($query->getQuery()->from, [' as ']) ?
+            \Illuminate\Support\Str::after($query->getQuery()->from, ' as ') :
+            $query->getQuery()->from ;
     }
 }

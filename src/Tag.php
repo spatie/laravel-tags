@@ -12,7 +12,7 @@ use Spatie\Translatable\HasTranslations;
 
 class Tag extends Model implements Sortable
 {
-    use SortableTrait, HasTranslations, HasSlug, HasFactory;
+    use SortableTrait, HasTranslations, HasSlug, HasFactory, HasTags;
 
     public $translatable = ['name', 'slug'];
 

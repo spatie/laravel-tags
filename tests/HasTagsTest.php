@@ -307,4 +307,26 @@ class HasTagsTest extends TestCase
         $tagsOfTypeA = $this->testModel->tagsWithType('typeA');
         $this->assertEquals(['tagA1'], $tagsOfTypeA->pluck('name')->toArray());
     }
+
+    /** @test */
+    public function it_is_capable_of_self_relation()
+    {
+        // A.K.A: A tag can tag another tag
+        $tag1 = Tag::firstOrCreate(['name' => 'Tag1']);
+        $tag2 = Tag::firstOrCreate(['name' => 'Tag2']);
+
+        $traits = class_uses_recursive(Tag::class);
+        $this->assertContains('Spatie\Tags\HasTags', $traits);
+
+        $this->assertInstanceOf(MorphToMany::class, $tag1->tags());
+
+        $tag1->attachTag('Tag2');
+
+        $this->assertCount(1, $tag1->tags);
+
+        $this->assertCount(1, Tag::withAllTags(['Tag2'])->get());
+        $this->assertCount(1, Tag::withAnyTags(['Tag2'])->get());
+        $this->assertCount(1, Tag::withAllTagsOfAnyType(['Tag2'])->get());
+        $this->assertCount(1, Tag::withAnyTagsOfAnyType(['Tag2'])->get());
+    }
 }
