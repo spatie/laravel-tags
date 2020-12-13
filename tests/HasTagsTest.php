@@ -311,7 +311,7 @@ class HasTagsTest extends TestCase
     /** @test */
     public function it_is_capable_of_self_relation()
     {
-        // A.K.A: A tag can tag another tag
+        // tag creating another tag
         $tag1 = Tag::firstOrCreate(['name' => 'Tag1']);
         $tag2 = Tag::firstOrCreate(['name' => 'Tag2']);
 
