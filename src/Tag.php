@@ -3,6 +3,7 @@
 namespace Spatie\Tags;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Collection as DbCollection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -97,9 +98,9 @@ class Tag extends Model implements Sortable
     /**
      * Get a list of all registered types.
      *
-     * @return DbCollection
+     * @return Collection
      */
-    public static function getTypes(): DbCollection {
+    public static function getTypes(): Collection {
         return static::groupBy('type')->pluck('type');
     }
 
