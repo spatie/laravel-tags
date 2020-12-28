@@ -95,11 +95,6 @@ class Tag extends Model implements Sortable
         return $tag;
     }
 
-    /**
-     * Get a list of all registered types.
-     *
-     * @return Collection
-     */
     public static function getTypes(): Collection {
         return static::groupBy('type')->pluck('type');
     }
