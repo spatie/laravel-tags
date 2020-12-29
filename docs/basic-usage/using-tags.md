@@ -88,3 +88,11 @@ Tag::findOrCreate('two');
 
 Tag::containing('on')->get(); // will return all tags except `two`
 ```
+
+## Getting types
+
+You can fetch a collection of all registered tag types by using the static method `getTypes()`:
+
+```php
+Tag::getTypes();
+```

@@ -183,4 +183,18 @@ class TagTest extends TestCase
 
         $this->assertEquals('new name', $tag->name);
     }
+
+    /** @test */
+    public function it_gets_all_tag_types() {
+        Tag::findOrCreate('foo', 'type1');
+        Tag::findOrCreate('bar', 'type1');
+        Tag::findOrCreate('baz', 'type2');
+        Tag::findOrCreate('qux', 'type2');
+
+        $types = Tag::getTypes();
+
+        $this->assertCount(2, $types);
+        $this->assertEquals('type1', $types[0]);
+        $this->assertEquals('type2', $types[1]);
+    }
 }
