@@ -185,7 +185,8 @@ class TagTest extends TestCase
     }
 
     /** @test */
-    public function it_gets_all_tag_types() {
+    public function it_gets_all_tag_types()
+    {
         Tag::findOrCreate('foo', 'type1');
         Tag::findOrCreate('bar', 'type1');
         Tag::findOrCreate('baz', 'type2');
