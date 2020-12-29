@@ -81,10 +81,10 @@ $tag->delete();
 You can find all tags containing a specific value with the `containing` scope.
 
 ```php
-Tag::create('one');
-Tag::create('another-one');
-Tag::create('another-ONE-with-different-casing');
-Tag::create('two');
+Tag::findOrCreate('one');
+Tag::findOrCreate('another-one');
+Tag::findOrCreate('another-ONE-with-different-casing');
+Tag::findOrCreate('two');
 
 Tag::containing('on')->get(); // will return all tags except `two`
 ```
