@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-tags` will be documented in this file
 
+## 3.0.2 - 2020-12-30
+
+- Get all registered tag types (#296)
+
 ## 3.0.1 - 2020-11-05
 
 - add support for PHP 8
