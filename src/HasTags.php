@@ -14,7 +14,7 @@ trait HasTags
 
     public static function getTagClassName(): string
     {
-        return Tag::class;
+        return config('tags.tag_model', Tag::class);
     }
 
     public static function bootHasTags()

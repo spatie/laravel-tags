@@ -7,4 +7,9 @@ return [
      * Defaults to Str::slug (https://laravel.com/docs/5.8/helpers#method-str-slug)
      */
     'slugger' => null,
+
+    /*
+     * The fully qualified class name of the tag model.
+     */
+    'tag_model' => Spatie\Tags\Tag::class,
 ];
