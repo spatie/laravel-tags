@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-tags` will be documented in this file
 
+## 3.1.0 - 2021-03-01
+
+-add `tag_model` config variable (#301)
+
 ## 3.0.2 - 2020-12-30
 
 - Get all registered tag types (#296)
