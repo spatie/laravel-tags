@@ -15,7 +15,7 @@ class Tag extends Model implements Sortable
 {
     use SortableTrait, HasTranslations, HasSlug, HasFactory;
 
-    public $translatable = ['name', 'slug'];
+    public array $translatable = ['name', 'slug'];
 
     public $guarded = [];
 
@@ -35,14 +35,7 @@ class Tag extends Model implements Sortable
         return $query->whereRaw('lower('.$this->getQuery()->getGrammar()->wrap('name->'.$locale).') like ?', ['%'.mb_strtolower($name).'%']);
     }
 
-    /**
-     * @param string|array|\ArrayAccess $values
-     * @param string|null $type
-     * @param string|null $locale
-     *
-     * @return \Spatie\Tags\Tag|static
-     */
-    public static function findOrCreate($values, string $type = null, string $locale = null)
+    public static function findOrCreate(string|array|\ArrayAccess $values, string|null $type = null, string|null $locale = null): Tag|static
     {
         $tags = collect($values)->map(function ($value) use ($type, $locale) {
             if ($value instanceof self) {
