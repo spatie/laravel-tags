@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-tags` will be documented in this file
 
+## 4.0.0 - unreleased
+
+- drop support for all PHP versions below 8.0
+
 ## 3.1.0 - 2021-03-01
 
 -add `tag_model` config variable (#301)
