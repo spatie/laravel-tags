@@ -35,7 +35,7 @@ class Tag extends Model implements Sortable
         return $query->whereRaw('lower('.$this->getQuery()->getGrammar()->wrap('name->'.$locale).') like ?', ['%'.mb_strtolower($name).'%']);
     }
 
-    public static function findOrCreate(string|array|\ArrayAccess $values, string|null $type = null, string|null $locale = null): Tag|static
+    public static function findOrCreate(string|array|\ArrayAccess $values, string|null $type = null, string|null $locale = null): Collection|Tag|static
     {
         $tags = collect($values)->map(function ($value) use ($type, $locale) {
             if ($value instanceof self) {
