@@ -10,8 +10,7 @@ use Spatie\Tags\Test\TestModel;
 
 class HasTagsTest extends TestCase
 {
-    /** @var \Spatie\Tags\Test\TestModel */
-    protected $testModel;
+    protected TestModel $testModel;
 
     public function setUp(): void
     {
