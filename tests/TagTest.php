@@ -45,7 +45,7 @@ class TagTest extends TestCase
     /** @test */
     public function it_uses_str_slug_if_config_slugger_value_is_empty()
     {
-        app('config')->set('tags.slugger', null);
+        config()->set('tags.slugger', null);
 
         $tag = Tag::findOrCreateFromString('this is a tag');
 
@@ -55,7 +55,7 @@ class TagTest extends TestCase
     /** @test */
     public function it_can_use_a_custom_slugger()
     {
-        app('config')->set('tags.slugger', 'strtoupper');
+        config()->set('tags.slugger', 'strtoupper');
 
         $tag = Tag::findOrCreateFromString('this is a tag');
 
