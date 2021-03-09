@@ -7,10 +7,11 @@ You might want to override some functionality of the `Spatie\Tags\Tag` or add so
 
 ```php
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Tags\HasTags;
 
 class YourModel extends Model
 {
-    use \Spatie\Tags\HasTags;
+    use HasTags;
     
     public static function getTagClassName(): string
     {
@@ -21,7 +22,7 @@ class YourModel extends Model
 
 Then you need to override the `tags()` method from the same trait to tell Laravel that it still needs to look for `tags_id` column for tags relation instead of `your_tag_model_id`:
 
-```
+```php
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 public function tags(): MorphToMany

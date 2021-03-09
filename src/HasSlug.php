@@ -10,7 +10,11 @@ trait HasSlug
     {
         static::saving(function (Model $model) {
             collect($model->getTranslatedLocales('name'))
-                ->each(fn (string $locale) => $model->setTranslation('slug', $locale, $model->generateSlug($locale)));
+                ->each(fn (string $locale) => $model->setTranslation(
+                    'slug',
+                    $locale,
+                    $model->generateSlug($locale)
+                ));
         });
     }
 
@@ -18,7 +22,7 @@ trait HasSlug
     {
         $slugger = config('tags.slugger');
 
-        $slugger = $slugger ?: '\Illuminate\Support\Str::slug';
+        $slugger ??= '\Illuminate\Support\Str::slug';
 
         return call_user_func($slugger, $this->getTranslation('name', $locale));
     }

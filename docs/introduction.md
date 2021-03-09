@@ -5,7 +5,7 @@ weight: 1
 
 This package offers taggable behaviour for your models. After the package is installed the only thing you have to do is to add the `HasTags` trait to an Eloquent model to make it taggable. 
 
-But we didn't stop with the regular tagging capabilities you find in every package. Laravel Tags comes with batteries included. Out of the box it has support for [translating tags](/laravel-tags/v2/advanced-usage/adding-translations), [multiple tag types](/laravel-tags/v2/advanced-usage/using-types) and [sorting capabilities](/laravel-tags/v2/advanced-usage/sorting-tags).
+We didn't stop with the regular tagging capabilities you find in every package. Laravel Tags comes with batteries included. Out of the box it has support for [translating tags](/laravel-tags/v2/advanced-usage/adding-translations), [multiple tag types](/laravel-tags/v2/advanced-usage/using-types) and [sorting capabilities](/laravel-tags/v2/advanced-usage/sorting-tags).
 
 Here are some code examples:
 
@@ -64,7 +64,5 @@ Tag::containing('test'); // returns all tags that contain 'test'
 <section class="article_badges">
     <a href="https://packagist.org/packages/spatie/laravel-tags"><img src="https://img.shields.io/packagist/v/spatie/laravel-tags.svg?style=flat-square" alt="Latest Version on Packagist"></a>
     <a href="https://github.com/spatie/laravel-tags/blob/master/LICENSE.md"><img src="https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square" alt="Software License"></a>
-    <a href="https://travis-ci.org/spatie/laravel-tags"><img src="https://img.shields.io/travis/spatie/laravel-tags/master.svg?style=flat-square" alt="Build Status"></a>
-    <a href="https://scrutinizer-ci.com/g/spatie/laravel-tags"><img src="https://img.shields.io/scrutinizer/g/spatie/laravel-tags.svg?style=flat-square" alt="Quality Score"></a>
     <a href="https://packagist.org/packages/spatie/laravel-tags"><img src="https://img.shields.io/packagist/dt/spatie/laravel-tags.svg?style=flat-square" alt="Total Downloads"></a>
 </section>

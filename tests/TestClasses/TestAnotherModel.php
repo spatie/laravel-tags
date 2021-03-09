@@ -1,15 +1,15 @@
 <?php
 
-namespace Spatie\Tags\Test;
+namespace Spatie\Tags\Test\TestClasses;
 
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Tags\HasTags;
 
-class TestModel extends Model
+class TestAnotherModel extends Model
 {
     use HasTags;
 
-    public $table = 'test_models';
+    public $table = 'test_another_models';
 
     protected $guarded = [];
 
