@@ -41,10 +41,7 @@ trait HasTags
             ->ordered();
     }
 
-    /**
-     * @param string $locale
-     */
-    public function tagsTranslated($locale = null): MorphToMany
+    public function tagsTranslated(string | null $locale = null): MorphToMany
     {
         $locale = ! is_null($locale) ? $locale : app()->getLocale();
 
@@ -56,10 +53,7 @@ trait HasTags
             ->ordered();
     }
 
-    /**
-     * @param string|array|\ArrayAccess|\Spatie\Tags\Tag $tags
-     */
-    public function setTagsAttribute($tags)
+    public function setTagsAttribute(string | array | \ArrayAccess | Tag $tags)
     {
         if (! $this->exists) {
             $this->queuedTags = $tags;
@@ -70,32 +64,20 @@ trait HasTags
         $this->syncTags($tags);
     }
 
-    /**
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param array|\ArrayAccess|\Spatie\Tags\Tag $tags
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeWithAllTags(Builder $query, $tags, string $type = null): Builder
+    public function scopeWithAllTags(Builder $query, array | \ArrayAccess | Tag $tags, string $type = null): Builder
     {
         $tags = static::convertToTags($tags, $type);
 
         collect($tags)->each(function ($tag) use ($query) {
             $query->whereHas('tags', function (Builder $query) use ($tag) {
-                $query->where('tags.id', $tag ? $tag->id : 0);
+                $query->where('tags.id', $tag->id ?? 0);
             });
         });
 
         return $query;
     }
 
-    /**
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param array|\ArrayAccess|\Spatie\Tags\Tag $tags
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeWithAnyTags(Builder $query, $tags, string $type = null): Builder
+    public function scopeWithAnyTags(Builder $query, array | \ArrayAccess | Tag $tags, string $type = null): Builder
     {
         $tags = static::convertToTags($tags, $type);
 
@@ -137,12 +119,7 @@ trait HasTags
         });
     }
 
-    /**
-     * @param array|\ArrayAccess|\Spatie\Tags\Tag $tags
-     * @param string|null $type
-     * @return $this
-     */
-    public function attachTags($tags, string $type = null)
+    public function attachTags(array | \ArrayAccess | Tag $tags, string $type = null): static
     {
         $className = static::getTagClassName();
 
@@ -153,24 +130,12 @@ trait HasTags
         return $this;
     }
 
-    /**
-     * @param string|\Spatie\Tags\Tag $tag
-     *
-     * @param string|null $type
-     * @return $this
-     */
-    public function attachTag($tag, string $type = null)
+    public function attachTag(string | Tag $tag, string | null $type = null)
     {
         return $this->attachTags([$tag], $type);
     }
 
-    /**
-     * @param array|\ArrayAccess $tags
-     *
-     * @param string|null $type
-     * @return $this
-     */
-    public function detachTags($tags, string $type = null)
+    public function detachTags(array | \ArrayAccess $tags, string | null $type = null): static
     {
         $tags = static::convertToTags($tags, $type);
 
@@ -183,23 +148,12 @@ trait HasTags
         return $this;
     }
 
-    /**
-     * @param string|\Spatie\Tags\Tag $tag
-     *
-     * @param string|null $type
-     * @return $this
-     */
-    public function detachTag($tag, string $type = null)
+    public function detachTag(string | Tag $tag, string | null $type = null): static
     {
         return $this->detachTags([$tag], $type);
     }
 
-    /**
-     * @param array|\ArrayAccess $tags
-     *
-     * @return $this
-     */
-    public function syncTags($tags)
+    public function syncTags(array | \ArrayAccess $tags): static
     {
         $className = static::getTagClassName();
 
@@ -210,13 +164,7 @@ trait HasTags
         return $this;
     }
 
-    /**
-     * @param array|\ArrayAccess $tags
-     * @param string|null $type
-     *
-     * @return $this
-     */
-    public function syncTagsWithType($tags, string $type = null)
+    public function syncTagsWithType(array | \ArrayAccess $tags, string | null $type = null): static
     {
         $className = static::getTagClassName();
 
@@ -264,7 +212,7 @@ trait HasTags
      * @param string|null $type
      * @param bool $detaching
      */
-    protected function syncTagIds($ids, string $type = null, $detaching = true)
+    protected function syncTagIds($ids, string | null $type = null, $detaching = true): void
     {
         $isUpdated = false;
 
