@@ -3,7 +3,7 @@
 namespace Spatie\Translatable\Test;
 
 use Spatie\Tags\Test\TestCase;
-use Spatie\Tags\Test\TestModel;
+use Spatie\Tags\Test\TestClasses\TestModel;
 
 class HasTagsTranslatedTest extends TestCase
 {

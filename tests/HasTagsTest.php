@@ -4,9 +4,9 @@ namespace Spatie\Translatable\Test;
 
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Spatie\Tags\Tag;
-use Spatie\Tags\Test\TestAnotherModel;
+use Spatie\Tags\Test\TestClasses\TestAnotherModel;
 use Spatie\Tags\Test\TestCase;
-use Spatie\Tags\Test\TestModel;
+use Spatie\Tags\Test\TestClasses\TestModel;
 
 class HasTagsTest extends TestCase
 {
