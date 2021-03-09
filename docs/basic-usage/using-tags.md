@@ -6,9 +6,12 @@ weight: 1
 To make an Eloquent model taggable just add the `\Spatie\Tags\HasTags` trait to it:
 
 ```php
-class YourModel extends \Illuminate\Database\Eloquent\Model
+use Illuminate\Database\Eloquent\Model;
+use Spatie\Tags\HasTags;
+
+class YourModel extends Model
 {
-    use \Spatie\Tags\HasTags;
+    use HasTags;
     
     ...
 }

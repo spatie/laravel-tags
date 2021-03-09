@@ -17,7 +17,7 @@ In addition to strings, all methods mentioned in the basic usage section can tak
 ```php
 $newsItem->attachTag($tagWithType);
 $newsItem->detachTag($tagWithType);
-...
+// ...
 ```
 
 In addition to `syncTags`, an additional method called `syncTagsWithType` is available for syncing tags on a per-type basis: 

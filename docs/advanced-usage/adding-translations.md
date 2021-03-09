@@ -23,7 +23,7 @@ $tag->name // returns the name of the tag in current locale of your app.
 The translations of the tags are stored in the `name` column of the `tags` table. It's a `json` column. To find a tag with a specific translation you can just use Laravel's query builder which has support for `json` columns.
 
 ```php
- \Spatie\Tags\Tag
+ \Spatie\Tags\Tag::query()
    ->where('name->fr', 'mon tag')
    ->first();
 ```
