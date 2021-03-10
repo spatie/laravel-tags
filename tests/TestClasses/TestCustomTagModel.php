@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Tags\Test;
+namespace Spatie\Tags\Test\TestClasses;
 
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Tags\Tag;
@@ -9,5 +9,5 @@ class TestCustomTagModel extends Tag
 {
     public $table = 'custom_tags';
 
-    public $translatable = ['name', 'slug', 'description'];
+    public array $translatable = ['name', 'slug', 'description'];
 }
