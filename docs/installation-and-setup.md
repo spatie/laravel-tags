@@ -9,8 +9,6 @@ You can install the package via composer:
 composer require spatie/laravel-tags
 ```
 
-The service provider will automatically be registered.
-
 You can publish the migration with:
 ```bash
 php artisan vendor:publish --provider="Spatie\Tags\TagsServiceProvider" --tag="migrations"
@@ -30,7 +28,6 @@ php artisan vendor:publish --provider="Spatie\Tags\TagsServiceProvider" --tag="c
 This is the contents of the published config file:
 
 ```php
-<?php
 return [
     /*
      * The given function generates a URL friendly "slug" from the tag name property before saving it.

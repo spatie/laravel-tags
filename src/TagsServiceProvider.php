@@ -2,23 +2,16 @@
 
 namespace Spatie\Tags;
 
-use Illuminate\Support\ServiceProvider;
+use Spatie\LaravelPackageTools\Package;
+use Spatie\LaravelPackageTools\PackageServiceProvider;
 
-class TagsServiceProvider extends ServiceProvider
+class TagsServiceProvider extends PackageServiceProvider
 {
-    public function boot()
+    public function configurePackage(Package $package): void
     {
-        if ($this->app->runningInConsole()) {
-            if (! class_exists('CreateTagTables')) {
-                $timestamp = date('Y_m_d_His', time());
-                $this->publishes([
-                    __DIR__.'/../database/migrations/create_tag_tables.php.stub' => database_path('migrations/'.$timestamp.'_create_tag_tables.php'),
-                ], 'migrations');
-            }
-
-            $this->publishes([
-                __DIR__.'/../config/tags.php' => config_path('tags.php'),
-            ], 'config');
-        }
+        $package
+            ->name('laravel-tags')
+            ->hasConfigFile()
+            ->hasMigration('create_tag_tables');
     }
 }
