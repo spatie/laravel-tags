@@ -102,7 +102,7 @@ class Tag extends Model implements Sortable
 
     public function setAttribute($key, $value)
     {
-        if (in_array($key, $this->translatable) && !is_array($value)) {
+        if (in_array($key, $this->translatable) && ! is_array($value)) {
             return $this->setTranslation($key, app()->getLocale(), $value);
         }
 

@@ -2,7 +2,6 @@
 
 namespace Spatie\Tags\Test\TestClasses;
 
-use Illuminate\Database\Eloquent\Model;
 use Spatie\Tags\Tag;
 
 class TestCustomTagModel extends Tag
