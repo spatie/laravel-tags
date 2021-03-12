@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-tags` will be documented in this file
 
+## 4.0.1 - 2021-03-12
+
+- fix translatable attributes (#300)
+
 ## 4.0.0 - 2021-03-09
 
 - drop support for all PHP versions below 8.0
