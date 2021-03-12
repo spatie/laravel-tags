@@ -44,5 +44,15 @@ abstract class TestCase extends Orchestra
             $table->increments('id');
             $table->string('name')->nullable();
         });
+
+        Schema::create('custom_tags', function (Blueprint $table) {
+            $table->id();
+            $table->json('name');
+            $table->json('slug');
+            $table->json('description')->nullable();
+            $table->string('type')->nullable();
+            $table->integer('order_column')->nullable();
+            $table->timestamps();
+        });
     }
 }
