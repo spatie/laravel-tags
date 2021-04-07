@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-tags` will be documented in this file
 
+## 4.0.2 - 2021-04-07
+
+- update deps
+
 ## 4.0.1 - 2021-03-12
 
 - fix translatable attributes (#300)
