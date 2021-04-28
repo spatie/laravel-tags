@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-tags` will be documented in this file
 
+## 4.0.3 -2021-04-28
+
+- allow eloquent-sortable v4
+
 ## 4.0.2 - 2021-04-07
 
 - update deps
