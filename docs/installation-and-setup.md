@@ -11,7 +11,7 @@ composer require spatie/laravel-tags
 
 You can publish the migration with:
 ```bash
-php artisan vendor:publish --provider="Spatie\Tags\TagsServiceProvider" --tag="migrations"
+php artisan vendor:publish --provider="Spatie\Tags\TagsServiceProvider" --tag="tags-migrations"
 ```
 
 After the migration has been published you can create the `tags` and `taggables` tables by running the migrations:
