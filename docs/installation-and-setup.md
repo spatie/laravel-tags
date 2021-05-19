@@ -22,7 +22,7 @@ php artisan migrate
 
 You can optionally publish the config file with:
 ```bash
-php artisan vendor:publish --provider="Spatie\Tags\TagsServiceProvider" --tag="config"
+php artisan vendor:publish --provider="Spatie\Tags\TagsServiceProvider" --tag="tags-onfig"
 ```
 
 This is the contents of the published config file:
