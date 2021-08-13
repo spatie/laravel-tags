@@ -31,8 +31,8 @@ $newsItem->syncTagsWithType(['tagC', 'tagD'], 'secondType');
 The provided method scopes, `withAnyTags` and `withAllTags`, can take instances of `Spatie\Tags\Tag` too:
 
 ```php
-$tag = Tag::create('gossip', 'newsTag');
-$tag2 = Tag::create('headline', 'newsTag');
+$tag = Tag::create(['name' => 'gossip']);
+$tag2 = Tag::create(['name' => 'headline']);
 
 NewsItem::withAnyTags([$tag, $tag2])->get();
 ```
