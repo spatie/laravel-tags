@@ -60,6 +60,22 @@ class Tag extends Model implements Sortable
         return static::withType($type)->ordered()->get();
     }
 
+    public static function find(
+        string | array | ArrayAccess $values,
+        string | null $type = null,
+        string | null $locale = null,
+    ): Collection | Tag | static {
+        $tags = collect($values)->map(function ($value) use ($type, $locale) {
+            if ($value instanceof self) {
+                return $value;
+            }
+
+            return static::findFromString($value, $type, $locale);
+        });
+
+        return is_string($values) ? $tags->first() : $tags;
+    }
+
     public static function findFromString(string $name, string $type = null, string $locale = null)
     {
         $locale = $locale ?? app()->getLocale();
