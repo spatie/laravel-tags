@@ -198,4 +198,16 @@ class TagTest extends TestCase
         $this->assertEquals('type1', $types[0]);
         $this->assertEquals('type2', $types[1]);
     }
+
+    /** @test */
+    public function it_finds_tags()
+    {
+        Tag::findOrCreate(['foo', 'bar']);
+
+        $fooTag = Tag::findFromString('foo');
+        $barTag = Tag::find('bar');
+
+        $this->assertEquals('foo', $fooTag->name);
+        $this->assertEquals('bar', $barTag->name);
+    }
 }
