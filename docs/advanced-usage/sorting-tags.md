@@ -9,10 +9,10 @@ Under the hood [spatie/eloquent-sortable](https://github.com/spatie/eloquent-sor
 
 ```php
 //get all tags sorted on `order_column`
-$orderedTags = Tags::ordered()->get(); 
+$orderedTags = Tag::ordered()->get(); 
 
 //set a new order entirely
-Tags::setNewOrder($arrayWithTagIds);
+Tag::setNewOrder($arrayWithTagIds);
 
 $myModel->moveOrderUp();
 $myModel->moveOrderDown();
