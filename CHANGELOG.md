@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-tags` will be documented in this file
 
+## 4.0.4 - 2021-09-01
+
+- get the tag model table name when syncing tags (#351)
+
 ## 4.0.3 -2021-04-28
 
 - allow eloquent-sortable v4
