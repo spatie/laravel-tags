@@ -233,7 +233,7 @@ trait HasTags
                     '=',
                     $tagModel->getTable() . '.' . $tagModel->getKeyName()
                 )
-                    ->where('tags.type', $type);
+                    ->where($tagModel->getTable() . '.type', $type);
             })
             ->pluck('tag_id')
             ->all();
