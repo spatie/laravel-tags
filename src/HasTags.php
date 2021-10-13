@@ -44,6 +44,24 @@ trait HasTags
             ->ordered();
     }
 
+    public function modelTags(): Collection
+    {
+        $tagModel = $this->tags()->getRelated();
+
+        return $this->tags()
+            ->newPivotStatement()
+            ->where('taggable_type', $this->getMorphClass())
+            ->join(
+                    $tagModel->getTable(),
+                    'taggables.tag_id',
+                    '=',
+                    $tagModel->getTable() . '.' . $tagModel->getKeyName()
+            )
+            ->select($tagModel->getTable().'.*')
+            ->distinct()
+            ->get();
+    }
+
     public function tagsTranslated(string | null $locale = null): MorphToMany
     {
         $locale = ! is_null($locale) ? $locale : app()->getLocale();

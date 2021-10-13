@@ -20,6 +20,20 @@ class HasTagsTest extends TestCase
     }
 
     /** @test */
+    public function it_has_model_tags()
+    {
+        $anotherModel = TestModel::create(['name' => 'other']);
+
+        $anotherModel->attachTag('Biz');
+        $anotherModel->attachTag('Zap');
+
+        $this->testModel->attachTag('Foo');
+        $this->testModel->attachTag('Bar');
+
+        $this->assertCount(4, (new TestModel)->modelTags());
+    }
+
+    /** @test */
     public function it_provides_a_tags_relation()
     {
         $this->assertInstanceOf(MorphToMany::class, $this->testModel->tags());
