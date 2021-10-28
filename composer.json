@@ -17,7 +17,7 @@
     ],
     "require": {
         "php": "^8.0",
-        "laravel/framework": "^8.12",
+        "laravel/framework": "^8.67",
         "spatie/eloquent-sortable": "^3.10|^4.0",
         "spatie/laravel-package-tools": "^1.4",
         "spatie/laravel-translatable": "^4.6|^5.0"
