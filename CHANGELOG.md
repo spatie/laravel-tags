@@ -2,6 +2,22 @@
 
 All notable changes to `laravel-tags` will be documented in this file
 
+## 4.0.5 - 2021-11-10
+
+## What's Changed
+
+- PHP 8.1 Support by @sergiy-petrov in https://github.com/spatie/laravel-tags/pull/361
+- Update installation-and-setup.md by @PatrickJunod in https://github.com/spatie/laravel-tags/pull/365
+- Remove extra ordered on getWithType by @delta1186 in https://github.com/spatie/laravel-tags/pull/367
+
+## New Contributors
+
+- @sergiy-petrov made their first contribution in https://github.com/spatie/laravel-tags/pull/361
+- @PatrickJunod made their first contribution in https://github.com/spatie/laravel-tags/pull/365
+- @delta1186 made their first contribution in https://github.com/spatie/laravel-tags/pull/367
+
+**Full Changelog**: https://github.com/spatie/laravel-tags/compare/4.0.4...4.0.5
+
 ## 4.0.4 - 2021-09-01
 
 - get the tag model table name when syncing tags (#351)
