@@ -54,5 +54,14 @@ abstract class TestCase extends Orchestra
             $table->integer('order_column')->nullable();
             $table->timestamps();
         });
+
+        Schema::create('custom_tags_static_locale', function (Blueprint $table) {
+            $table->id();
+            $table->json('name');
+            $table->json('slug');
+            $table->string('type')->nullable();
+            $table->integer('order_column')->nullable();
+            $table->timestamps();
+        });        
     }
 }
