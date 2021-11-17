@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-tags` will be documented in this file
 
+## 4.1.0 - 2021-11-17
+
+## What's Changed
+
+- Adding a static function for current locale to the tag by @leonidlezner in https://github.com/spatie/laravel-tags/pull/368
+
+## New Contributors
+
+- @leonidlezner made their first contribution in https://github.com/spatie/laravel-tags/pull/368
+
+**Full Changelog**: https://github.com/spatie/laravel-tags/compare/4.0.5...4.1.0
+
 ## 4.0.5 - 2021-11-10
 
 ## What's Changed
