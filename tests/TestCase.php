@@ -62,6 +62,6 @@ abstract class TestCase extends Orchestra
             $table->string('type')->nullable();
             $table->integer('order_column')->nullable();
             $table->timestamps();
-        });        
+        });
     }
 }
