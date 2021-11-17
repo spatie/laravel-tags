@@ -20,7 +20,7 @@ class CustomStaticLocaleTest extends TestCase
         app()->setLocale('es');
 
         $tag = TestCustomTagStaticLocaleModel::findOrCreateFromString('string');
-        
+
         $staticLocale = 'en';
 
         $translated = TestCustomTagStaticLocaleModel::where('name', 'LIKE', '%' . $staticLocale . '%')->first()->toArray();
