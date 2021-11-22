@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-tags` will be documented in this file
 
+## 4.2.0 - 2021-11-22
+
+## What's Changed
+
+- Make convertToTags() method $values arg  support Tag instance by @chuoke in https://github.com/spatie/laravel-tags/pull/371
+
+## New Contributors
+
+- @chuoke made their first contribution in https://github.com/spatie/laravel-tags/pull/371
+
+**Full Changelog**: https://github.com/spatie/laravel-tags/compare/4.1.0...4.2.0
+
 ## 4.1.0 - 2021-11-17
 
 ## What's Changed
