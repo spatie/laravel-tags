@@ -190,7 +190,7 @@ trait HasTags
         if ($values instanceof Tag) {
             $values = [$values];
         }
-        
+
         return collect($values)->map(function ($value) use ($type, $locale) {
             if ($value instanceof Tag) {
                 if (isset($type) && $value->type != $type) {
