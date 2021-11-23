@@ -174,6 +174,20 @@ class TagTest extends TestCase
     }
 
     /** @test */
+    public function it_can_find_tags_from_a_string_with_any_type()
+    {
+        Tag::findOrCreate('tag1');
+
+        Tag::findOrCreate('tag1', 'myType1');
+
+        Tag::findOrCreate('tag1', 'myType2');
+
+        $tags = Tag::findFromStringOfAnyType('tag1');
+
+        $this->assertCount(3, $tags);
+    }
+
+    /** @test */
     public function its_name_can_be_changed_by_setting_its_name_property_to_a_new_value()
     {
         $tag = Tag::findOrCreate('my tag');
