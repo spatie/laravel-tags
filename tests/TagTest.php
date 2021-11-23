@@ -163,11 +163,12 @@ class TagTest extends TestCase
         ], $tag->getTranslations('name'));
     }
 
+    /** @test */
     public function it_can_find_or_create_a_tag()
     {
         $tag = Tag::findOrCreate('string');
 
-        $tag2 = Tag::findOrCreate($tag);
+        $tag2 = Tag::findOrCreate($tag->name);
 
         $this->assertEquals('string', $tag2->name);
     }
