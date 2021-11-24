@@ -174,23 +174,17 @@ class TagTest extends TestCase
     }
 
     /** @test */
-    public function it_can_find_a_tag_from_a_string()
+    public function it_can_find_tags_from_a_string_with_any_type()
     {
-        Tag::findOrCreate('string');
+        Tag::findOrCreate('tag1');
 
-        $tag = Tag::findFromString('string');
+        Tag::findOrCreate('tag1', 'myType1');
 
-        $this->assertEquals('string', $tag->name);
-    }
+        Tag::findOrCreate('tag1', 'myType2');
 
-    /** @test */
-    public function it_can_find_a_tag_from_a_string_with_a_type()
-    {
-        Tag::findOrCreate('string', 'myType');
+        $tags = Tag::findFromStringOfAnyType('tag1');
 
-        $tag = Tag::findFromString('string', 'myType');
-
-        $this->assertEquals('string', $tag->name);
+        $this->assertCount(3, $tags);
     }
 
     /** @test */

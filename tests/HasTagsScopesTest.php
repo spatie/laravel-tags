@@ -111,7 +111,7 @@ class HasTagsScopesTest extends TestCase
     }
 
     /** @test */
-    public function it_provides_as_scope_to_get_all_models_that_have_any_of_the_given_tags_with_any_type()
+    public function it_provides_a_scope_to_get_all_models_that_have_any_of_the_given_tags_with_any_type()
     {
         $testModels = TestModel::withAnyTagsOfAnyType(['tagE', 'tagF'])->get();
 
@@ -119,9 +119,29 @@ class HasTagsScopesTest extends TestCase
     }
 
     /** @test */
-    public function it_provides_as_scope_to_get_all_models_that_have_all_of_the_given_tags_with_any_type()
+    public function it_provides_a_scope_to_get_all_models_that_have_any_of_the_given_tags_with_any_type_from_mixed_tag_values()
+    {
+        $tagD = Tag::findFromString('tagD');
+
+        $testModels = TestModel::withAnyTagsOfAnyType([$tagD, 'tagE', 'tagF'])->get();
+
+        $this->assertEquals(['model4', 'model5', 'model6'], $testModels->pluck('name')->toArray());
+    }
+
+    /** @test */
+    public function it_provides_a_scope_to_get_all_models_that_have_all_of_the_given_tags_with_any_type()
     {
         $testModels = TestModel::withAllTagsOfAnyType(['tagE', 'tagF'])->get();
+
+        $this->assertEquals(['model5'], $testModels->pluck('name')->toArray());
+    }
+
+    /** @test */
+    public function it_provides_a_scope_to_get_all_models_that_have_all_of_the_given_tags_with_any_type_from_mixed_tag_values()
+    {
+        $tagE = Tag::findFromString('tagE', 'typedTag');
+
+        $testModels = TestModel::withAllTagsOfAnyType([$tagE, 'tagF'])->get();
 
         $this->assertEquals(['model5'], $testModels->pluck('name')->toArray());
     }

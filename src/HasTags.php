@@ -119,7 +119,6 @@ trait HasTags
 
         $tagIds = collect($tags)->pluck('id');
 
-
         return $query->whereHas(
             'tags',
             fn (Builder $query) => $query->whereIn('tags.id', $tagIds)
@@ -216,7 +215,7 @@ trait HasTags
             $className = static::getTagClassName();
 
             return $className::findFromStringOfAnyType($value, $locale);
-        });
+        })->flatten();
     }
 
     protected function syncTagIds($ids, string | null $type = null, $detaching = true): void

@@ -81,7 +81,7 @@ class Tag extends Model implements Sortable
 
         return static::query()
             ->where("name->{$locale}", $name)
-            ->first();
+            ->get();
     }
 
     protected static function findOrCreateFromString(string $name, string $type = null, string $locale = null)
