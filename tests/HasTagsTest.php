@@ -196,7 +196,7 @@ class HasTagsTest extends TestCase
     }
 
     /** @test */
-    public function it_provides_as_scope_to_get_all_models_that_have_any_of_the_given_tags_2()
+    public function it_provides_a_scope_to_get_all_models_that_have_any_of_the_given_tags_2()
     {
         TestModel::create([
             'name' => 'model1',
