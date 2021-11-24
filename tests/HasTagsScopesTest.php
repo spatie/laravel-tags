@@ -49,7 +49,7 @@ class HasTagsScopesTest extends TestCase
     }
 
     /** @test */
-    public function it_provides_as_scope_to_get_all_models_that_have_any_of_the_given_tags()
+    public function it_provides_a_scope_to_get_all_models_that_have_any_of_the_given_tags()
     {
         $testModels = TestModel::withAnyTags(['tagC', 'tagD'])->get();
 
@@ -65,7 +65,7 @@ class HasTagsScopesTest extends TestCase
     }
 
     /** @test */
-    public function it_provides_as_scope_to_get_all_models_that_have_all_of_the_given_tags()
+    public function it_provides_a_scope_to_get_all_models_that_have_all_of_the_given_tags()
     {
         $testModels = TestModel::withAllTags(['tagA', 'tagB'])->get();
 
@@ -77,7 +77,7 @@ class HasTagsScopesTest extends TestCase
     }
 
     /** @test */
-    public function it_provides_as_scope_to_get_all_models_that_have_the_given_tag_instance()
+    public function it_provides_a_scope_to_get_all_models_that_have_the_given_tag_instance()
     {
         $tagModel = Tag::findOrCreate('tagB');
 
@@ -87,7 +87,7 @@ class HasTagsScopesTest extends TestCase
     }
 
     /** @test */
-    public function it_provides_as_scope_to_get_all_models_that_have_any_of_the_given_tags_with_type()
+    public function it_provides_a_scope_to_get_all_models_that_have_any_of_the_given_tags_with_type()
     {
         $testModels = TestModel::withAnyTags(['tagE'], 'typedTag')->get();
 
@@ -103,7 +103,7 @@ class HasTagsScopesTest extends TestCase
     }
 
     /** @test */
-    public function it_provides_as_scope_to_get_all_models_that_have_all_of_the_given_tags_with_type()
+    public function it_provides_a_scope_to_get_all_models_that_have_all_of_the_given_tags_with_type()
     {
         $testModels = TestModel::withAllTags(['tagE', 'tagF'], 'typedTag')->get();
 
