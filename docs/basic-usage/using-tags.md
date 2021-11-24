@@ -12,7 +12,7 @@ use Spatie\Tags\HasTags;
 class YourModel extends Model
 {
     use HasTags;
-    
+
     ...
 }
 ```
@@ -70,13 +70,16 @@ $tag->name = 'another tag';
 $tag->save();
 
 //use "findFromString" instead of "find" to retrieve a certain tag
-$tag = Tag::findFromString('another tag')
+$tag = Tag::findFromString('another tag');
 
 //create a tag if it doesn't exist yet
 $tag = Tag::findOrCreateFromString('yet another tag');
 
 //delete a tag
 $tag->delete();
+
+//use "findFromStringOfAnyType" to retrieve a collection of tags with various types
+$tags = Tag::findFromStringOfAnyType('one more tag');
 ```
 
 ## Finding tags
