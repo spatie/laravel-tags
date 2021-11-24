@@ -2,6 +2,15 @@
 
 All notable changes to `laravel-tags` will be documented in this file
 
+## 4.2.1 - 2021-11-24
+
+## What's Changed
+
+- enable and fix test by @delta1186 in https://github.com/spatie/laravel-tags/pull/373
+- Fix find from string of any type by @delta1186 in https://github.com/spatie/laravel-tags/pull/375
+
+**Full Changelog**: https://github.com/spatie/laravel-tags/compare/4.2.0...4.2.1
+
 ## 4.2.0 - 2021-11-22
 
 ## What's Changed
