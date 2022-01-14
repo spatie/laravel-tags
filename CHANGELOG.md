@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-tags` will be documented in this file
 
+## 4.3.0 - 2022-01-14
+
+- allow Laravel 9
+
 ## 4.2.1 - 2021-11-24
 
 ## What's Changed
