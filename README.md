@@ -106,7 +106,7 @@ The package will automatically register itself.
 
 You can publish the migration with:
 ```bash
-php artisan vendor:publish --provider="Spatie\Tags\TagsServiceProvider" --tag="tags-migrations"
+php artisan vendor:publish --provider="Spatie\Tags\TagsServiceProvider" --tag="migrations"
 ```
 
 After the migration has been published you can create the `tags` and `taggables` tables by running the migrations:
@@ -117,7 +117,7 @@ php artisan migrate
 
 You can optionally publish the config file with:
 ```bash
-php artisan vendor:publish --provider="Spatie\Tags\TagsServiceProvider" --tag="tags-config"
+php artisan vendor:publish --provider="Spatie\Tags\TagsServiceProvider" --tag="config"
 ```
 
 This is the contents of the published config file:
