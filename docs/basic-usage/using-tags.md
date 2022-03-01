@@ -27,9 +27,6 @@ $yourModel->attachTag('tag 1');
 
 //adding multiple tags
 $yourModel->attachTags(['tag 2', 'tag 3']);
-
-//using an instance of \Spatie\Tags\Tag
-$yourModel->attach(\Spatie\Tags\Tag::findOrCreate('tag4'));
 ```
 
 The tags will be stored in the `tags`-table. When using these functions we'll make sure that tags are unique and a model will have a tag attached only once.
