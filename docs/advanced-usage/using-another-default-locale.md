@@ -21,7 +21,6 @@ class YourTag extends SpatieTag
         return 'en';
     }
 }
-``
 ```
 
 Next, change the default `Tag` class in tags config (`config/tags.php`):
