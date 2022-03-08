@@ -2,6 +2,23 @@
 
 All notable changes to `laravel-tags` will be documented in this file
 
+## 4.3.1 - 2022-03-08
+
+## What's Changed
+
+- Fix BadMethodCallException caused by attach() by @umairparacha00 in https://github.com/spatie/laravel-tags/pull/389
+- Ignore the `phpunit.xml` file by default by @markwalet in https://github.com/spatie/laravel-tags/pull/362
+- Fixed the docs by @umairparacha00 in https://github.com/spatie/laravel-tags/pull/390
+- Add support for spatie/laravel-translatable:^6.0 by @dsturm in https://github.com/spatie/laravel-tags/pull/391
+
+## New Contributors
+
+- @umairparacha00 made their first contribution in https://github.com/spatie/laravel-tags/pull/389
+- @markwalet made their first contribution in https://github.com/spatie/laravel-tags/pull/362
+- @dsturm made their first contribution in https://github.com/spatie/laravel-tags/pull/391
+
+**Full Changelog**: https://github.com/spatie/laravel-tags/compare/4.3.0...4.3.1
+
 ## 4.3.0 - 2022-01-14
 
 - allow Laravel 9
