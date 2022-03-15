@@ -35,6 +35,9 @@ $newsItem->detachTags('third tag','some_type');
 $newsItem->detachTags(['fourth tag', 'fifth tag']);
 $newsItem->detachTags(['fourth tag', 'fifth tag'],'some_type');
 
+// get all tags of a model
+$newsItem->tags;
+
 // syncing tags
 $newsItem->syncTags(['first tag', 'second tag']); // all other tags on this model will be detached
 
