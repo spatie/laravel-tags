@@ -162,6 +162,16 @@ trait HasTags
         return $this->detachTags([$tag], $type);
     }
 
+    public function hasTags(array $tags): bool
+    {
+        return $this->refresh()->tags->pluck('name')->contains($tags);
+    }
+    
+    public function hasTag(string $tag): bool
+    {
+        return $this->hasTags([$tag]);
+    }
+    
     public function syncTags(array | ArrayAccess $tags): static
     {
         $className = static::getTagClassName();
