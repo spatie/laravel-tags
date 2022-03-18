@@ -184,6 +184,20 @@ class HasTagsTest extends TestCase
     }
 
     /** @test */
+    public function it_can_check_if_model_contains_specific_tags()
+    {
+        $this->testModel->tags()->attach(['test1', 'test2']);
+        $this->assertTrue($this->hasTags(['test1', 'test2']));
+    }
+
+    /** @test */
+    public function it_can_check_if_model_contains_specific_tag()
+    {
+        $this->testModel->tags()->attach(['test']);
+        $this->assertTrue($this->hasTag('test1'));
+    }
+
+    /** @test */
     public function it_can_get_all_attached_tags_of_a_certain_type()
     {
         $this->testModel->tags()->attach(Tag::findOrCreate('test', 'type1'));
