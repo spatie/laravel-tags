@@ -27,4 +27,9 @@ class CreateTagTables extends Migration
             $table->unique(['tag_id', 'taggable_id', 'taggable_type']);
         });
     }
+    
+    public function down() {
+        Schema::dropIfExists('tags');
+        Schema::dropIfExists('taggables');
+    }
 }
