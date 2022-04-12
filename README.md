@@ -17,6 +17,20 @@ You'll find the documentation on https://spatie.be/docs/laravel-tags.
 Here are some code examples:
 
 ```php
+// apply HasTags trait to a model
+use Illuminate\Database\Eloquent\Model;
+use Spatie\Tags\HasTags;
+
+class NewsItem extends Model
+{
+    use HasTags;
+    
+    // ...
+}
+```
+
+```php
+
 // create a model with some tags
 $newsItem = NewsItem::create([
    'name' => 'The Article Title',
