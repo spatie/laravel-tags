@@ -2,6 +2,24 @@
 
 All notable changes to `laravel-tags` will be documented in this file
 
+## 4.3.2 - 2022-06-04
+
+### What's Changed
+
+- Added example of getting all the tags of a model by @titonova in https://github.com/spatie/laravel-tags/pull/394
+- Update using-tags.md typo by changing "Find" to "find" by @jorgemurta in https://github.com/spatie/laravel-tags/pull/401
+- readme: add example apply trait by @erlangparasu in https://github.com/spatie/laravel-tags/pull/403
+- Update .gitattributes to decrease package installed size by @lakuapik in https://github.com/spatie/laravel-tags/pull/407
+
+### New Contributors
+
+- @titonova made their first contribution in https://github.com/spatie/laravel-tags/pull/394
+- @jorgemurta made their first contribution in https://github.com/spatie/laravel-tags/pull/401
+- @erlangparasu made their first contribution in https://github.com/spatie/laravel-tags/pull/403
+- @lakuapik made their first contribution in https://github.com/spatie/laravel-tags/pull/407
+
+**Full Changelog**: https://github.com/spatie/laravel-tags/compare/4.3.1...4.3.2
+
 ## 4.3.1 - 2022-03-08
 
 ## What's Changed
