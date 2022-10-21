@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-tags` will be documented in this file
 
+## 4.3.3 - 2022-10-21
+
+### What's Changed
+
+- Added support for strings and corresponding tests by @zupolgec in https://github.com/spatie/laravel-tags/pull/395
+
+### New Contributors
+
+- @zupolgec made their first contribution in https://github.com/spatie/laravel-tags/pull/395
+
+**Full Changelog**: https://github.com/spatie/laravel-tags/compare/4.3.2...4.3.3
+
 ## 4.3.2 - 2022-06-04
 
 ### What's Changed
