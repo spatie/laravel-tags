@@ -1,31 +1,21 @@
 <?php
 
-namespace Spatie\Translatable\Test;
-
-use Spatie\Tags\Test\TestCase;
 use Spatie\Tags\Test\TestClasses\TestCustomTagStaticLocaleModel;
 
-class CustomStaticLocaleTest extends TestCase
+beforeEach(function () {
+    $this->assertCount(0, TestCustomTagStaticLocaleModel::all());
+});
+
+it('can_use_static_locale', function()
 {
-    public function setUp(): void
-    {
-        parent::setUp();
+    app()->setLocale('es');
 
-        $this->assertCount(0, TestCustomTagStaticLocaleModel::all());
-    }
+    $tag = TestCustomTagStaticLocaleModel::findOrCreateFromString('string');
 
-    /** @test */
-    public function it_can_use_static_locale()
-    {
-        app()->setLocale('es');
+    $staticLocale = 'en';
 
-        $tag = TestCustomTagStaticLocaleModel::findOrCreateFromString('string');
+    $translated = TestCustomTagStaticLocaleModel::where('name', 'LIKE', '%' . $staticLocale . '%')->first()->toArray();
 
-        $staticLocale = 'en';
-
-        $translated = TestCustomTagStaticLocaleModel::where('name', 'LIKE', '%' . $staticLocale . '%')->first()->toArray();
-
-        $this->assertEquals('string', $translated['name'][$staticLocale]);
-        $this->assertCount(1, TestCustomTagStaticLocaleModel::all());
-    }
-}
+    $this->assertEquals('string', $translated['name'][$staticLocale]);
+    $this->assertCount(1, TestCustomTagStaticLocaleModel::all());
+});
