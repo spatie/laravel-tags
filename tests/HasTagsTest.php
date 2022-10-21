@@ -79,7 +79,7 @@ class HasTagsTest extends TestCase
     /** @test */
     public function it_can_attach_a_tag_via_the_tags_mutator()
     {
-        $this->testModel->tags = ['tag1'];
+        $this->testModel->tags = 'tag1';
 
         $this->assertCount(1, $this->testModel->tags);
     }
@@ -219,6 +219,56 @@ class HasTagsTest extends TestCase
     }
 
     /** @test */
+    public function it_provides_a_scope_to_get_all_models_that_have_a_given_tag()
+    {
+        TestModel::create([
+            'name' => 'model1',
+            'tags' => ['tagA'],
+        ]);
+
+        TestModel::create([
+            'name' => 'model2',
+            'tags' => ['tagA', 'tagB'],
+        ]);
+
+        TestModel::create([
+            'name' => 'model3',
+            'tags' => ['tagA', 'tagB', 'tagC'],
+        ]);
+
+        $testModels = TestModel::withAnyTags('tagB');
+
+        $this->assertEquals(['model2', 'model3'], $testModels->pluck('name')->toArray());
+
+        $testModels = TestModel::withAllTags('tagB');
+
+        $this->assertEquals(['model2', 'model3'], $testModels->pluck('name')->toArray());
+    }
+
+    /** @test */
+    public function it_provides_a_scope_to_get_all_models_that_have_all_given_tags()
+    {
+        TestModel::create([
+            'name' => 'model1',
+            'tags' => ['tagA'],
+        ]);
+
+        TestModel::create([
+            'name' => 'model2',
+            'tags' => ['tagA', 'tagB'],
+        ]);
+
+        TestModel::create([
+            'name' => 'model3',
+            'tags' => ['tagA', 'tagB', 'tagC'],
+        ]);
+
+        $testModels = TestModel::withAllTags(['tagB', 'tagC']);
+
+        $this->assertEquals(['model3'], $testModels->pluck('name')->toArray());
+    }
+
+    /** @test */
     public function it_provides_a_scope_to_get_all_models_that_have_any_of_the_given_tag_instances()
     {
         $tag = Tag::findOrCreate('tagA', 'typeA');
@@ -237,7 +287,7 @@ class HasTagsTest extends TestCase
     {
         $this->testModel->attachTags(['tag1', 'tag2', 'tag3']);
 
-        $this->testModel->syncTags(['tag3']);
+        $this->testModel->syncTags('tag3');
 
         $this->assertEquals(['tag3'], $this->testModel->tags->pluck('name')->toArray());
     }

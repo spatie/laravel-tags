@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Support\Arr;
 use InvalidArgumentException;
 
 trait HasTags
@@ -69,7 +70,7 @@ trait HasTags
 
     public function scopeWithAllTags(
         Builder $query,
-        array | ArrayAccess | Tag $tags,
+        string | array | ArrayAccess | Tag $tags,
         string $type = null,
     ): Builder {
         $tags = static::convertToTags($tags, $type);
@@ -85,7 +86,7 @@ trait HasTags
 
     public function scopeWithAnyTags(
         Builder $query,
-        array | ArrayAccess | Tag $tags,
+        string | array | ArrayAccess | Tag $tags,
         string $type = null,
     ): Builder {
         $tags = static::convertToTags($tags, $type);
@@ -162,8 +163,10 @@ trait HasTags
         return $this->detachTags([$tag], $type);
     }
 
-    public function syncTags(array | ArrayAccess $tags): static
+    public function syncTags(string | array | ArrayAccess $tags): static
     {
+        $tags = Arr::wrap($tags);
+
         $className = static::getTagClassName();
 
         $tags = collect($className::findOrCreate($tags));
