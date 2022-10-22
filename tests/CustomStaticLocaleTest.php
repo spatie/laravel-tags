@@ -6,8 +6,7 @@ beforeEach(function () {
     expect(TestCustomTagStaticLocaleModel::all())->toHaveCount(0);
 });
 
-it('can_use_static_locale', function()
-{
+it('can_use_static_locale', function () {
     app()->setLocale('es');
 
     $tag = TestCustomTagStaticLocaleModel::findOrCreateFromString('string');

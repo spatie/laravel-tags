@@ -39,24 +39,21 @@ beforeEach(function () {
 });
 
 
-it('provides a scope to get all models that have any of the given tags',function()
-{
+it('provides a scope to get all models that have any of the given tags', function () {
     $testModels = TestModel::withAnyTags(['tagC', 'tagD'])->get();
 
     expect($testModels->pluck('name')->toArray())->toEqual(['model3', 'model4']);
 });
 
 
-test('the with any tags scopes will still items when passing a non existing tag',function()
-{
+test('the with any tags scopes will still items when passing a non existing tag', function () {
     $testModels = TestModel::withAnyTags(['tagB', 'tagC', 'nonExistingTag'])->get();
 
     expect($testModels->pluck('name')->toArray())->toEqual(['model2', 'model3']);
 });
 
 
-it('provides a scope to get all models that have all of the given tags',function()
-{
+it('provides a scope to get all models that have all of the given tags', function () {
     $testModels = TestModel::withAllTags(['tagA', 'tagB'])->get();
 
     expect($testModels->pluck('name')->toArray())->toEqual(['model2', 'model3']);
@@ -67,8 +64,7 @@ it('provides a scope to get all models that have all of the given tags',function
 });
 
 
-it('provides a scope to get all models that have the given tag instance',function()
-{
+it('provides a scope to get all models that have the given tag instance', function () {
     $tagModel = Tag::findOrCreate('tagB');
 
     $testModels = TestModel::withAllTags($tagModel)->get();
@@ -77,8 +73,7 @@ it('provides a scope to get all models that have the given tag instance',functio
 });
 
 
-it('provides a scope to get all models that have any of the given tags with type',function()
-{
+it('provides a scope to get all models that have any of the given tags with type', function () {
     $testModels = TestModel::withAnyTags(['tagE'], 'typedTag')->get();
 
     expect($testModels->pluck('name')->toArray())->toEqual(['model5', 'model6']);
@@ -93,24 +88,21 @@ it('provides a scope to get all models that have any of the given tags with type
 });
 
 
-it('provides a scope to get all models that have all of the given tags with type',function()
-{
+it('provides a scope to get all models that have all of the given tags with type', function () {
     $testModels = TestModel::withAllTags(['tagE', 'tagF'], 'typedTag')->get();
 
     expect($testModels->pluck('name')->toArray())->toEqual(['model5']);
 });
 
 
-it('provides a scope to get all models that have any of the given tags with any type',function()
-{
+it('provides a scope to get all models that have any of the given tags with any type', function () {
     $testModels = TestModel::withAnyTagsOfAnyType(['tagE', 'tagF'])->get();
 
     expect($testModels->pluck('name')->toArray())->toEqual(['model5', 'model6']);
 });
 
 
-it('provides a scope to get all models that have any of the given tags with any type from mixed tag values',function()
-{
+it('provides a scope to get all models that have any of the given tags with any type from mixed tag values', function () {
     $tagD = Tag::findFromString('tagD');
 
     $testModels = TestModel::withAnyTagsOfAnyType([$tagD, 'tagE', 'tagF'])->get();
@@ -119,16 +111,14 @@ it('provides a scope to get all models that have any of the given tags with any 
 });
 
 
-it('provides a scope to get all models that have all of the given tags with any type',function()
-{
+it('provides a scope to get all models that have all of the given tags with any type', function () {
     $testModels = TestModel::withAllTagsOfAnyType(['tagE', 'tagF'])->get();
 
     expect($testModels->pluck('name')->toArray())->toEqual(['model5']);
 });
 
 
-it('provides a scope to get all models that have all of the given tags with any type from mixed tag values',function()
-{
+it('provides a scope to get all models that have all of the given tags with any type from mixed tag values', function () {
     $tagE = Tag::findFromString('tagE', 'typedTag');
 
     $testModels = TestModel::withAllTagsOfAnyType([$tagE, 'tagF'])->get();

@@ -6,8 +6,7 @@ beforeEach(function () {
     expect(Tag::all())->toHaveCount(0);
 });
 
-it('can create a tag', function()
-{
+it('can create a tag', function () {
     $tag = Tag::findOrCreateFromString('string');
 
     expect(Tag::all())->toHaveCount(1);
@@ -15,8 +14,7 @@ it('can create a tag', function()
     expect($tag->type)->toBeNull();
 });
 
-it('creates sortable tags',function()
-{
+it('creates sortable tags', function () {
     $tag = Tag::findOrCreateFromString('string');
     expect($tag->order_column)->toBe(1);
 
@@ -24,16 +22,14 @@ it('creates sortable tags',function()
     expect($tag->order_column)->toBe(2);
 });
 
-it('automatically generates a slug', function()
-{
+it('automatically generates a slug', function () {
     $tag = Tag::findOrCreateFromString('this is a tag');
 
     expect($tag->slug)->toBe('this-is-a-tag');
 });
 
 
-it('uses str slug if config slugger value is empty',function()
-{
+it('uses str slug if config slugger value is empty', function () {
     config()->set('tags.slugger', null);
 
     $tag = Tag::findOrCreateFromString('this is a tag');
@@ -42,8 +38,7 @@ it('uses str slug if config slugger value is empty',function()
 });
 
 
-it('can use a custom slugger',function()
-{
+it('can use a custom slugger', function () {
     config()->set('tags.slugger', 'strtoupper');
 
     $tag = Tag::findOrCreateFromString('this is a tag');
@@ -52,16 +47,14 @@ it('can use a custom slugger',function()
 });
 
 
-it('can create a tag with a type',function()
-{
+it('can create a tag with a type', function () {
     $tag = Tag::findOrCreate('string', 'myType');
 
     expect($tag->type)->toBe('myType');
 });
 
 
-it('provides a scope to get all tags with a specific type',function()
-{
+it('provides a scope to get all tags with a specific type', function () {
     Tag::findOrCreate('tagA', 'firstType');
     Tag::findOrCreate('tagB', 'firstType');
     Tag::findOrCreate('tagC', 'secondType');
@@ -72,8 +65,7 @@ it('provides a scope to get all tags with a specific type',function()
 });
 
 
-it('provides a scope to get all tags the contain a certain string',function()
-{
+it('provides a scope to get all tags the contain a certain string', function () {
     Tag::findOrCreate('one');
     Tag::findOrCreate('another-one');
     Tag::findOrCreate('another-ONE-with-different-casing');
@@ -88,8 +80,7 @@ it('provides a scope to get all tags the contain a certain string',function()
 });
 
 
-it('provides a method to get all tags with a specific type',function()
-{
+it('provides a method to get all tags with a specific type', function () {
     Tag::findOrCreate('tagA', 'firstType');
     Tag::findOrCreate('tagB', 'firstType');
     Tag::findOrCreate('tagC', 'secondType');
@@ -100,8 +91,7 @@ it('provides a method to get all tags with a specific type',function()
 });
 
 
-it('will not create a tag if the tag already exists',function()
-{
+it('will not create a tag if the tag already exists', function () {
     Tag::findOrCreate('string');
 
     Tag::findOrCreate('string');
@@ -110,8 +100,7 @@ it('will not create a tag if the tag already exists',function()
 });
 
 
-it('will create a tag if a tag exists with the same name but a different type',function()
-{
+it('will create a tag if a tag exists with the same name but a different type', function () {
     Tag::findOrCreate('string');
 
     Tag::findOrCreate('string', 'myType');
@@ -120,24 +109,21 @@ it('will create a tag if a tag exists with the same name but a different type',f
 });
 
 
-it('can create tags using an array',function()
-{
+it('can create tags using an array', function () {
     Tag::findOrCreate(['tag1', 'tag2', 'tag3']);
 
     expect(Tag::all())->toHaveCount(3);
 });
 
 
-it('can create tags using a collection',function()
-{
+it('can create tags using a collection', function () {
     Tag::findOrCreate(collect(['tag1', 'tag2', 'tag3']));
 
     expect(Tag::all())->toHaveCount(3);
 });
 
 
-it('can store translations',function()
-{
+it('can store translations', function () {
     $tag = Tag::findOrCreate('my tag');
 
     $tag->setTranslation('name', 'fr', 'mon tag');
@@ -153,8 +139,7 @@ it('can store translations',function()
 });
 
 
-it('can find or create a tag',function()
-{
+it('can find or create a tag', function () {
     $tag = Tag::findOrCreate('string');
 
     $tag2 = Tag::findOrCreate($tag->name);
@@ -163,8 +148,7 @@ it('can find or create a tag',function()
 });
 
 
-it('can find tags from a string with any type',function()
-{
+it('can find tags from a string with any type', function () {
     Tag::findOrCreate('tag1');
 
     Tag::findOrCreate('tag1', 'myType1');
@@ -177,8 +161,7 @@ it('can find tags from a string with any type',function()
 });
 
 
-it('name can be changed by setting its name property to a new value',function()
-{
+it('name can be changed by setting its name property to a new value', function () {
     $tag = Tag::findOrCreate('my tag');
 
     $tag->name = 'new name';
@@ -189,8 +172,7 @@ it('name can be changed by setting its name property to a new value',function()
 });
 
 
-it('gets all tag types',function()
-{
+it('gets all tag types', function () {
     Tag::findOrCreate('foo', 'type1');
     Tag::findOrCreate('bar', 'type1');
     Tag::findOrCreate('baz', 'type2');

@@ -7,8 +7,7 @@ beforeEach(function () {
 });
 
 
-it('can translate other attributes',function()
-{
+it('can translate other attributes', function () {
     $tag = TestCustomTagModel::findOrCreateFromString('string');
     $locale = 'es';
 

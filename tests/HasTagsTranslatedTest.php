@@ -6,8 +6,7 @@ beforeEach(function () {
     $this->testModel = TestModel::create(['name' => 'default']);
 });
 
-it('provides models with tag name and slug already translated',function()
-{
+it('provides models with tag name and slug already translated', function () {
     $this->testModel->attachTag('My Tag');
 
     $locale = app()->getLocale();
@@ -17,9 +16,8 @@ it('provides models with tag name and slug already translated',function()
     expect($translated['slug'][$locale])->toEqual($translated['slug_translated']);
 });
 
- 
-it('can provide models with tag name and slug translated for alternate locales',function()
-{
+
+it('can provide models with tag name and slug translated for alternate locales', function () {
     $this->testModel->attachTag('My Tag');
 
     $locale = 'fr';
