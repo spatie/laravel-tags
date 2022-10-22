@@ -3,7 +3,7 @@
 use Spatie\Tags\Test\TestClasses\TestCustomTagStaticLocaleModel;
 
 beforeEach(function () {
-    $this->assertCount(0, TestCustomTagStaticLocaleModel::all());
+    expect(TestCustomTagStaticLocaleModel::all())->toHaveCount(0);
 });
 
 it('can_use_static_locale', function()
@@ -16,6 +16,6 @@ it('can_use_static_locale', function()
 
     $translated = TestCustomTagStaticLocaleModel::where('name', 'LIKE', '%' . $staticLocale . '%')->first()->toArray();
 
-    $this->assertEquals('string', $translated['name'][$staticLocale]);
-    $this->assertCount(1, TestCustomTagStaticLocaleModel::all());
+    expect($translated['name'][$staticLocale])->toBe('string');
+    expect(TestCustomTagStaticLocaleModel::all())->toHaveCount(1);
 });

@@ -1,7 +1,6 @@
 <?php
 
 use Spatie\Tags\Tag;
-use Spatie\Tags\Test\TestCase;
 use Spatie\Tags\Test\TestClasses\TestModel;
 
 beforeEach(function () {
@@ -44,7 +43,7 @@ it('provides a scope to get all models that have any of the given tags',function
 {
     $testModels = TestModel::withAnyTags(['tagC', 'tagD'])->get();
 
-    $this->assertEquals(['model3', 'model4'], $testModels->pluck('name')->toArray());
+    expect($testModels->pluck('name')->toArray())->toEqual(['model3', 'model4']);
 });
 
 
@@ -52,7 +51,7 @@ test('the with any tags scopes will still items when passing a non existing tag'
 {
     $testModels = TestModel::withAnyTags(['tagB', 'tagC', 'nonExistingTag'])->get();
 
-    $this->assertEquals(['model2', 'model3'], $testModels->pluck('name')->toArray());
+    expect($testModels->pluck('name')->toArray())->toEqual(['model2', 'model3']);
 });
 
 
@@ -60,11 +59,11 @@ it('provides a scope to get all models that have all of the given tags',function
 {
     $testModels = TestModel::withAllTags(['tagA', 'tagB'])->get();
 
-    $this->assertEquals(['model2', 'model3'], $testModels->pluck('name')->toArray());
+    expect($testModels->pluck('name')->toArray())->toEqual(['model2', 'model3']);
 
     $testModels = TestModel::withAllTags(['tagB', 'tagC'])->get();
 
-    $this->assertEquals(['model3'], $testModels->pluck('name')->toArray());
+    expect($testModels->pluck('name')->toArray())->toEqual(['model3']);
 });
 
 
@@ -74,7 +73,7 @@ it('provides a scope to get all models that have the given tag instance',functio
 
     $testModels = TestModel::withAllTags($tagModel)->get();
 
-    $this->assertEquals(['model2', 'model3'], $testModels->pluck('name')->toArray());
+    expect($testModels->pluck('name')->toArray())->toEqual(['model2', 'model3']);
 });
 
 
@@ -82,15 +81,15 @@ it('provides a scope to get all models that have any of the given tags with type
 {
     $testModels = TestModel::withAnyTags(['tagE'], 'typedTag')->get();
 
-    $this->assertEquals(['model5', 'model6'], $testModels->pluck('name')->toArray());
+    expect($testModels->pluck('name')->toArray())->toEqual(['model5', 'model6']);
 
     $testModels = TestModel::withAnyTags(['tagF'], 'typedTag')->get();
 
-    $this->assertEquals(['model5'], $testModels->pluck('name')->toArray());
+    expect($testModels->pluck('name')->toArray())->toEqual(['model5']);
 
     $testModels = TestModel::withAnyTags(['tagF'])->get();
 
-    $this->assertEquals([], $testModels->pluck('name')->toArray());
+    expect($testModels->pluck('name')->toArray())->toEqual([]);
 });
 
 
@@ -98,7 +97,7 @@ it('provides a scope to get all models that have all of the given tags with type
 {
     $testModels = TestModel::withAllTags(['tagE', 'tagF'], 'typedTag')->get();
 
-    $this->assertEquals(['model5'], $testModels->pluck('name')->toArray());
+    expect($testModels->pluck('name')->toArray())->toEqual(['model5']);
 });
 
 
@@ -106,7 +105,7 @@ it('provides a scope to get all models that have any of the given tags with any 
 {
     $testModels = TestModel::withAnyTagsOfAnyType(['tagE', 'tagF'])->get();
 
-    $this->assertEquals(['model5', 'model6'], $testModels->pluck('name')->toArray());
+    expect($testModels->pluck('name')->toArray())->toEqual(['model5', 'model6']);
 });
 
 
@@ -116,7 +115,7 @@ it('provides a scope to get all models that have any of the given tags with any 
 
     $testModels = TestModel::withAnyTagsOfAnyType([$tagD, 'tagE', 'tagF'])->get();
 
-    $this->assertEquals(['model4', 'model5', 'model6'], $testModels->pluck('name')->toArray());
+    expect($testModels->pluck('name')->toArray())->toEqual(['model4', 'model5', 'model6']);
 });
 
 
@@ -124,7 +123,7 @@ it('provides a scope to get all models that have all of the given tags with any 
 {
     $testModels = TestModel::withAllTagsOfAnyType(['tagE', 'tagF'])->get();
 
-    $this->assertEquals(['model5'], $testModels->pluck('name')->toArray());
+    expect($testModels->pluck('name')->toArray())->toEqual(['model5']);
 });
 
 
@@ -134,5 +133,5 @@ it('provides a scope to get all models that have all of the given tags with any 
 
     $testModels = TestModel::withAllTagsOfAnyType([$tagE, 'tagF'])->get();
 
-    $this->assertEquals(['model5'], $testModels->pluck('name')->toArray());
+    expect($testModels->pluck('name')->toArray())->toEqual(['model5']);
 });

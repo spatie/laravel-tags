@@ -3,7 +3,7 @@
 use Spatie\Tags\Test\TestClasses\TestCustomTagModel;
 
 beforeEach(function () {
-    $this->assertCount(0, TestCustomTagModel::all());
+    expect(TestCustomTagModel::all())->toHaveCount(0);
 });
 
 
@@ -17,6 +17,6 @@ it('can translate other attributes',function()
 
     $translated = TestCustomTagModel::where('description', 'LIKE', '%' . $locale . '%')->first()->toArray();
 
-    $this->assertEquals('Esto es un tag', $translated['description'][$locale]);
-    $this->assertCount(1, TestCustomTagModel::all());
+    expect($translated['description'][$locale])->toBe('Esto es un tag');
+    expect(TestCustomTagModel::all())->toHaveCount(1);
 });

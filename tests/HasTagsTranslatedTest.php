@@ -13,8 +13,8 @@ it('provides models with tag name and slug already translated',function()
     $locale = app()->getLocale();
     $translated = $this->testModel->tagsTranslated->first()->toArray();
 
-    $this->assertEquals($translated['name_translated'], $translated['name'][$locale]);
-    $this->assertEquals($translated['slug_translated'], $translated['slug'][$locale]);
+    expect($translated['name'][$locale])->toEqual($translated['name_translated']);
+    expect($translated['slug'][$locale])->toEqual($translated['slug_translated']);
 });
 
  
@@ -30,6 +30,6 @@ it('can provide models with tag name and slug translated for alternate locales',
 
     $translated = $this->testModel->tagsTranslated($locale)->first()->toArray();
 
-    $this->assertEquals($translated['name_translated'], $translated['name'][$locale]);
-    $this->assertEquals($translated['slug_translated'], $translated['slug'][$locale]);
+    expect($translated['name'][$locale])->toEqual($translated['name_translated']);
+    expect($translated['slug'][$locale])->toEqual($translated['slug_translated']);
 });

@@ -12,7 +12,7 @@ beforeEach(function () {
 
 it('provides a tags relation',function()
 {
-    $this->assertInstanceOf(MorphToMany::class, $this->testModel->tags());
+    expect($this->testModel->tags())->toBeInstanceOf(MorphToMany::class);
 });
 
 
@@ -20,20 +20,20 @@ it('can attach a tag',function()
 {
     $this->testModel->attachTag('tagName');
 
-    $this->assertCount(1, $this->testModel->tags);
+    expect($this->testModel->tags)->toHaveCount(1);
 
-    $this->assertEquals(['tagName'], $this->testModel->tags->pluck('name')->toArray());
+    expect($this->testModel->tags->pluck('name')->toArray())->toEqual(['tagName']);
  });
 
 it('can attach a tag with a type',function()
 {
     $this->testModel->attachTag('tagName', 'testType');
 
-    $this->assertCount(1, $this->testModel->tags);
+    expect($this->testModel->tags)->toHaveCount(1);
 
-    $this->assertEquals(['tagName'], $this->testModel->tags->pluck('name')->toArray());
+    expect($this->testModel->tags->pluck('name')->toArray())->toEqual(['tagName']);
 
-    $this->assertEquals(['testType'], $this->testModel->tags->pluck('type')->toArray());
+    expect($this->testModel->tags->pluck('type')->toArray())->toEqual(['testType']);
  });
 
 
@@ -42,7 +42,7 @@ it('can attach a tag multiple times without creating duplicate entries',function
     $this->testModel->attachTag('tagName');
     $this->testModel->attachTag('tagName');
 
-    $this->assertCount(1, $this->testModel->tags);
+    expect($this->testModel->tags)->toHaveCount(1);
  });
 
 
@@ -52,7 +52,7 @@ it('can use a tag model when attaching a tag',function()
 
     $this->testModel->attachTag($tag);
 
-    $this->assertEquals(['tagName'], $this->testModel->tags->pluck('name')->toArray());
+    expect($this->testModel->tags->pluck('name')->toArray())->toEqual(['tagName']);
  });
 
 
@@ -63,7 +63,7 @@ it('can attach a tag inside a static create method',function()
         'tags'=> ['tag', 'tag2'],
     ]);
 
-    $this->assertCount(2, $testModel->tags);
+    expect($testModel->tags)->toHaveCount(2);
  });
 
 
@@ -71,7 +71,7 @@ it('can attach a tag via the tags mutator',function()
 {
     $this->testModel->tags = 'tag1';
 
-    $this->assertCount(1, $this->testModel->tags);
+    expect($this->testModel->tags)->toHaveCount(1);
  });
 
 
@@ -79,7 +79,7 @@ it('can attach multiple tags via the tags mutator',function()
 {
     $this->testModel->tags = ['tag1', 'tag2'];
 
-    $this->assertCount(2, $this->testModel->tags);
+    expect($this->testModel->tags)->toHaveCount(2);
  });
 
 
@@ -88,7 +88,7 @@ it('can override tags via the tags mutator',function()
     $this->testModel->tags = ['tag1', 'tag2'];
     $this->testModel->tags = ['tag2', 'tag3', 'tag4'];
 
-    $this->assertCount(3, $this->testModel->tags);
+    expect($this->testModel->tags)->toHaveCount(3);
  });
 
 
@@ -96,7 +96,7 @@ it('can attach multiple tags',function()
 {
     $this->testModel->attachTags(['test1', 'test2']);
 
-    $this->assertCount(2, $this->testModel->tags);
+    expect($this->testModel->tags)->toHaveCount(2);
  });
 
 
@@ -104,7 +104,7 @@ it('can attach multiple tags with a type',function()
 {
     $this->testModel->attachTags(['test1', 'test2'], 'testType');
 
-    $this->assertCount(2, $this->testModel->tags->where('type', '=', 'testType')->toArray());
+    expect($this->testModel->tags->where('type', '=', 'testType')->toArray())->toHaveCount(2);
  });
 
 
@@ -112,7 +112,7 @@ it('can attach a existing tag',function()
 {
     $this->testModel->attachTag(Tag::findOrCreate('test'));
 
-    $this->assertCount(1, $this->testModel->tags);
+    expect($this->testModel->tags)->toHaveCount(1);
  });
 
 
@@ -122,7 +122,7 @@ it('can detach a tag',function()
 
     $this->testModel->detachTag('test2');
 
-    $this->assertEquals(['test1', 'test3'], $this->testModel->tags->pluck('name')->toArray());
+    expect($this->testModel->tags->pluck('name')->toArray())->toEqual(['test1', 'test3']);
  });
 
 
@@ -132,7 +132,7 @@ it('can detach a tag with a type',function()
 
     $this->testModel->detachTag('test2', 'testType');
 
-    $this->assertEquals(['test1'], $this->testModel->tags->pluck('name')->toArray());
+    expect($this->testModel->tags->pluck('name')->toArray())->toEqual(['test1']);
  });
 
 
@@ -144,9 +144,9 @@ it('can detach a tag with a type and not affect a tag without a type',function()
 
     $this->testModel->detachTag('test1', 'testType');
 
-    $this->assertEquals(['test1'], $this->testModel->tags->pluck('name')->toArray());
+    expect($this->testModel->tags->pluck('name')->toArray())->toEqual(['test1']);
 
-    $this->assertNull($this->testModel->tags->where('name', '=', 'test1')->first()->type);
+    expect($this->testModel->tags->where('name', '=', 'test1')->first()->type)->toBeNull();
  });
 
 
@@ -158,9 +158,9 @@ it('can detach a tag with a type while leaving another of a different type',func
 
     $this->testModel->detachTag('test1', 'testType');
 
-    $this->assertEquals(['test1'], $this->testModel->tags->pluck('name')->sort()->toArray());
+    expect($this->testModel->tags->pluck('name')->sort()->toArray())->toEqual(['test1']);
 
-    $this->assertEquals('otherType', $this->testModel->tags->where('name', '=', 'test1')->first()->type);
+    expect($this->testModel->tags->where('name', '=', 'test1')->first()->type)->toBe('otherType');
  });
 
 
@@ -170,7 +170,7 @@ it('can detach multiple tags',function()
 
     $this->testModel->detachTags(['test1', 'test3']);
 
-    $this->assertEquals(['test2'], $this->testModel->tags->pluck('name')->toArray());
+    expect($this->testModel->tags->pluck('name')->toArray())->toEqual(['test2']);
  });
 
 
@@ -181,8 +181,8 @@ it('can get all attached tags of a certain type',function()
 
     $tagsOfType2 = $this->testModel->tagsWithType('type2');
 
-    $this->assertCount(1, $tagsOfType2);
-    $this->assertEquals('type2', $tagsOfType2->first()->type);
+    expect($tagsOfType2)->toHaveCount(1);
+    expect($tagsOfType2->first()->type)->toBe('type2');
  });
 
 
@@ -205,7 +205,7 @@ it('provides a scope to get all models that have any of the given tags 2',functi
 
     $testModels = TestModel::withAnyTags(['tagB', 'tagC']);
 
-    $this->assertEquals(['model2', 'model3'], $testModels->pluck('name')->toArray());
+    expect($testModels->pluck('name')->toArray())->toEqual(['model2', 'model3']);
  });
 
 
@@ -228,11 +228,11 @@ it('provides a scope to get all models that have a given tag',function()
 
     $testModels = TestModel::withAnyTags('tagB');
 
-    $this->assertEquals(['model2', 'model3'], $testModels->pluck('name')->toArray());
+    expect($testModels->pluck('name')->toArray())->toEqual(['model2', 'model3']);
 
     $testModels = TestModel::withAllTags('tagB');
 
-    $this->assertEquals(['model2', 'model3'], $testModels->pluck('name')->toArray());
+    expect($testModels->pluck('name')->toArray())->toEqual(['model2', 'model3']);
  });
 
 
@@ -255,7 +255,7 @@ it('provides a scope to get all models that have all given tags',function()
 
     $testModels = TestModel::withAllTags(['tagB', 'tagC']);
 
-    $this->assertEquals(['model3'], $testModels->pluck('name')->toArray());
+    expect($testModels->pluck('name')->toArray())->toEqual(['model3']);
  });
 
 
@@ -269,7 +269,7 @@ it('provides a scope to get all models that have any of the given tag instances'
 
     $testModels = TestModel::withAnyTags([$tag]);
 
-    $this->assertEquals(['model1'], $testModels->pluck('name')->toArray());
+    expect($testModels->pluck('name')->toArray())->toEqual(['model1']);
  });
 
 
@@ -279,7 +279,7 @@ it('can sync a single tag',function()
 
     $this->testModel->syncTags('tag3');
 
-    $this->assertEquals(['tag3'], $this->testModel->tags->pluck('name')->toArray());
+    expect($this->testModel->tags->pluck('name')->toArray())->toEqual(['tag3']);
  });
 
 
@@ -289,7 +289,7 @@ it('can sync multiple tags',function()
 
     $this->testModel->syncTags(['tag3', 'tag4']);
 
-    $this->assertEquals(['tag3', 'tag4'], $this->testModel->tags->pluck('name')->toArray());
+    expect($this->testModel->tags->pluck('name')->toArray())->toEqual(['tag3', 'tag4']);
  });
 
 
@@ -299,10 +299,10 @@ it('can sync tags with different types',function()
     $this->testModel->syncTagsWithType(['tagB1', 'tagB2'], 'typeB');
 
     $tagsOfTypeA = $this->testModel->tagsWithType('typeA');
-    $this->assertEquals(['tagA1', 'tagA2', 'tagA3'], $tagsOfTypeA->pluck('name')->toArray());
+    expect($tagsOfTypeA->pluck('name')->toArray())->toEqual(['tagA1', 'tagA2', 'tagA3']);
 
     $tagsOfTypeB = $this->testModel->tagsWithType('typeB');
-    $this->assertEquals(['tagB1', 'tagB2'], $tagsOfTypeB->pluck('name')->toArray());
+    expect($tagsOfTypeB->pluck('name')->toArray())->toEqual(['tagB1', 'tagB2']);
  });
 
 
@@ -315,11 +315,11 @@ it('can sync same tag type with different models with same foreign id',function(
     ])->syncTagsWithType(['tagA1'], 'typeA');
 
     // They should have the same foreign ID in taggables table
-    $this->assertEquals('1', $this->testModel->id);
-    $this->assertEquals('1', $testAnotherModel->id);
+    expect($this->testModel->id)->toBe(1);
+    expect($testAnotherModel->id)->toBe(1);
 
     $testAnotherModelTagsOfTypeA = $testAnotherModel->tagsWithType('typeA');
-    $this->assertEquals(['tagA1'], $testAnotherModelTagsOfTypeA->pluck('name')->toArray());
+    expect($testAnotherModelTagsOfTypeA->pluck('name')->toArray())->toEqual(['tagA1']);
  });
 
 
@@ -329,13 +329,13 @@ it('can detach tags on model delete',function()
 
     $this->testModel->delete();
 
-    $this->assertEquals(0, $this->testModel->tags()->get()->count());
+    expect($this->testModel->tags()->get())->toHaveCount(0);
  });
 
 
 it('can delete models without tags',function()
 {
-    $this->assertTrue($this->testModel->delete());
+    expect($this->testModel->delete())->toBeTrue();
  });
 
 
@@ -344,5 +344,5 @@ it('can sync tags with same name',function()
     $this->testModel->syncTagsWithType(['tagA1', 'tagA1'], 'typeA');
 
     $tagsOfTypeA = $this->testModel->tagsWithType('typeA');
-    $this->assertEquals(['tagA1'], $tagsOfTypeA->pluck('name')->toArray());
+    expect($tagsOfTypeA->pluck('name')->toArray())->toEqual(['tagA1']);
  });
