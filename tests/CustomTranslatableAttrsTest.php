@@ -1,31 +1,22 @@
 <?php
 
-namespace Spatie\Translatable\Test;
-
-use Spatie\Tags\Test\TestCase;
 use Spatie\Tags\Test\TestClasses\TestCustomTagModel;
 
-class CustomTranslatableAttrsTest extends TestCase
+beforeEach(function () {
+    expect(TestCustomTagModel::all())->toHaveCount(0);
+});
+
+
+it('can translate other attributes',function()
 {
-    public function setUp(): void
-    {
-        parent::setUp();
+    $tag = TestCustomTagModel::findOrCreateFromString('string');
+    $locale = 'es';
 
-        $this->assertCount(0, TestCustomTagModel::all());
-    }
+    $tag->setTranslation('description', $locale, 'Esto es un tag');
+    $tag->save();
 
-    /** @test */
-    public function it_can_translate_other_attributes()
-    {
-        $tag = TestCustomTagModel::findOrCreateFromString('string');
-        $locale = 'es';
+    $translated = TestCustomTagModel::where('description', 'LIKE', '%' . $locale . '%')->first()->toArray();
 
-        $tag->setTranslation('description', $locale, 'Esto es un tag');
-        $tag->save();
-
-        $translated = TestCustomTagModel::where('description', 'LIKE', '%' . $locale . '%')->first()->toArray();
-
-        $this->assertEquals('Esto es un tag', $translated['description'][$locale]);
-        $this->assertCount(1, TestCustomTagModel::all());
-    }
-}
+    expect($translated['description'][$locale])->toBe('Esto es un tag');
+    expect(TestCustomTagModel::all())->toHaveCount(1);
+});

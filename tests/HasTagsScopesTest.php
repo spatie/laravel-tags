@@ -1,148 +1,137 @@
 <?php
 
-namespace Spatie\Translatable\Test;
-
 use Spatie\Tags\Tag;
-use Spatie\Tags\Test\TestCase;
 use Spatie\Tags\Test\TestClasses\TestModel;
 
-class HasTagsScopesTest extends TestCase
+beforeEach(function () {
+    TestModel::create([
+        'name' => 'model1',
+        'tags' => ['tagA'],
+    ]);
+
+    TestModel::create([
+        'name' => 'model2',
+        'tags' => ['tagA', 'tagB'],
+    ]);
+
+    TestModel::create([
+        'name' => 'model3',
+        'tags' => ['tagA', 'tagB', 'tagC'],
+    ]);
+
+    TestModel::create([
+        'name' => 'model4',
+        'tags' => ['tagD'],
+    ]);
+
+    $typedTag = Tag::findOrCreate('tagE', 'typedTag');
+    $anotherTypedTag = Tag::findOrCreate('tagF', 'typedTag');
+
+    TestModel::create([
+        'name' => 'model5',
+        'tags' => [$typedTag, $anotherTypedTag],
+    ]);
+
+    TestModel::create([
+        'name' => 'model6',
+        'tags' => [$typedTag],
+    ]);
+});
+
+
+it('provides a scope to get all models that have any of the given tags',function()
 {
-    protected TestModel $testModel;
+    $testModels = TestModel::withAnyTags(['tagC', 'tagD'])->get();
 
-    public function setUp(): void
-    {
-        parent::setUp();
+    expect($testModels->pluck('name')->toArray())->toEqual(['model3', 'model4']);
+});
 
-        TestModel::create([
-            'name' => 'model1',
-            'tags' => ['tagA'],
-        ]);
 
-        TestModel::create([
-            'name' => 'model2',
-            'tags' => ['tagA', 'tagB'],
-        ]);
+test('the with any tags scopes will still items when passing a non existing tag',function()
+{
+    $testModels = TestModel::withAnyTags(['tagB', 'tagC', 'nonExistingTag'])->get();
 
-        TestModel::create([
-            'name' => 'model3',
-            'tags' => ['tagA', 'tagB', 'tagC'],
-        ]);
+    expect($testModels->pluck('name')->toArray())->toEqual(['model2', 'model3']);
+});
 
-        TestModel::create([
-            'name' => 'model4',
-            'tags' => ['tagD'],
-        ]);
 
-        $typedTag = Tag::findOrCreate('tagE', 'typedTag');
-        $anotherTypedTag = Tag::findOrCreate('tagF', 'typedTag');
+it('provides a scope to get all models that have all of the given tags',function()
+{
+    $testModels = TestModel::withAllTags(['tagA', 'tagB'])->get();
 
-        TestModel::create([
-            'name' => 'model5',
-            'tags' => [$typedTag, $anotherTypedTag],
-        ]);
+    expect($testModels->pluck('name')->toArray())->toEqual(['model2', 'model3']);
 
-        TestModel::create([
-            'name' => 'model6',
-            'tags' => [$typedTag],
-        ]);
-    }
+    $testModels = TestModel::withAllTags(['tagB', 'tagC'])->get();
 
-    /** @test */
-    public function it_provides_a_scope_to_get_all_models_that_have_any_of_the_given_tags()
-    {
-        $testModels = TestModel::withAnyTags(['tagC', 'tagD'])->get();
+    expect($testModels->pluck('name')->toArray())->toEqual(['model3']);
+});
 
-        $this->assertEquals(['model3', 'model4'], $testModels->pluck('name')->toArray());
-    }
 
-    /** @test */
-    public function the_with_any_tags_scopes_will_still_items_when_passing_a_non_existing_tag()
-    {
-        $testModels = TestModel::withAnyTags(['tagB', 'tagC', 'nonExistingTag'])->get();
+it('provides a scope to get all models that have the given tag instance',function()
+{
+    $tagModel = Tag::findOrCreate('tagB');
 
-        $this->assertEquals(['model2', 'model3'], $testModels->pluck('name')->toArray());
-    }
+    $testModels = TestModel::withAllTags($tagModel)->get();
 
-    /** @test */
-    public function it_provides_a_scope_to_get_all_models_that_have_all_of_the_given_tags()
-    {
-        $testModels = TestModel::withAllTags(['tagA', 'tagB'])->get();
+    expect($testModels->pluck('name')->toArray())->toEqual(['model2', 'model3']);
+});
 
-        $this->assertEquals(['model2', 'model3'], $testModels->pluck('name')->toArray());
 
-        $testModels = TestModel::withAllTags(['tagB', 'tagC'])->get();
+it('provides a scope to get all models that have any of the given tags with type',function()
+{
+    $testModels = TestModel::withAnyTags(['tagE'], 'typedTag')->get();
 
-        $this->assertEquals(['model3'], $testModels->pluck('name')->toArray());
-    }
+    expect($testModels->pluck('name')->toArray())->toEqual(['model5', 'model6']);
 
-    /** @test */
-    public function it_provides_a_scope_to_get_all_models_that_have_the_given_tag_instance()
-    {
-        $tagModel = Tag::findOrCreate('tagB');
+    $testModels = TestModel::withAnyTags(['tagF'], 'typedTag')->get();
 
-        $testModels = TestModel::withAllTags($tagModel)->get();
+    expect($testModels->pluck('name')->toArray())->toEqual(['model5']);
 
-        $this->assertEquals(['model2', 'model3'], $testModels->pluck('name')->toArray());
-    }
+    $testModels = TestModel::withAnyTags(['tagF'])->get();
 
-    /** @test */
-    public function it_provides_a_scope_to_get_all_models_that_have_any_of_the_given_tags_with_type()
-    {
-        $testModels = TestModel::withAnyTags(['tagE'], 'typedTag')->get();
+    expect($testModels->pluck('name')->toArray())->toEqual([]);
+});
 
-        $this->assertEquals(['model5', 'model6'], $testModels->pluck('name')->toArray());
 
-        $testModels = TestModel::withAnyTags(['tagF'], 'typedTag')->get();
+it('provides a scope to get all models that have all of the given tags with type',function()
+{
+    $testModels = TestModel::withAllTags(['tagE', 'tagF'], 'typedTag')->get();
 
-        $this->assertEquals(['model5'], $testModels->pluck('name')->toArray());
+    expect($testModels->pluck('name')->toArray())->toEqual(['model5']);
+});
 
-        $testModels = TestModel::withAnyTags(['tagF'])->get();
 
-        $this->assertEquals([], $testModels->pluck('name')->toArray());
-    }
+it('provides a scope to get all models that have any of the given tags with any type',function()
+{
+    $testModels = TestModel::withAnyTagsOfAnyType(['tagE', 'tagF'])->get();
 
-    /** @test */
-    public function it_provides_a_scope_to_get_all_models_that_have_all_of_the_given_tags_with_type()
-    {
-        $testModels = TestModel::withAllTags(['tagE', 'tagF'], 'typedTag')->get();
+    expect($testModels->pluck('name')->toArray())->toEqual(['model5', 'model6']);
+});
 
-        $this->assertEquals(['model5'], $testModels->pluck('name')->toArray());
-    }
 
-    /** @test */
-    public function it_provides_a_scope_to_get_all_models_that_have_any_of_the_given_tags_with_any_type()
-    {
-        $testModels = TestModel::withAnyTagsOfAnyType(['tagE', 'tagF'])->get();
+it('provides a scope to get all models that have any of the given tags with any type from mixed tag values',function()
+{
+    $tagD = Tag::findFromString('tagD');
 
-        $this->assertEquals(['model5', 'model6'], $testModels->pluck('name')->toArray());
-    }
+    $testModels = TestModel::withAnyTagsOfAnyType([$tagD, 'tagE', 'tagF'])->get();
 
-    /** @test */
-    public function it_provides_a_scope_to_get_all_models_that_have_any_of_the_given_tags_with_any_type_from_mixed_tag_values()
-    {
-        $tagD = Tag::findFromString('tagD');
+    expect($testModels->pluck('name')->toArray())->toEqual(['model4', 'model5', 'model6']);
+});
 
-        $testModels = TestModel::withAnyTagsOfAnyType([$tagD, 'tagE', 'tagF'])->get();
 
-        $this->assertEquals(['model4', 'model5', 'model6'], $testModels->pluck('name')->toArray());
-    }
+it('provides a scope to get all models that have all of the given tags with any type',function()
+{
+    $testModels = TestModel::withAllTagsOfAnyType(['tagE', 'tagF'])->get();
 
-    /** @test */
-    public function it_provides_a_scope_to_get_all_models_that_have_all_of_the_given_tags_with_any_type()
-    {
-        $testModels = TestModel::withAllTagsOfAnyType(['tagE', 'tagF'])->get();
+    expect($testModels->pluck('name')->toArray())->toEqual(['model5']);
+});
 
-        $this->assertEquals(['model5'], $testModels->pluck('name')->toArray());
-    }
 
-    /** @test */
-    public function it_provides_a_scope_to_get_all_models_that_have_all_of_the_given_tags_with_any_type_from_mixed_tag_values()
-    {
-        $tagE = Tag::findFromString('tagE', 'typedTag');
+it('provides a scope to get all models that have all of the given tags with any type from mixed tag values',function()
+{
+    $tagE = Tag::findFromString('tagE', 'typedTag');
 
-        $testModels = TestModel::withAllTagsOfAnyType([$tagE, 'tagF'])->get();
+    $testModels = TestModel::withAllTagsOfAnyType([$tagE, 'tagF'])->get();
 
-        $this->assertEquals(['model5'], $testModels->pluck('name')->toArray());
-    }
-}
+    expect($testModels->pluck('name')->toArray())->toEqual(['model5']);
+});

@@ -1,216 +1,204 @@
 <?php
 
-namespace Spatie\Translatable\Test;
-
 use Spatie\Tags\Tag;
-use Spatie\Tags\Test\TestCase;
 
-class TagTest extends TestCase
+beforeEach(function () {
+    expect(Tag::all())->toHaveCount(0);
+});
+
+it('can create a tag', function()
 {
-    public function setUp(): void
-    {
-        parent::setUp();
+    $tag = Tag::findOrCreateFromString('string');
 
-        $this->assertCount(0, Tag::all());
-    }
+    expect(Tag::all())->toHaveCount(1);
+    expect($tag->getTranslation('name', app()->getLocale()))->toBe('string');
+    expect($tag->type)->toBeNull();
+});
 
-    /** @test */
-    public function it_can_create_a_tag()
-    {
-        $tag = Tag::findOrCreateFromString('string');
+it('creates sortable tags',function()
+{
+    $tag = Tag::findOrCreateFromString('string');
+    expect($tag->order_column)->toBe(1);
 
-        $this->assertCount(1, Tag::all());
-        $this->assertSame('string', $tag->getTranslation('name', app()->getLocale()));
-        $this->assertNull($tag->type);
-    }
+    $tag = Tag::findOrCreateFromString('string2');
+    expect($tag->order_column)->toBe(2);
+});
 
-    /** @test */
-    public function it_creates_sortable_tags()
-    {
-        $tag = Tag::findOrCreateFromString('string');
-        $this->assertSame(1, $tag->order_column);
+it('automatically generates a slug', function()
+{
+    $tag = Tag::findOrCreateFromString('this is a tag');
 
-        $tag = Tag::findOrCreateFromString('string2');
-        $this->assertSame(2, $tag->order_column);
-    }
+    expect($tag->slug)->toBe('this-is-a-tag');
+});
 
-    /** @test */
-    public function it_automatically_generates_a_slug()
-    {
-        $tag = Tag::findOrCreateFromString('this is a tag');
 
-        $this->assertSame('this-is-a-tag', $tag->slug);
-    }
+it('uses str slug if config slugger value is empty',function()
+{
+    config()->set('tags.slugger', null);
 
-    /** @test */
-    public function it_uses_str_slug_if_config_slugger_value_is_empty()
-    {
-        config()->set('tags.slugger', null);
+    $tag = Tag::findOrCreateFromString('this is a tag');
 
-        $tag = Tag::findOrCreateFromString('this is a tag');
+    expect($tag->slug)->toBe('this-is-a-tag');
+});
 
-        $this->assertSame('this-is-a-tag', $tag->slug);
-    }
 
-    /** @test */
-    public function it_can_use_a_custom_slugger()
-    {
-        config()->set('tags.slugger', 'strtoupper');
+it('can use a custom slugger',function()
+{
+    config()->set('tags.slugger', 'strtoupper');
 
-        $tag = Tag::findOrCreateFromString('this is a tag');
+    $tag = Tag::findOrCreateFromString('this is a tag');
 
-        $this->assertSame('THIS IS A TAG', $tag->slug);
-    }
+    expect($tag->slug)->toBe('THIS IS A TAG');
+});
 
-    /** @test */
-    public function it_can_create_a_tag_with_a_type()
-    {
-        $tag = Tag::findOrCreate('string', 'myType');
 
-        $this->assertSame('myType', $tag->type);
-    }
+it('can create a tag with a type',function()
+{
+    $tag = Tag::findOrCreate('string', 'myType');
 
-    /** @test */
-    public function it_provides_a_scope_to_get_all_tags_with_a_specific_type()
-    {
-        Tag::findOrCreate('tagA', 'firstType');
-        Tag::findOrCreate('tagB', 'firstType');
-        Tag::findOrCreate('tagC', 'secondType');
-        Tag::findOrCreate('tagD', 'secondType');
+    expect($tag->type)->toBe('myType');
+});
 
-        $this->assertEquals(['tagA', 'tagB'], Tag::withType('firstType')->pluck('name')->toArray());
-        $this->assertEquals(['tagC', 'tagD'], Tag::withType('secondType')->pluck('name')->toArray());
-    }
 
-    /** @test */
-    public function it_provides_a_scope_to_get_all_tags_the_contain_a_certain_string()
-    {
-        Tag::findOrCreate('one');
-        Tag::findOrCreate('another-one');
-        Tag::findOrCreate('another-ONE-with-different-casing');
-        Tag::findOrCreate('two');
+it('provides a scope to get all tags with a specific type',function()
+{
+    Tag::findOrCreate('tagA', 'firstType');
+    Tag::findOrCreate('tagB', 'firstType');
+    Tag::findOrCreate('tagC', 'secondType');
+    Tag::findOrCreate('tagD', 'secondType');
 
-        $this->assertEquals([
-            'one',
-            'another-one',
-            'another-ONE-with-different-casing',
-        ], Tag::containing('on')->pluck('name')->toArray());
-        $this->assertEquals(['two'], Tag::containing('tw')->pluck('name')->toArray());
-    }
+    expect(Tag::withType('firstType')->pluck('name')->toArray())->toMatchArray(['tagA', 'tagB']);
+    expect(Tag::withType('secondType')->pluck('name')->toArray())->toMatchArray(['tagC', 'tagD']);
+});
 
-    /** @test */
-    public function it_provides_a_method_to_get_all_tags_with_a_specific_type()
-    {
-        Tag::findOrCreate('tagA', 'firstType');
-        Tag::findOrCreate('tagB', 'firstType');
-        Tag::findOrCreate('tagC', 'secondType');
-        Tag::findOrCreate('tagD', 'secondType');
 
-        $this->assertEquals(['tagA', 'tagB'], Tag::getWithType('firstType')->pluck('name')->toArray());
-        $this->assertEquals(['tagC', 'tagD'], Tag::getWithType('secondType')->pluck('name')->toArray());
-    }
+it('provides a scope to get all tags the contain a certain string',function()
+{
+    Tag::findOrCreate('one');
+    Tag::findOrCreate('another-one');
+    Tag::findOrCreate('another-ONE-with-different-casing');
+    Tag::findOrCreate('two');
 
-    /** @test */
-    public function it_will_not_create_a_tag_if_the_tag_already_exists()
-    {
-        Tag::findOrCreate('string');
+    expect(Tag::containing('on')->pluck('name')->toArray())->toMatchArray([
+        'one',
+        'another-one',
+        'another-ONE-with-different-casing',
+    ]);
+    expect(Tag::containing('tw')->pluck('name')->toArray())->toMatchArray(['two']);
+});
 
-        Tag::findOrCreate('string');
 
-        $this->assertCount(1, Tag::all());
-    }
+it('provides a method to get all tags with a specific type',function()
+{
+    Tag::findOrCreate('tagA', 'firstType');
+    Tag::findOrCreate('tagB', 'firstType');
+    Tag::findOrCreate('tagC', 'secondType');
+    Tag::findOrCreate('tagD', 'secondType');
 
-    /** @test */
-    public function it_will_create_a_tag_if_a_tag_exists_with_the_same_name_but_a_different_type()
-    {
-        Tag::findOrCreate('string');
+    expect(Tag::getWithType('firstType')->pluck('name')->toArray())->toMatchArray(['tagA', 'tagB']);
+    expect(Tag::getWithType('secondType')->pluck('name')->toArray())->toMatchArray(['tagC', 'tagD']);
+});
 
-        Tag::findOrCreate('string', 'myType');
 
-        $this->assertCount(2, Tag::all());
-    }
+it('will not create a tag if the tag already exists',function()
+{
+    Tag::findOrCreate('string');
 
-    /** @test */
-    public function it_can_create_tags_using_an_array()
-    {
-        Tag::findOrCreate(['tag1', 'tag2', 'tag3']);
+    Tag::findOrCreate('string');
 
-        $this->assertCount(3, Tag::all());
-    }
+    expect(Tag::all())->toHaveCount(1);
+});
 
-    /** @test */
-    public function it_can_create_tags_using_a_collection()
-    {
-        Tag::findOrCreate(collect(['tag1', 'tag2', 'tag3']));
 
-        $this->assertCount(3, Tag::all());
-    }
+it('will create a tag if a tag exists with the same name but a different type',function()
+{
+    Tag::findOrCreate('string');
 
-    /** @test */
-    public function it_can_store_translations()
-    {
-        $tag = Tag::findOrCreate('my tag');
+    Tag::findOrCreate('string', 'myType');
 
-        $tag->setTranslation('name', 'fr', 'mon tag');
-        $tag->setTranslation('name', 'nl', 'mijn tag');
+    expect(Tag::all())->toHaveCount(2);
+});
 
-        $tag->save();
 
-        $this->assertEquals([
-            'en' => 'my tag',
-            'fr' => 'mon tag',
-            'nl' => 'mijn tag',
-        ], $tag->getTranslations('name'));
-    }
+it('can create tags using an array',function()
+{
+    Tag::findOrCreate(['tag1', 'tag2', 'tag3']);
 
-    /** @test */
-    public function it_can_find_or_create_a_tag()
-    {
-        $tag = Tag::findOrCreate('string');
+    expect(Tag::all())->toHaveCount(3);
+});
 
-        $tag2 = Tag::findOrCreate($tag->name);
 
-        $this->assertEquals('string', $tag2->name);
-    }
+it('can create tags using a collection',function()
+{
+    Tag::findOrCreate(collect(['tag1', 'tag2', 'tag3']));
 
-    /** @test */
-    public function it_can_find_tags_from_a_string_with_any_type()
-    {
-        Tag::findOrCreate('tag1');
+    expect(Tag::all())->toHaveCount(3);
+});
 
-        Tag::findOrCreate('tag1', 'myType1');
 
-        Tag::findOrCreate('tag1', 'myType2');
+it('can store translations',function()
+{
+    $tag = Tag::findOrCreate('my tag');
 
-        $tags = Tag::findFromStringOfAnyType('tag1');
+    $tag->setTranslation('name', 'fr', 'mon tag');
+    $tag->setTranslation('name', 'nl', 'mijn tag');
 
-        $this->assertCount(3, $tags);
-    }
+    $tag->save();
 
-    /** @test */
-    public function its_name_can_be_changed_by_setting_its_name_property_to_a_new_value()
-    {
-        $tag = Tag::findOrCreate('my tag');
+    expect($tag->getTranslations('name'))->toMatchArray([
+        'en' => 'my tag',
+        'fr' => 'mon tag',
+        'nl' => 'mijn tag',
+    ]);
+});
 
-        $tag->name = 'new name';
 
-        $tag->save();
+it('can find or create a tag',function()
+{
+    $tag = Tag::findOrCreate('string');
 
-        $this->assertEquals('new name', $tag->name);
-    }
+    $tag2 = Tag::findOrCreate($tag->name);
 
-    /** @test */
-    public function it_gets_all_tag_types()
-    {
-        Tag::findOrCreate('foo', 'type1');
-        Tag::findOrCreate('bar', 'type1');
-        Tag::findOrCreate('baz', 'type2');
-        Tag::findOrCreate('qux', 'type2');
+    expect($tag2->name)->toBe('string');
+});
 
-        $types = Tag::getTypes();
 
-        $this->assertCount(2, $types);
-        $this->assertEquals('type1', $types[0]);
-        $this->assertEquals('type2', $types[1]);
-    }
-}
+it('can find tags from a string with any type',function()
+{
+    Tag::findOrCreate('tag1');
+
+    Tag::findOrCreate('tag1', 'myType1');
+
+    Tag::findOrCreate('tag1', 'myType2');
+
+    $tags = Tag::findFromStringOfAnyType('tag1');
+
+    expect($tags)->toHaveCount(3);
+});
+
+
+it('name can be changed by setting its name property to a new value',function()
+{
+    $tag = Tag::findOrCreate('my tag');
+
+    $tag->name = 'new name';
+
+    $tag->save();
+
+    expect($tag->name)->toBe('new name');
+});
+
+
+it('gets all tag types',function()
+{
+    Tag::findOrCreate('foo', 'type1');
+    Tag::findOrCreate('bar', 'type1');
+    Tag::findOrCreate('baz', 'type2');
+    Tag::findOrCreate('qux', 'type2');
+
+    $types = Tag::getTypes();
+
+    expect($types)->toHaveCount(2);
+    expect($types[0])->toBe('type1');
+    expect($types[1])->toBe('type2');
+});

@@ -1,47 +1,35 @@
 <?php
 
-namespace Spatie\Translatable\Test;
-
-use Spatie\Tags\Test\TestCase;
 use Spatie\Tags\Test\TestClasses\TestModel;
 
-class HasTagsTranslatedTest extends TestCase
+beforeEach(function () {
+    $this->testModel = TestModel::create(['name' => 'default']);
+});
+
+it('provides models with tag name and slug already translated',function()
 {
-    protected TestModel $testModel;
+    $this->testModel->attachTag('My Tag');
 
-    public function setUp(): void
-    {
-        parent::setUp();
+    $locale = app()->getLocale();
+    $translated = $this->testModel->tagsTranslated->first()->toArray();
 
-        $this->testModel = TestModel::create(['name' => 'default']);
-    }
+    expect($translated['name'][$locale])->toEqual($translated['name_translated']);
+    expect($translated['slug'][$locale])->toEqual($translated['slug_translated']);
+});
 
-    /** @test */
-    public function it_provides_models_with_tag_name_and_slug_already_translated()
-    {
-        $this->testModel->attachTag('My Tag');
+ 
+it('can provide models with tag name and slug translated for alternate locales',function()
+{
+    $this->testModel->attachTag('My Tag');
 
-        $locale = app()->getLocale();
-        $translated = $this->testModel->tagsTranslated->first()->toArray();
+    $locale = 'fr';
 
-        $this->assertEquals($translated['name_translated'], $translated['name'][$locale]);
-        $this->assertEquals($translated['slug_translated'], $translated['slug'][$locale]);
-    }
+    $tag = $this->testModel->tags->first();
+    $tag->setTranslation('name', $locale, 'Mon tag');
+    $tag->save();
 
-    /** @test */
-    public function it_can_provide_models_with_tag_name_and_slug_translated_for_alternate_locales()
-    {
-        $this->testModel->attachTag('My Tag');
+    $translated = $this->testModel->tagsTranslated($locale)->first()->toArray();
 
-        $locale = 'fr';
-
-        $tag = $this->testModel->tags->first();
-        $tag->setTranslation('name', $locale, 'Mon tag');
-        $tag->save();
-
-        $translated = $this->testModel->tagsTranslated($locale)->first()->toArray();
-
-        $this->assertEquals($translated['name_translated'], $translated['name'][$locale]);
-        $this->assertEquals($translated['slug_translated'], $translated['slug'][$locale]);
-    }
-}
+    expect($translated['name'][$locale])->toEqual($translated['name_translated']);
+    expect($translated['slug'][$locale])->toEqual($translated['slug_translated']);
+});

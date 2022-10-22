@@ -51,6 +51,6 @@ jobs:
               run: composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction
 
             - name: Execute tests
-              run: vendor/bin/phpunit
+              run: vendor/bin/pest
               env:
                   DB_PORT: ${{ job.services.mysql.ports[3306] }}
