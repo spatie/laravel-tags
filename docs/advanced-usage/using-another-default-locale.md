@@ -3,7 +3,7 @@ title: Using another default locale
 weight: 7
 ---
 
-Image you have a multi-language application. The admin section has English set as the app's locale, but you want tags to be input by your admins in another language by default, for instance Dutch.
+Imagine you have a multi-language application. The admin section has English set as the app's locale, but you want tags to be input by your admins in another language by default, for instance Dutch.
 
 In this case, you can set the default language for tags to Dutch.
 
