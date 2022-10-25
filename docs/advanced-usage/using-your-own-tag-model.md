@@ -20,7 +20,7 @@ class YourModel extends Model
 }
 ```
 
-Then you need to override the `tags()` method from the same trait to tell Laravel that it still needs to look for `tags_id` column for tags relation instead of `your_tag_model_id`:
+Then you need to override the `tags()` method from the same trait to tell Laravel that it still needs to look for `tag_id` column for tags relation instead of `your_tag_model_id`:
 
 ```php
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
