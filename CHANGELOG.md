@@ -2,6 +2,21 @@
 
 All notable changes to `laravel-tags` will be documented in this file
 
+## 4.3.4 - 2022-11-17
+
+### What's Changed
+
+- change phpunit to pest testing framework by @uthadehikaru in https://github.com/spatie/laravel-tags/pull/423
+- Fix typos in the docs by @ahmad-moussawi in https://github.com/spatie/laravel-tags/pull/425
+- Fixed Collection support in syncTags function and added regression test by @zupolgec in https://github.com/spatie/laravel-tags/pull/427
+
+### New Contributors
+
+- @uthadehikaru made their first contribution in https://github.com/spatie/laravel-tags/pull/423
+- @ahmad-moussawi made their first contribution in https://github.com/spatie/laravel-tags/pull/425
+
+**Full Changelog**: https://github.com/spatie/laravel-tags/compare/4.3.3...4.3.4
+
 ## 4.3.3 - 2022-10-21
 
 ### What's Changed
