@@ -269,6 +269,15 @@ it('can sync multiple tags', function () {
 });
 
 
+it('can sync multiple tags from a collection', function () {
+    $this->testModel->attachTags(collect(['tag1', 'tag2', 'tag3']));
+
+    $this->testModel->syncTags(collect(['tag3', 'tag4']));
+
+    expect($this->testModel->tags->pluck('name')->toArray())->toEqual(['tag3', 'tag4']);
+});
+
+
 it('can sync tags with different types', function () {
     $this->testModel->syncTagsWithType(['tagA1', 'tagA2', 'tagA3'], 'typeA');
     $this->testModel->syncTagsWithType(['tagB1', 'tagB2'], 'typeB');

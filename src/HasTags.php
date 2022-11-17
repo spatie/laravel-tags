@@ -165,7 +165,9 @@ trait HasTags
 
     public function syncTags(string | array | ArrayAccess $tags): static
     {
-        $tags = Arr::wrap($tags);
+        if (is_string($tags)) {
+            $tags = Arr::wrap($tags);
+        }
 
         $className = static::getTagClassName();
 
