@@ -69,6 +69,9 @@ NewsItem::withAnyTags(['first tag', 'second tag'])->get();
 // retrieve models that have all of the given tags
 NewsItem::withAllTags(['first tag', 'second tag'])->get();
 
+// retrieve models that doesn't have any of the given tags
+NewsItem::withoutTags(['first tag', 'second tag'])->get();
+
 // translating a tag
 $tag = Tag::findOrCreate('my tag');
 $tag->setTranslation('name', 'fr', 'mon tag');
