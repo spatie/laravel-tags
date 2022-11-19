@@ -238,7 +238,7 @@ it('provides a scope to get all models that have all given tags', function () {
 });
 
 
-it('provides a scope to get all models that doesnt have any of the given tags', function () {
+it('provides a scope to get all models that do not have any of the given tags', function () {
     $this->testModel->attachTag('tagA');
 
     TestModel::create([
