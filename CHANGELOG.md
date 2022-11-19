@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-tags` will be documented in this file
 
+## 4.3.5 - 2022-11-19
+
+### What's Changed
+
+- Add without tags scope by @stfndamjanovic in https://github.com/spatie/laravel-tags/pull/428
+
+### New Contributors
+
+- @stfndamjanovic made their first contribution in https://github.com/spatie/laravel-tags/pull/428
+
+**Full Changelog**: https://github.com/spatie/laravel-tags/compare/4.3.4...4.3.5
+
 ## 4.3.4 - 2022-11-17
 
 ### What's Changed
