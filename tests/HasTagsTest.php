@@ -238,6 +238,29 @@ it('provides a scope to get all models that have all given tags', function () {
 });
 
 
+it('provides a scope to get all models that do not have any of the given tags', function () {
+    $this->testModel->attachTag('tagA');
+
+    TestModel::create([
+        'name' => 'model1',
+        'tags' => ['tagA', 'tagB'],
+    ]);
+
+    TestModel::create([
+        'name' => 'model2',
+        'tags' => ['tagA', 'tagB', 'tagC'],
+    ]);
+
+    $testModels = TestModel::withoutTags(['tagC']);
+
+    expect($testModels->pluck('name')->toArray())->toEqual(['default', 'model1']);
+
+    $testModels = TestModel::withoutTags(['tagC', 'tagB']);
+
+    expect($testModels->pluck('name')->toArray())->toEqual(['default']);
+});
+
+
 it('provides a scope to get all models that have any of the given tag instances', function () {
     $tag = Tag::findOrCreate('tagA', 'typeA');
 

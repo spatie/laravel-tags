@@ -99,6 +99,21 @@ trait HasTags
             });
     }
 
+    public function scopeWithoutTags(
+        Builder $query,
+        string | array | ArrayAccess | Tag $tags,
+        string $type = null
+    ): Builder {
+        $tags = static::convertToTags($tags, $type);
+
+        return $query
+            ->whereDoesntHave('tags', function (Builder $query) use ($tags) {
+                $tagIds = collect($tags)->pluck('id');
+
+                $query->whereIn('tags.id', $tagIds);
+            });
+    }
+
     public function scopeWithAllTagsOfAnyType(Builder $query, $tags): Builder
     {
         $tags = static::convertToTagsOfAnyType($tags);
