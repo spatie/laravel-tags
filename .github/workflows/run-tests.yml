@@ -9,7 +9,7 @@ jobs:
         runs-on: ${{ matrix.os }}
         strategy:
             matrix:
-                php: [8.0, 8.1]
+                php: [8.0, 8.1, 8.2]
                 laravel: [9.*, 8.*]
                 dependency-version: [prefer-lowest, prefer-stable]
                 os: [ubuntu-latest]
@@ -33,7 +33,7 @@ jobs:
 
         steps:
             - name: Checkout code
-              uses: actions/checkout@v2
+              uses: actions/checkout@v3
 
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
