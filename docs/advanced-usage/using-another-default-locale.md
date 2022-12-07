@@ -18,7 +18,7 @@ class YourTag extends SpatieTag
 {
     public static function getLocale(): string
     {
-        return 'en';
+        return 'nl';
     }
 }
 ```
