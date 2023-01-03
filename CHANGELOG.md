@@ -2,6 +2,28 @@
 
 All notable changes to `laravel-tags` will be documented in this file
 
+## 4.3.6 - 2023-01-24
+
+- support Laravel 10
+
+### What's Changed
+
+- Add PHP 8.2 to tests workflow by @patinthehat in https://github.com/spatie/laravel-tags/pull/429
+- Add Dependabot Automation by @patinthehat in https://github.com/spatie/laravel-tags/pull/430
+- Match locale in example by @CaddyDz in https://github.com/spatie/laravel-tags/pull/435
+- Bump actions/checkout from 2 to 3 by @dependabot in https://github.com/spatie/laravel-tags/pull/432
+- Switch to anonymous migration and void return type for up method by @ziming in https://github.com/spatie/laravel-tags/pull/440
+- Method for reversing migrations by @eimantaaas in https://github.com/spatie/laravel-tags/pull/442
+
+### New Contributors
+
+- @CaddyDz made their first contribution in https://github.com/spatie/laravel-tags/pull/435
+- @dependabot made their first contribution in https://github.com/spatie/laravel-tags/pull/432
+- @ziming made their first contribution in https://github.com/spatie/laravel-tags/pull/440
+- @eimantaaas made their first contribution in https://github.com/spatie/laravel-tags/pull/442
+
+**Full Changelog**: https://github.com/spatie/laravel-tags/compare/4.3.5...4.3.6
+
 ## 4.3.5 - 2022-11-19
 
 ### What's Changed
