@@ -71,7 +71,6 @@ class Tag extends Model implements Sortable
 
         return static::query()
             ->where("name->{$locale}", $name)
-            ->orWhere("slug->{$locale}", $name)
             ->where('type', $type)
             ->first();
     }
@@ -82,7 +81,6 @@ class Tag extends Model implements Sortable
 
         return static::query()
             ->where("name->{$locale}", $name)
-            ->orWhere("slug->{$locale}", $name)
             ->get();
     }
 
