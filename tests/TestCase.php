@@ -31,9 +31,9 @@ abstract class TestCase extends Orchestra
     {
         Schema::dropAllTables();
 
-        include_once __DIR__.'/../database/migrations/create_tag_tables.php.stub';
+        $migration = include __DIR__.'/../database/migrations/create_tag_tables.php.stub';
 
-        (new CreateTagTables())->up();
+        $migration->up();
 
         Schema::create('test_models', function (Blueprint $table) {
             $table->increments('id');
