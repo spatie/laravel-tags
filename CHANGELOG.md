@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-tags` will be documented in this file
 
+## 4.3.7 - 2023-01-25
+
+### What's Changed
+
+- Return slugs in find methods by @falconsmilie in https://github.com/spatie/laravel-tags/pull/443
+
+### New Contributors
+
+- @falconsmilie made their first contribution in https://github.com/spatie/laravel-tags/pull/443
+
+**Full Changelog**: https://github.com/spatie/laravel-tags/compare/4.3.6...4.3.7
+
 ## 4.3.6 - 2023-01-24
 
 - support Laravel 10
