@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Collection as DbCollection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
 use Spatie\Translatable\HasTranslations;
@@ -109,6 +110,11 @@ class Tag extends Model implements Sortable
         return static::groupBy('type')->pluck('type');
     }
 
+    public function isUsed(): bool
+    {
+        return DB::table('taggables')->where('tag_id', $this->id)->exists();
+    }
+    
     public function setAttribute($key, $value)
     {
         if (in_array($key, $this->translatable) && ! is_array($value)) {
