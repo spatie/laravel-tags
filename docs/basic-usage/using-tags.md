@@ -99,3 +99,10 @@ You can fetch a collection of all registered tag types by using the static metho
 ```php
 Tag::getTypes();
 ```
+## Check is a tag is used
+
+You can check if a tag is used by any model wich use the HasTags trait.
+
+```php
+$tag->isUsed();
+```
