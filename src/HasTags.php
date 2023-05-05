@@ -19,7 +19,7 @@ trait HasTags
         return config('tags.tag_model', Tag::class);
     }
 
-    public static function getTaggableMorphName(): string
+    public function getTaggableMorphName(): string
     {
         return config('tags.taggable.morph_name', 'taggable');
     }
@@ -51,7 +51,7 @@ trait HasTags
     public function tags(): MorphToMany
     {
         return $this
-            ->morphToMany(self::getTagClassName(), self::getTaggableMorphName())
+            ->morphToMany(self::getTagClassName(), $this->getTaggableMorphName())
             ->ordered();
     }
 
@@ -60,7 +60,7 @@ trait HasTags
         $locale = !is_null($locale) ? $locale : self::getTagClassName()::getLocale();
 
         return $this
-            ->morphToMany(self::getTagClassName(), self::getTaggableMorphName())
+            ->morphToMany(self::getTagClassName(), $this->getTaggableMorphName())
             ->select('*')
             ->selectRaw("JSON_UNQUOTE(JSON_EXTRACT(name, '$.\"{$locale}\"')) as name_translated")
             ->selectRaw("JSON_UNQUOTE(JSON_EXTRACT(slug, '$.\"{$locale}\"')) as slug_translated")
@@ -255,8 +255,8 @@ trait HasTags
         // Get a list of tag_ids for all current tags
         $current = $this->tags()
             ->newPivotStatement()
-            ->where(self::getTaggableMorphName() . '_id', $this->getKey())
-            ->where(self::getTaggableMorphName() . '_type', $this->getMorphClass())
+            ->where($this->getTaggableMorphName() . '_id', $this->getKey())
+            ->where($this->getTaggableMorphName() . '_type', $this->getMorphClass())
             ->when($type !== null, function ($query) use ($type) {
                 $tagModel = $this->tags()->getRelated();
 
