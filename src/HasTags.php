@@ -24,7 +24,7 @@ trait HasTags
         return config('tags.taggable.morph_name', 'taggable');
     }
 
-    public static function getTaggableTableName(): string
+    public function getTaggableTableName(): string
     {
         return config('tags.taggable.table_name', 'taggables');
     }
@@ -262,7 +262,7 @@ trait HasTags
 
                 return $query->join(
                     $tagModel->getTable(),
-                    self::getTaggableTableName() . '.tag_id',
+                    $this->getTaggableTableName() . '.tag_id',
                     '=',
                     $tagModel->getTable() . '.' . $tagModel->getKeyName()
                 )
