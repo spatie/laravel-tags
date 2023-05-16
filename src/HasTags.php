@@ -57,7 +57,7 @@ trait HasTags
 
     public function tagsTranslated(string | null $locale = null): MorphToMany
     {
-        $locale = !is_null($locale) ? $locale : self::getTagClassName()::getLocale();
+        $locale = ! is_null($locale) ? $locale : self::getTagClassName()::getLocale();
 
         return $this
             ->morphToMany(self::getTagClassName(), $this->getTaggableMorphName())
@@ -69,7 +69,7 @@ trait HasTags
 
     public function setTagsAttribute(string | array | ArrayAccess | Tag $tags)
     {
-        if (!$this->exists) {
+        if (! $this->exists) {
             $this->queuedTags = $tags;
 
             return;
