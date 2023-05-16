@@ -19,6 +19,16 @@ trait HasTags
         return config('tags.tag_model', Tag::class);
     }
 
+    public function getTaggableMorphName(): string
+    {
+        return config('tags.taggable.morph_name', 'taggable');
+    }
+
+    public function getTaggableTableName(): string
+    {
+        return config('tags.taggable.table_name', 'taggables');
+    }
+
     public static function bootHasTags()
     {
         static::created(function (Model $taggableModel) {
@@ -41,16 +51,16 @@ trait HasTags
     public function tags(): MorphToMany
     {
         return $this
-            ->morphToMany(self::getTagClassName(), 'taggable')
+            ->morphToMany(self::getTagClassName(), $this->getTaggableMorphName())
             ->ordered();
     }
 
     public function tagsTranslated(string | null $locale = null): MorphToMany
     {
-        $locale = ! is_null($locale) ? $locale : self::getTagClassName()::getLocale();
+        $locale = !is_null($locale) ? $locale : self::getTagClassName()::getLocale();
 
         return $this
-            ->morphToMany(self::getTagClassName(), 'taggable')
+            ->morphToMany(self::getTagClassName(), $this->getTaggableMorphName())
             ->select('*')
             ->selectRaw("JSON_UNQUOTE(JSON_EXTRACT(name, '$.\"{$locale}\"')) as name_translated")
             ->selectRaw("JSON_UNQUOTE(JSON_EXTRACT(slug, '$.\"{$locale}\"')) as slug_translated")
@@ -59,7 +69,7 @@ trait HasTags
 
     public function setTagsAttribute(string | array | ArrayAccess | Tag $tags)
     {
-        if (! $this->exists) {
+        if (!$this->exists) {
             $this->queuedTags = $tags;
 
             return;
@@ -245,14 +255,14 @@ trait HasTags
         // Get a list of tag_ids for all current tags
         $current = $this->tags()
             ->newPivotStatement()
-            ->where('taggable_id', $this->getKey())
-            ->where('taggable_type', $this->getMorphClass())
+            ->where($this->getTaggableMorphName() . '_id', $this->getKey())
+            ->where($this->getTaggableMorphName() . '_type', $this->getMorphClass())
             ->when($type !== null, function ($query) use ($type) {
                 $tagModel = $this->tags()->getRelated();
 
                 return $query->join(
                     $tagModel->getTable(),
-                    'taggables.tag_id',
+                    $this->getTaggableTableName() . '.tag_id',
                     '=',
                     $tagModel->getTable() . '.' . $tagModel->getKeyName()
                 )
