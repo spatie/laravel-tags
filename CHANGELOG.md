@@ -2,6 +2,20 @@
 
 All notable changes to `laravel-tags` will be documented in this file
 
+## 4.4.0 - 2023-05-16
+
+### What's Changed
+
+- Bump dependabot/fetch-metadata from 1.3.5 to 1.3.6 by @dependabot in https://github.com/spatie/laravel-tags/pull/444
+- Bump dependabot/fetch-metadata from 1.3.6 to 1.4.0 by @dependabot in https://github.com/spatie/laravel-tags/pull/457
+- Configable taggables morph table by @silnex in https://github.com/spatie/laravel-tags/pull/458
+
+### New Contributors
+
+- @silnex made their first contribution in https://github.com/spatie/laravel-tags/pull/458
+
+**Full Changelog**: https://github.com/spatie/laravel-tags/compare/4.3.7...4.4.0
+
 ## 4.3.7 - 2023-01-25
 
 ### What's Changed
