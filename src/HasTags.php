@@ -29,6 +29,11 @@ trait HasTags
         return config('tags.taggable.table_name', 'taggables');
     }
 
+    public function getPivotModelClassName(): string
+    {
+        return config('tags.taggable.class_name');
+    }
+
     public static function bootHasTags()
     {
         static::created(function (Model $taggableModel) {
@@ -52,6 +57,7 @@ trait HasTags
     {
         return $this
             ->morphToMany(self::getTagClassName(), $this->getTaggableMorphName())
+            ->using($this->getPivotModelClassName())
             ->ordered();
     }
 
@@ -61,6 +67,7 @@ trait HasTags
 
         return $this
             ->morphToMany(self::getTagClassName(), $this->getTaggableMorphName())
+            ->using($this->getPivotModelClassName())
             ->select('*')
             ->selectRaw("JSON_UNQUOTE(JSON_EXTRACT(name, '$.\"{$locale}\"')) as name_translated")
             ->selectRaw("JSON_UNQUOTE(JSON_EXTRACT(slug, '$.\"{$locale}\"')) as slug_translated")
