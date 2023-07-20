@@ -19,5 +19,10 @@ return [
     'taggable' => [
         'table_name' => 'taggables',
         'morph_name' => 'taggable',
+
+        /*
+         * The fully qualified class name of the pivot model.
+         */
+        'class_name' => Illuminate\Database\Eloquent\Relations\MorphPivot::class,
     ]
 ];
