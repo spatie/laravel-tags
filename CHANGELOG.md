@@ -2,6 +2,22 @@
 
 All notable changes to `laravel-tags` will be documented in this file
 
+## 4.5.0 - 2023-07-20
+
+### What's Changed
+
+- Bump dependabot/fetch-metadata from 1.4.0 to 1.5.0 by @dependabot in https://github.com/spatie/laravel-tags/pull/461
+- Bump dependabot/fetch-metadata from 1.5.0 to 1.5.1 by @dependabot in https://github.com/spatie/laravel-tags/pull/462
+- Bump dependabot/fetch-metadata from 1.5.1 to 1.6.0 by @dependabot in https://github.com/spatie/laravel-tags/pull/466
+- changed deleteTags to deleteTag where appropriate by @titonova in https://github.com/spatie/laravel-tags/pull/469
+- Add the ability to configure a custom Taggables model class by @eggnaube in https://github.com/spatie/laravel-tags/pull/470
+
+### New Contributors
+
+- @eggnaube made their first contribution in https://github.com/spatie/laravel-tags/pull/470
+
+**Full Changelog**: https://github.com/spatie/laravel-tags/compare/4.4.0...4.5.0
+
 ## 4.4.0 - 2023-05-16
 
 ### What's Changed
