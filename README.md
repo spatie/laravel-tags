@@ -41,8 +41,8 @@ $newsItem->attachTags(['fourth tag', 'fifth tag']);
 $newsItem->attachTags(['fourth_tag','fifth_tag'],'some_type');
 
 // detaching tags
-$newsItem->detachTags('third tag');
-$newsItem->detachTags('third tag','some_type');
+$newsItem->detachTag('third tag');
+$newsItem->detachTag('third tag','some_type');
 $newsItem->detachTags(['fourth tag', 'fifth tag']);
 $newsItem->detachTags(['fourth tag', 'fifth tag'],'some_type');
 
