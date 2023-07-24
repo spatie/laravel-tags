@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use InvalidArgumentException;
 
 trait HasTags
@@ -17,6 +18,20 @@ trait HasTags
     public static function getTagClassName(): string
     {
         return config('tags.tag_model', Tag::class);
+    }
+
+    protected function getTagsThroughClass() {
+        if (isset(static::$taggedModel)) {
+            // This has to be the least effective way to do this...
+            $model = static::$taggedModel;
+            $instance = new $model;
+            $source = Str::singular(class_basename($instance)) . '.tags';
+        }
+        else {
+            $source = "tags";
+        }
+
+        return $source;
     }
 
     public function getTaggableMorphName(): string
@@ -93,7 +108,7 @@ trait HasTags
         $tags = static::convertToTags($tags, $type);
 
         collect($tags)->each(function ($tag) use ($query) {
-            $query->whereHas('tags', function (Builder $query) use ($tag) {
+            $query->whereHas($this->getTagsThroughClass(), function (Builder $query) use ($tag) {
                 $query->where('tags.id', $tag->id ?? 0);
             });
         });
@@ -109,7 +124,7 @@ trait HasTags
         $tags = static::convertToTags($tags, $type);
 
         return $query
-            ->whereHas('tags', function (Builder $query) use ($tags) {
+            ->whereHas($this->getTagsThroughClass(), function (Builder $query) use ($tags) {
                 $tagIds = collect($tags)->pluck('id');
 
                 $query->whereIn('tags.id', $tagIds);
@@ -124,7 +139,7 @@ trait HasTags
         $tags = static::convertToTags($tags, $type);
 
         return $query
-            ->whereDoesntHave('tags', function (Builder $query) use ($tags) {
+            ->whereDoesntHave($this->getTagsThroughClass(), function (Builder $query) use ($tags) {
                 $tagIds = collect($tags)->pluck('id');
 
                 $query->whereIn('tags.id', $tagIds);
@@ -138,7 +153,7 @@ trait HasTags
         collect($tags)
             ->each(function ($tag) use ($query) {
                 $query->whereHas(
-                    'tags',
+                    $this->getTagsThroughClass(),
                     fn (Builder $query) => $query->where('tags.id', $tag ? $tag->id : 0)
                 );
             });
@@ -153,7 +168,7 @@ trait HasTags
         $tagIds = collect($tags)->pluck('id');
 
         return $query->whereHas(
-            'tags',
+            $this->getTagsThroughClass(),
             fn (Builder $query) => $query->whereIn('tags.id', $tagIds)
         );
     }
