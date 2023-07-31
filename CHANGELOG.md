@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-tags` will be documented in this file
 
+## 4.5.1 - 2023-07-31
+
+### What's Changed
+
+- Define class MorphPivot as default for the 'tags.taggable.class_name' config getter. by @eggnaube in https://github.com/spatie/laravel-tags/pull/476
+
+**Full Changelog**: https://github.com/spatie/laravel-tags/compare/4.5.0...4.5.1
+
 ## 4.5.0 - 2023-07-20
 
 ### What's Changed
