@@ -90,8 +90,9 @@ trait HasTags
         Builder $query,
         string | array | ArrayAccess | Tag $tags,
         string $type = null,
+        $locale = null
     ): Builder {
-        $tags = static::convertToTags($tags, $type);
+        $tags = static::convertToTags($tags, $type, $locale);
 
         collect($tags)->each(function ($tag) use ($query) {
             $query->whereHas('tags', function (Builder $query) use ($tag) {
@@ -106,8 +107,9 @@ trait HasTags
         Builder $query,
         string | array | ArrayAccess | Tag $tags,
         string $type = null,
+        $locale = null
     ): Builder {
-        $tags = static::convertToTags($tags, $type);
+        $tags = static::convertToTags($tags, $type, $locale);
 
         return $query
             ->whereHas('tags', function (Builder $query) use ($tags) {
@@ -120,9 +122,10 @@ trait HasTags
     public function scopeWithoutTags(
         Builder $query,
         string | array | ArrayAccess | Tag $tags,
-        string $type = null
+        string $type = null,
+        $locale = null
     ): Builder {
-        $tags = static::convertToTags($tags, $type);
+        $tags = static::convertToTags($tags, $type, $locale);
 
         return $query
             ->whereDoesntHave('tags', function (Builder $query) use ($tags) {
@@ -132,9 +135,13 @@ trait HasTags
             });
     }
 
-    public function scopeWithAllTagsOfAnyType(Builder $query, $tags): Builder
+    public function scopeWithAllTagsOfAnyType(
+        Builder $query,
+                $tags,
+                $locale = null
+    ): Builder
     {
-        $tags = static::convertToTagsOfAnyType($tags);
+        $tags = static::convertToTagsOfAnyType($tags, $locale);
 
         collect($tags)
             ->each(function ($tag) use ($query) {
@@ -147,9 +154,13 @@ trait HasTags
         return $query;
     }
 
-    public function scopeWithAnyTagsOfAnyType(Builder $query, $tags): Builder
+    public function scopeWithAnyTagsOfAnyType(
+        Builder $query,
+                $tags,
+                $locale = null
+    ): Builder
     {
-        $tags = static::convertToTagsOfAnyType($tags);
+        $tags = static::convertToTagsOfAnyType($tags, $locale);
 
         $tagIds = collect($tags)->pluck('id');
 
