@@ -90,7 +90,7 @@ trait HasTags
         Builder $query,
         string | array | ArrayAccess | Tag $tags,
         string $type = null,
-        $locale = null
+        string $locale = null
     ): Builder {
         $tags = static::convertToTags($tags, $type, $locale);
 
@@ -107,7 +107,7 @@ trait HasTags
         Builder $query,
         string | array | ArrayAccess | Tag $tags,
         string $type = null,
-        $locale = null
+        string $locale = null
     ): Builder {
         $tags = static::convertToTags($tags, $type, $locale);
 
@@ -123,7 +123,7 @@ trait HasTags
         Builder $query,
         string | array | ArrayAccess | Tag $tags,
         string $type = null,
-        $locale = null
+        string $locale = null
     ): Builder {
         $tags = static::convertToTags($tags, $type, $locale);
 
@@ -138,7 +138,7 @@ trait HasTags
     public function scopeWithAllTagsOfAnyType(
         Builder $query,
                 $tags,
-                $locale = null
+        string $locale = null
     ): Builder
     {
         $tags = static::convertToTagsOfAnyType($tags, $locale);
@@ -157,7 +157,7 @@ trait HasTags
     public function scopeWithAnyTagsOfAnyType(
         Builder $query,
                 $tags,
-                $locale = null
+        string $locale = null
     ): Builder
     {
         $tags = static::convertToTagsOfAnyType($tags, $locale);
