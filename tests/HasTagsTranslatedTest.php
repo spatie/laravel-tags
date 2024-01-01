@@ -75,4 +75,3 @@ it('excludes models with specified English tags regardless of application locale
     $modelsWithoutTag = TestModel::withoutTags('Test Tag', null, 'en')->get();
     expect($modelsWithoutTag)->each->not->toHaveProperty('name', 'default');
 });
-

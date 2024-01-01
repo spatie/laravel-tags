@@ -137,10 +137,9 @@ trait HasTags
 
     public function scopeWithAllTagsOfAnyType(
         Builder $query,
-                $tags,
+        $tags,
         string $locale = null
-    ): Builder
-    {
+    ): Builder {
         $tags = static::convertToTagsOfAnyType($tags, $locale);
 
         collect($tags)
@@ -156,10 +155,9 @@ trait HasTags
 
     public function scopeWithAnyTagsOfAnyType(
         Builder $query,
-                $tags,
+        $tags,
         string $locale = null
-    ): Builder
-    {
+    ): Builder {
         $tags = static::convertToTagsOfAnyType($tags, $locale);
 
         $tagIds = collect($tags)->pluck('id');
