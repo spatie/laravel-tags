@@ -88,7 +88,7 @@ class Tag extends Model implements Sortable
             ->get();
     }
 
-    protected static function findOrCreateFromString(string $name, string $type = null, string $locale = null)
+    public static function findOrCreateFromString(string $name, string $type = null, string $locale = null)
     {
         $locale = $locale ?? static::getLocale();
 
