@@ -57,7 +57,7 @@ trait HasTags
     public function tags(): MorphToMany
     {
         return $this
-            ->morphToMany(self::getTagClassName(), $this->getTaggableMorphName())
+            ->morphToMany(self::getTagClassName(), $this->getTaggableMorphName(), $this->getTaggableTableName())
             ->using($this->getPivotModelClassName())
             ->ordered();
     }
@@ -67,7 +67,7 @@ trait HasTags
         $locale = ! is_null($locale) ? $locale : self::getTagClassName()::getLocale();
 
         return $this
-            ->morphToMany(self::getTagClassName(), $this->getTaggableMorphName())
+            ->morphToMany(self::getTagClassName(), $this->getTaggableMorphName(), $this->getTaggableTableName())
             ->using($this->getPivotModelClassName())
             ->select('*')
             ->selectRaw("JSON_UNQUOTE(JSON_EXTRACT(name, '$.\"{$locale}\"')) as name_translated")
