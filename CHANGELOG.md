@@ -2,6 +2,22 @@
 
 All notable changes to `laravel-tags` will be documented in this file
 
+## 4.5.2 - 2024-01-19
+
+### What's Changed
+
+* Bump stefanzweifel/git-auto-commit-action from 4 to 5 by @dependabot in https://github.com/spatie/laravel-tags/pull/485
+* Bump actions/checkout from 3 to 4 by @dependabot in https://github.com/spatie/laravel-tags/pull/480
+* fix: set public visibility for findOrCreateFromString by @KnightYoshi in https://github.com/spatie/laravel-tags/pull/491
+* fix: Fixing issue when using a different table to store pivot data by @jordanmiguel in https://github.com/spatie/laravel-tags/pull/492
+
+### New Contributors
+
+* @KnightYoshi made their first contribution in https://github.com/spatie/laravel-tags/pull/491
+* @jordanmiguel made their first contribution in https://github.com/spatie/laravel-tags/pull/492
+
+**Full Changelog**: https://github.com/spatie/laravel-tags/compare/4.5.1...4.5.2
+
 ## 4.5.1 - 2023-07-31
 
 ### What's Changed
