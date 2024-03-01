@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-tags` will be documented in this file
 
+## 4.6.1 - 2024-03-01
+
+### What's Changed
+
+* Allow Carbon v3 by @mokhosh in https://github.com/spatie/laravel-tags/pull/496
+
+**Full Changelog**: https://github.com/spatie/laravel-tags/compare/4.6.0...4.6.1
+
 ## 4.6.0 - 2024-02-21
 
 ### What's Changed
