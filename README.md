@@ -69,6 +69,11 @@ NewsItem::withAllTags(['first tag', 'second tag'])->get();
 // retrieve models that don't have any of the given tags
 NewsItem::withoutTags(['first tag', 'second tag'])->get();
 
+// force tag locale (useful when you have a multi-language app but don't want to translate tags)
+NewsItem::withAnyTags(['first tag', 'second tag'], locale: 'en')->get();
+NewsItem::withAllTags(['first tag', 'second tag'], locale: 'en')->get();
+NewsItem::withoutTags(['first tag', 'second tag'], locale: 'en')->get();
+
 // translating a tag
 $tag = Tag::findOrCreate('my tag');
 $tag->setTranslation('name', 'fr', 'mon tag');
