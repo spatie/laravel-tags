@@ -161,7 +161,7 @@ trait HasTags
 
     public function tagsWithType(string $type = null): Collection
     {
-        return $this->tags->filter(fn (Tag $tag) => $tag->type === $type);
+        return $this->tags()->get()->filter(fn (Tag $tag) => $tag->type === $type);
     }
 
     public function attachTags(array | ArrayAccess | Tag $tags, string $type = null): static
