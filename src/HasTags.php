@@ -71,7 +71,7 @@ trait HasTags
             ->morphToMany(self::getTagClassName(), $this->getTaggableMorphName(), $this->getTaggableTableName())
             ->using($this->getPivotModelClassName())
             ->select('*')
-            ->selectRaw($this->getSelectRawForLocale($locale))
+            ->selectRaw($this->getQuery()->getGrammar()->wrap("name->>{$locale} as name_translated, slug->>{$locale} as slug_translated"))
             ->ordered();
     }
 
