@@ -75,17 +75,6 @@ trait HasTags
             ->ordered();
     }
 
-    protected function getSelectRawForLocale(string $locale): string
-    {
-        $driverName = DB::connection()->getConfig('driver');
-
-        if ($driverName === 'pgsql') {
-            return "name->>'{$locale}' as name_translated, slug->>'{$locale}' as slug_translated";
-        } else {
-            return "JSON_UNQUOTE(JSON_EXTRACT(name, '$.\"{$locale}\"')) as name_translated, JSON_UNQUOTE(JSON_EXTRACT(slug, '$.\"{$locale}\"')) as slug_translated";
-        }
-    }
-
     public function setTagsAttribute(string | array | ArrayAccess | Tag $tags)
     {
         if (! $this->exists) {
