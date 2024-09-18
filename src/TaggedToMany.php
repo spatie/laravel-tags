@@ -21,26 +21,33 @@ class TaggedToMany extends Relation
      */
     #[\Override] public function addConstraints()
     {
-        $this->query->join("taggables as taggables_related", "taggables_related.taggable_id",
-            $this->related->getTable().".".$this->related->getKeyName())
+        $this->query->select($this->related->getTable().".*")
+                    ->join("taggables as taggables_related", "taggables_related.taggable_id",
+                        $this->related->getTable().".".$this->related->getKeyName())
                     ->join("taggables as taggables_parent", "taggables_parent.tag_id", "taggables_related.tag_id")
-                    ->join("tags", "tags.id", "taggables_related.tag_id")
                     ->where("taggables_parent.taggable_type", get_class($this->parent))
-                    ->where("taggables_parent.taggable_id", $this->parent->getKey())
                     ->where("taggables_related.taggable_type", get_class($this->related))
         ;
 
+        if ($this->parent->getKey()) {
+            $this->query->where("taggables_parent.taggable_id", $this->parent->getKey());
+        }
+
         if ($this->type) {
-            $this->query->where("tags.type", $this->type);
+            $this->query->join("tags", "taggables_parent.tag_id", "tags.id")
+                        ->where("tags.type", $this->type)
+            ;
         }
     }
 
     /**
      * @inheritDoc
      */
-    #[\Override] public function addEagerConstraints(array $models)
+    #[\Override]
+    public function addEagerConstraints(array $models)
     {
-        // TODO: Implement addEagerConstraints() method.
+        $this->query->select([$this->related->getTable().".*", "taggables_parent.taggable_id"])
+                    ->whereIn("taggables_parent.taggable_id", array_map(fn(Model $model) => $model->getKey(), $models));
     }
 
     /**
@@ -48,15 +55,35 @@ class TaggedToMany extends Relation
      */
     #[\Override] public function initRelation(array $models, $relation)
     {
-        // TODO: Implement initRelation() method.
+        foreach ($models as $model) {
+            $model->setRelation(
+                $relation,
+                $this->related->newCollection()
+            );
+        }
+
+        return $models;
     }
 
     /**
      * @inheritDoc
      */
-    #[\Override] public function match(array $models, Collection $results, $relation)
+    #[\Override] public function match($models, Collection $results, $relation)
     {
-        // TODO: Implement match() method.
+        if ($results->isEmpty()) {
+            return $models ?? [];
+        }
+
+        foreach ($models as $model) {
+            $model->setRelation(
+                $relation,
+                $results->unique()->filter(function (Model $related) use ($model) {
+                    return $related->taggable_id === $model->id;
+                })->values()
+            );
+        }
+
+        return $models;
     }
 
     /**
