@@ -302,4 +302,17 @@ trait HasTags
             $this->tags()->touchIfTouching();
         }
     }
+
+    /**
+     * Return a new TaggedToMany relationship
+     *
+     * @param  string  $related
+     * @param  string|null  $type
+     *
+     * @return \Spatie\Tags\TaggedToMany
+     */
+    public function taggedToMany(string $related, string|null $type = null): TaggedToMany
+    {
+        return new TaggedToMany($this, $related, $type);
+    }
 }
