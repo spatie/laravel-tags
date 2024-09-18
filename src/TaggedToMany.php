@@ -2,9 +2,11 @@
 
 namespace Spatie\Tags;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Database\Query\JoinClause;
 
 class TaggedToMany extends Relation
 {
@@ -92,5 +94,31 @@ class TaggedToMany extends Relation
     #[\Override] public function getResults()
     {
         return $this->query->get();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getRelationExistenceQuery(Builder $query, Builder $parentQuery, $columns = ['*'])
+    {
+        $query->join("taggables as taggables_related", "taggables_related.taggable_id",
+            $this->related->getTable().".".$this->related->getKeyName())
+              ->join("taggables as taggables_parent", function (JoinClause $join) {
+                  $join->on("taggables_parent.tag_id", "taggables_related.tag_id")
+                       ->on("taggables_parent.taggable_id",
+                           $this->parent->getTable().".".$this->parent->getKeyName())
+                  ;
+              })
+        ;
+
+
+
+        if ($this->type) {
+            $query->join("tags", "taggables_parent.tag_id", "tags.id")
+                  ->where("tags.type", $this->type)
+            ;
+        }
+
+        return $query;
     }
 }
