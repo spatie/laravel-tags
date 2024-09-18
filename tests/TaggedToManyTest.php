@@ -54,3 +54,41 @@ it('should not return other model with same tags and of different type', functio
     $res = $this->testParentModel->anotherModelsOfType;
     $this->assertCount(0, $res);
 });
+
+it('should query existence ok without specifying type, expecting 1', function () {
+    $testTag = "Test Tag";
+
+    $this->testParentModel->attachTag($testTag);
+    $this->testRelatedModel_2->attachTag($testTag);
+
+    $res = TestModel::whereHas("anotherModels")->get();
+    $this->assertCount(1, $res);
+});
+
+it('should query existence ok without specifying type, expecting 0', function () {
+    $testTag = "Test Tag";
+
+    $this->testParentModel->attachTag($testTag);
+
+    $res = TestModel::whereHas("anotherModels")->get();
+    $this->assertCount(0, $res);
+});
+
+it('should query existence ok while specifying type, expecting 1', function () {
+    $testTag = "Test Tag";
+
+    $this->testParentModel->attachTag($testTag, "test-type");
+    $this->testRelatedModel_2->attachTag($testTag, "test-type");
+
+    $res = TestModel::whereHas("anotherModelsOfType")->get();
+    $this->assertCount(1, $res);
+});
+
+it('should query existence ok while specifying type, expecting 0', function () {
+    $testTag = "Test Tag";
+
+    $this->testParentModel->attachTag($testTag, "test-type");
+
+    $res = TestModel::whereHas("anotherModels")->get();
+    $this->assertCount(0, $res);
+});

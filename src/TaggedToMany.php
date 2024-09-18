@@ -27,18 +27,14 @@ class TaggedToMany extends Relation
                     ->join("taggables as taggables_related", "taggables_related.taggable_id",
                         $this->related->getTable().".".$this->related->getKeyName())
                     ->join("taggables as taggables_parent", "taggables_parent.tag_id", "taggables_related.tag_id")
+                    ->join("tags", "taggables_parent.tag_id", "tags.id")
                     ->where("taggables_parent.taggable_type", get_class($this->parent))
                     ->where("taggables_related.taggable_type", get_class($this->related))
+                    ->where("tags.type", $this->type)
         ;
 
         if ($this->parent->getKey()) {
             $this->query->where("taggables_parent.taggable_id", $this->parent->getKey());
-        }
-
-        if ($this->type) {
-            $this->query->join("tags", "taggables_parent.tag_id", "tags.id")
-                        ->where("tags.type", $this->type)
-            ;
         }
     }
 
@@ -49,7 +45,8 @@ class TaggedToMany extends Relation
     public function addEagerConstraints(array $models)
     {
         $this->query->select([$this->related->getTable().".*", "taggables_parent.taggable_id"])
-                    ->whereIn("taggables_parent.taggable_id", array_map(fn(Model $model) => $model->getKey(), $models));
+                    ->whereIn("taggables_parent.taggable_id", array_map(fn(Model $model) => $model->getKey(), $models))
+        ;
     }
 
     /**
@@ -109,15 +106,9 @@ class TaggedToMany extends Relation
                            $this->parent->getTable().".".$this->parent->getKeyName())
                   ;
               })
+              ->join("tags", "taggables_parent.tag_id", "tags.id")
+              ->where("tags.type", $this->type)
         ;
-
-
-
-        if ($this->type) {
-            $query->join("tags", "taggables_parent.tag_id", "tags.id")
-                  ->where("tags.type", $this->type)
-            ;
-        }
 
         return $query;
     }
