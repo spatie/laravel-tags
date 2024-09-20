@@ -5,7 +5,7 @@ weight: 1
 
 This package offers taggable behaviour for your models. After the package is installed the only thing you have to do is to add the `HasTags` trait to an Eloquent model to make it taggable. 
 
-We didn't stop with the regular tagging capabilities you find in every package. Laravel Tags comes with batteries included. Out of the box it has support for [translating tags](/laravel-tags/v4/advanced-usage/adding-translations), [multiple tag types](/laravel-tags/v4/advanced-usage/using-types) and [sorting capabilities](/laravel-tags/v4/advanced-usage/sorting-tags).
+We didn't stop with the regular tagging capabilities you find in every package. Laravel Tags comes with batteries included. Out of the box it has support for [translating tags](https://spatie.be/docs/laravel-tags/v4/advanced-usage/adding-translations), [multiple tag types](https://spatie.be/docs/laravel-tags/v4/advanced-usage/using-types) and [sorting capabilities](https://spatie.be/docs/laravel-tags/v4/advanced-usage/sorting-tags).
 
 Here are some code examples:
 
