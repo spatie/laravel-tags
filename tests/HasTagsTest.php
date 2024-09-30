@@ -351,25 +351,23 @@ it('can sync tags with same name', function () {
 });
 
 it('can check if it has a tag', function () {
-    $model = TestModel::create(['name' => 'test model']);
     $tag = Tag::findOrCreate('test-tag');
     $anotherTag = Tag::findOrCreate('another-tag');
 
-    $model->attachTag($tag);
+    $this->testModel->attachTag($tag);
 
-    $this->assertTrue($model->hasTag('test-tag'));
-    $this->assertTrue($model->hasTag($tag->id));
-    $this->assertFalse($model->hasTag('non-existing-tag'));
-    $this->assertFalse($model->hasTag($anotherTag->id));
+    expect($this->testModel->hasTag('test-tag'))->toBeTrue();
+    expect($this->testModel->hasTag($tag->id))->toBeTrue();
+    expect($this->testModel->hasTag('non-existing-tag'))->toBeFalse();
+    expect($this->testModel->hasTag($anotherTag->id))->toBeFalse();
 });
 
 it('can check if it has a tag with type', function () {
-    $model = TestModel::create(['name' => 'test model']);
     $tag = Tag::findOrCreate('test-tag', 'type1');
     $sameNameDifferentType = Tag::findOrCreate('test-tag', 'type2');
 
-    $model->attachTag($tag);
+    $this->testModel->attachTag($tag);
 
-    $this->assertTrue($model->hasTag('test-tag', 'type1'));
-    $this->assertFalse($model->hasTag('test-tag', 'type2'));
+    expect($this->testModel->hasTag('test-tag', 'type1'))->toBeTrue();
+    expect($this->testModel->hasTag('test-tag', 'type2'))->toBeFalse();
 });
