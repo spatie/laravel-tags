@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphPivot;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
 use InvalidArgumentException;
 
 trait HasTags
@@ -70,8 +71,8 @@ trait HasTags
             ->morphToMany(self::getTagClassName(), $this->getTaggableMorphName(), $this->getTaggableTableName())
             ->using($this->getPivotModelClassName())
             ->select('*')
-            ->selectRaw("JSON_UNQUOTE(JSON_EXTRACT(name, '$.\"{$locale}\"')) as name_translated")
-            ->selectRaw("JSON_UNQUOTE(JSON_EXTRACT(slug, '$.\"{$locale}\"')) as slug_translated")
+            ->selectRaw($this->getQuery()->getGrammar()->wrap("name->{$locale} as name_translated"))
+            ->selectRaw($this->getQuery()->getGrammar()->wrap("slug->{$locale} as slug_translated"))
             ->ordered();
     }
 
