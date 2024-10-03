@@ -41,14 +41,15 @@ class Tag extends Model implements Sortable
     {
         $locale = $locale ?? static::getLocale();
 
-        return $query->whereRaw('lower(' . $this->getQuery()->getGrammar()->wrap('name->' . $locale) . ') like ?', ['%' . mb_strtolower($name) . '%']);
+        return $query->whereRaw('lower('.$this->getQuery()->getGrammar()->wrap('name->'.$locale).') like ?',
+            ['%'.mb_strtolower($name).'%']);
     }
 
     public static function findOrCreate(
-        string | array | ArrayAccess $values,
-        string | null $type = null,
-        string | null $locale = null,
-    ): Collection | Tag | static {
+        string|array|ArrayAccess $values,
+        string|null $type = null,
+        string|null $locale = null,
+    ): Collection|Tag|static {
         $tags = collect($values)->map(function ($value) use ($type, $locale) {
             if ($value instanceof self) {
                 return $value;
@@ -70,12 +71,14 @@ class Tag extends Model implements Sortable
         $locale = $locale ?? static::getLocale();
 
         return static::query()
-            ->where('type', $type)
-            ->where(function ($query) use ($name, $locale) {
-                $query->where("name->{$locale}", $name)
-                    ->orWhere("slug->{$locale}", $name);
-            })
-            ->first();
+                     ->where('type', $type)
+                     ->where(function ($query) use ($name, $locale) {
+                         $query->where("name->{$locale}", $name)
+                               ->orWhere("slug->{$locale}", $name)
+                         ;
+                     })
+                     ->first()
+        ;
     }
 
     public static function findFromStringOfAnyType(string $name, string $locale = null)
@@ -83,9 +86,10 @@ class Tag extends Model implements Sortable
         $locale = $locale ?? static::getLocale();
 
         return static::query()
-            ->where("name->{$locale}", $name)
-            ->orWhere("slug->{$locale}", $name)
-            ->get();
+                     ->where("name->{$locale}", $name)
+                     ->orWhere("slug->{$locale}", $name)
+                     ->get()
+        ;
     }
 
     public static function findOrCreateFromString(string $name, string $type = null, string $locale = null)
@@ -94,7 +98,7 @@ class Tag extends Model implements Sortable
 
         $tag = static::findFromString($name, $type, $locale);
 
-        if (! $tag) {
+        if (!$tag) {
             $tag = static::create([
                 'name' => [$locale => $name],
                 'type' => $type,
@@ -111,7 +115,7 @@ class Tag extends Model implements Sortable
 
     public function setAttribute($key, $value)
     {
-        if (in_array($key, $this->translatable) && ! is_array($value)) {
+        if (in_array($key, $this->translatable) && !is_array($value)) {
             return $this->setTranslation($key, static::getLocale(), $value);
         }
 
