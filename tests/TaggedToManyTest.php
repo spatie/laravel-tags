@@ -76,6 +76,8 @@ it('should query existence ok without specifying type, expecting 0', function ()
 
 it('should query existence ok while specifying type, expecting 1', function () {
     $testTag = "Test Tag";
+    $testTag2 = "Test Tag 2";
+    $testTag3 = "Test Tag 3";
 
     $this->testParentModel->attachTag($testTag, "test-type");
     $this->testRelatedModel_2->attachTag($testTag, "test-type");
