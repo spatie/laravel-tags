@@ -62,9 +62,9 @@ trait HasTags
             ->ordered();
     }
 
-    public function tagsTranslated(string | null $locale = null): MorphToMany
+    public function tagsTranslated(string|null $locale = null): MorphToMany
     {
-        $locale = ! is_null($locale) ? $locale : self::getTagClassName()::getLocale();
+        $locale = !is_null($locale) ? $locale : self::getTagClassName()::getLocale();
 
         return $this
             ->morphToMany(self::getTagClassName(), $this->getTaggableMorphName(), $this->getTaggableTableName())
@@ -75,9 +75,9 @@ trait HasTags
             ->ordered();
     }
 
-    public function setTagsAttribute(string | array | ArrayAccess | Tag $tags)
+    public function setTagsAttribute(string|array|ArrayAccess|Tag $tags)
     {
-        if (! $this->exists) {
+        if (!$this->exists) {
             $this->queuedTags = $tags;
 
             return;
@@ -87,10 +87,11 @@ trait HasTags
     }
 
     public function scopeWithAllTags(
-        Builder $query,
-        string | array | ArrayAccess | Tag $tags,
-        string $type = null,
-    ): Builder {
+        Builder                      $query,
+        string|array|ArrayAccess|Tag $tags,
+        string                       $type = null,
+    ): Builder
+    {
         $tags = static::convertToTags($tags, $type);
 
         collect($tags)->each(function ($tag) use ($query) {
@@ -103,10 +104,11 @@ trait HasTags
     }
 
     public function scopeWithAnyTags(
-        Builder $query,
-        string | array | ArrayAccess | Tag $tags,
-        string $type = null,
-    ): Builder {
+        Builder                      $query,
+        string|array|ArrayAccess|Tag $tags,
+        string                       $type = null,
+    ): Builder
+    {
         $tags = static::convertToTags($tags, $type);
 
         return $query
@@ -118,10 +120,11 @@ trait HasTags
     }
 
     public function scopeWithoutTags(
-        Builder $query,
-        string | array | ArrayAccess | Tag $tags,
-        string $type = null
-    ): Builder {
+        Builder                      $query,
+        string|array|ArrayAccess|Tag $tags,
+        string                       $type = null
+    ): Builder
+    {
         $tags = static::convertToTags($tags, $type);
 
         return $query
@@ -140,7 +143,7 @@ trait HasTags
             ->each(function ($tag) use ($query) {
                 $query->whereHas(
                     'tags',
-                    fn (Builder $query) => $query->where('tags.id', $tag ? $tag->id : 0)
+                    fn(Builder $query) => $query->where('tags.id', $tag ? $tag->id : 0)
                 );
             });
 
@@ -155,16 +158,16 @@ trait HasTags
 
         return $query->whereHas(
             'tags',
-            fn (Builder $query) => $query->whereIn('tags.id', $tagIds)
+            fn(Builder $query) => $query->whereIn('tags.id', $tagIds)
         );
     }
 
     public function tagsWithType(string $type = null): Collection
     {
-        return $this->tags->filter(fn (Tag $tag) => $tag->type === $type);
+        return $this->tags->filter(fn(Tag $tag) => $tag->type === $type);
     }
 
-    public function attachTags(array | ArrayAccess | Tag $tags, string $type = null): static
+    public function attachTags(array|ArrayAccess|Tag $tags, string $type = null): static
     {
         $className = static::getTagClassName();
 
@@ -175,28 +178,28 @@ trait HasTags
         return $this;
     }
 
-    public function attachTag(string | Tag $tag, string | null $type = null)
+    public function attachTag(string|Tag $tag, string|null $type = null)
     {
         return $this->attachTags([$tag], $type);
     }
 
-    public function detachTags(array | ArrayAccess $tags, string | null $type = null): static
+    public function detachTags(array|ArrayAccess $tags, string|null $type = null): static
     {
         $tags = static::convertToTags($tags, $type);
 
         collect($tags)
             ->filter()
-            ->each(fn (Tag $tag) => $this->tags()->detach($tag));
+            ->each(fn(Tag $tag) => $this->tags()->detach($tag));
 
         return $this;
     }
 
-    public function detachTag(string | Tag $tag, string | null $type = null): static
+    public function detachTag(string|Tag $tag, string|null $type = null): static
     {
         return $this->detachTags([$tag], $type);
     }
 
-    public function syncTags(string | array | ArrayAccess $tags): static
+    public function syncTags(string|array|ArrayAccess $tags): static
     {
         if (is_string($tags)) {
             $tags = Arr::wrap($tags);
@@ -211,7 +214,7 @@ trait HasTags
         return $this;
     }
 
-    public function syncTagsWithType(array | ArrayAccess $tags, string | null $type = null): static
+    public function syncTagsWithType(array|ArrayAccess $tags, string|null $type = null): static
     {
         $className = static::getTagClassName();
 
@@ -256,7 +259,7 @@ trait HasTags
         })->flatten();
     }
 
-    protected function syncTagIds($ids, string | null $type = null, $detaching = true): void
+    protected function syncTagIds($ids, string|null $type = null, $detaching = true): void
     {
         $isUpdated = false;
 
@@ -304,9 +307,22 @@ trait HasTags
     public function hasTag($tag, string $type = null): bool
     {
         return $this->tags
-            ->when($type !== null, fn ($query) => $query->where('type', $type))
+            ->when($type !== null, fn($query) => $query->where('type', $type))
             ->contains(function ($modelTag) use ($tag) {
                 return $modelTag->name === $tag || $modelTag->id === $tag;
             });
+    }
+
+    /**
+     * Define a relationship to another model that shares the same tags of a certain type
+     *
+     * @param string $related
+     * @param string|null $type
+     *
+     * @return TaggedToMany
+     */
+    public function taggedToMany(string $related, string|null $type = null): TaggedToMany
+    {
+        return new TaggedToMany($this, $related, $type);
     }
 }
