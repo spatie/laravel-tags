@@ -99,3 +99,19 @@ You can fetch a collection of all registered tag types by using the static metho
 ```php
 Tag::getTypes();
 ```
+
+## Checking if a model has a tag
+
+You can check if a model has a specific tag using the `hasTag` method:
+
+```php
+$yourModel->hasTag('tag 1'); // returns true if the model has the tag
+$yourModel->hasTag('non-existing tag'); // returns false if the model does not have the tag
+```
+
+You can also check if a model has a tag with a specific type:
+
+```php
+$yourModel->hasTag('tag 1', 'some_type'); // returns true if the model has the tag with the specified type
+$yourModel->hasTag('tag 1', 'non-existing type'); // returns false if the model does not have the tag with the specified type
+```

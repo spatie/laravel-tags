@@ -98,6 +98,10 @@ $tag2->order_column; //returns 2
 
 // manipulating the order of tags
 $tag->swapOrder($anotherTag);
+
+// checking if a model has a tag
+$newsItem->hasTag('first tag');
+$newsItem->hasTag('first tag', 'some_type');
 ```
 
 Spatie is a webdesign agency based in Antwerp, Belgium. You'll find an overview of all our open source projects [on our website](https://spatie.be/opensource).
