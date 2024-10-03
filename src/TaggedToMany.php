@@ -21,17 +21,20 @@ class TaggedToMany extends Relation
     /**
      * @inheritDoc
      */
-    #[\Override] public function addConstraints()
+    #[\Override]
+    public function addConstraints()
     {
-        $this->query->select($this->related->getTable().".*")
-                    ->join("taggables as taggables_related", "taggables_related.taggable_id",
-                        $this->related->getTable().".".$this->related->getKeyName())
-                    ->join("taggables as taggables_parent", "taggables_parent.tag_id", "taggables_related.tag_id")
-                    ->join("tags", "taggables_parent.tag_id", "tags.id")
-                    ->where("taggables_parent.taggable_type", get_class($this->parent))
-                    ->where("taggables_related.taggable_type", get_class($this->related))
-                    ->where("tags.type", $this->type)
-        ;
+        $this->query->select($this->related->getTable() . ".*")
+            ->join(
+                "taggables as taggables_related",
+                "taggables_related.taggable_id",
+                $this->related->getTable() . "." . $this->related->getKeyName()
+            )
+            ->join("taggables as taggables_parent", "taggables_parent.tag_id", "taggables_related.tag_id")
+            ->join("tags", "taggables_parent.tag_id", "tags.id")
+            ->where("taggables_parent.taggable_type", get_class($this->parent))
+            ->where("taggables_related.taggable_type", get_class($this->related))
+            ->where("tags.type", $this->type);
 
         if ($this->parent->getKey()) {
             $this->query->where("taggables_parent.taggable_id", $this->parent->getKey());
@@ -44,15 +47,15 @@ class TaggedToMany extends Relation
     #[\Override]
     public function addEagerConstraints(array $models)
     {
-        $this->query->select([$this->related->getTable().".*", "taggables_parent.taggable_id"])
-                    ->whereIn("taggables_parent.taggable_id", array_map(fn(Model $model) => $model->getKey(), $models))
-        ;
+        $this->query->select([$this->related->getTable() . ".*", "taggables_parent.taggable_id"])
+            ->whereIn("taggables_parent.taggable_id", array_map(fn(Model $model) => $model->getKey(), $models));
     }
 
     /**
      * @inheritDoc
      */
-    #[\Override] public function initRelation(array $models, $relation)
+    #[\Override]
+    public function initRelation(array $models, $relation)
     {
         foreach ($models as $model) {
             $model->setRelation(
@@ -67,7 +70,8 @@ class TaggedToMany extends Relation
     /**
      * @inheritDoc
      */
-    #[\Override] public function match($models, Collection $results, $relation)
+    #[\Override]
+    public function match($models, Collection $results, $relation)
     {
         if ($results->isEmpty()) {
             return $models ?? [];
@@ -88,7 +92,8 @@ class TaggedToMany extends Relation
     /**
      * @inheritDoc
      */
-    #[\Override] public function getResults()
+    #[\Override]
+    public function getResults()
     {
         return $this->query->get();
     }
@@ -99,16 +104,12 @@ class TaggedToMany extends Relation
     public function getRelationExistenceQuery(Builder $query, Builder $parentQuery, $columns = ['*'])
     {
         $query->join("taggables as taggables_related", "taggables_related.taggable_id",
-            $this->related->getTable().".".$this->related->getKeyName())
-              ->join("taggables as taggables_parent", function (JoinClause $join) {
-                  $join->on("taggables_parent.tag_id", "taggables_related.tag_id")
-                       ->on("taggables_parent.taggable_id",
-                           $this->parent->getTable().".".$this->parent->getKeyName())
-                  ;
-              })
-              ->join("tags", "taggables_parent.tag_id", "tags.id")
-              ->where("tags.type", $this->type)
-        ;
+            $this->related->getTable() . "." . $this->related->getKeyName())
+            ->join("taggables as taggables_parent", function (JoinClause $join) {
+                $join->on("taggables_parent.tag_id", "taggables_related.tag_id");
+            })
+            ->join("tags", "taggables_parent.tag_id", "tags.id")
+            ->where("tags.type", $this->type);
 
         return $query;
     }

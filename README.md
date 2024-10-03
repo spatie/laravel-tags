@@ -100,9 +100,50 @@ $tag2->order_column; //returns 2
 $tag->swapOrder($anotherTag);
 ```
 
-Spatie is a webdesign agency based in Antwerp, Belgium. You'll find an overview of all our open source projects [on our website](https://spatie.be/opensource).
+### Tagged To Many Relationship
+
+To retrieve models that share the same tags, use the **TaggedToMany** relationship.
+
+For example, if you have a **ProductCategory** model and a **Product** model, you can retrieve products that share tags applied to the ProductCategory, with the same type. Make sure to specify the type of tag you want to compare.
+
+```
+class ProductCategory extends Model
+{
+    use HasTags;
+
+    public function products()
+    {
+        return $this->taggedToMany(Product::class, "products");
+    }
+}
+```
+
+```
+class Product extends Model
+{
+    use HasTags;
+
+    public function products()
+    {
+        return $this->taggedToMany(ProductCategory::class, "products");
+    }
+}
+```
+
+```
+class ProductCategoryController
+{
+
+    public function getProducts(ProductCategory $productCategory)
+    {
+        return $productCategory->products;
+    }
+}
+```
 
 ## Support us
+
+Spatie is a webdesign agency based in Antwerp, Belgium. You'll find an overview of all our open source projects [on our website](https://spatie.be/opensource).
 
 [<img src="https://github-ads.s3.eu-central-1.amazonaws.com/laravel-tags.jpg?t=1" width="419px" />](https://spatie.be/github-ad-click/laravel-tags)
 
