@@ -260,22 +260,20 @@ trait HasTags
     {
         $isUpdated = false;
 
+        $tagModel = $this->tags()->getRelated();
+
         // Get a list of tag_ids for all current tags
         $current = $this->tags()
             ->newPivotStatement()
             ->where($this->getTaggableMorphName() . '_id', $this->getKey())
             ->where($this->getTaggableMorphName() . '_type', $this->getMorphClass())
-            ->when($type !== null, function ($query) use ($type) {
-                $tagModel = $this->tags()->getRelated();
-
-                return $query->join(
-                    $tagModel->getTable(),
-                    $this->getTaggableTableName() . '.tag_id',
-                    '=',
-                    $tagModel->getTable() . '.' . $tagModel->getKeyName()
-                )
-                    ->where($tagModel->getTable() . '.type', $type);
-            })
+            ->join(
+                $tagModel->getTable(),
+                'taggables.tag_id',
+                '=',
+                $tagModel->getTable() . '.' . $tagModel->getKeyName()
+            )
+            ->where($tagModel->getTable() . '.type', $type)
             ->pluck('tag_id')
             ->all();
 

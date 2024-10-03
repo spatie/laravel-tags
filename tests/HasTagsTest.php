@@ -312,6 +312,19 @@ it('can sync tags with different types', function () {
     expect($tagsOfTypeB->pluck('name')->toArray())->toEqual(['tagB1', 'tagB2']);
 });
 
+it('can sync tags without a type and not affect tags with a type', function () {
+    $this->testModel->syncTagsWithType(['test1', 'test2'], 'testType');
+
+    $this->testModel->syncTagsWithType(['test3']);
+
+    expect($this->testModel->tags->pluck('name')->toArray())->toEqual(['test1', 'test2', 'test3']);
+
+    expect($this->testModel->tags->where('name', '=', 'test1')->first()->type)->toEqual('testType');
+
+    expect($this->testModel->tags->where('name', '=', 'test2')->first()->type)->toEqual('testType');
+
+    expect($this->testModel->tags->where('name', '=', 'test3')->first()->type)->toBeNull();
+});
 
 it('can sync same tag type with different models with same foreign id', function () {
     $this->testModel->syncTagsWithType(['tagA1', 'tagA2', 'tagA3'], 'typeA');
