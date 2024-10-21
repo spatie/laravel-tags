@@ -269,7 +269,7 @@ trait HasTags
             ->where($this->getTaggableMorphName() . '_type', $this->getMorphClass())
             ->join(
                 $tagModel->getTable(),
-                'taggables.tag_id',
+                $this->getTaggableTableName() . '.tag_id',
                 '=',
                 $tagModel->getTable() . '.' . $tagModel->getKeyName()
             )
