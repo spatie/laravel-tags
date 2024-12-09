@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-tags` will be documented in this file
 
+## 4.7.1 - 2024-12-09
+
+### What's Changed
+
+* Update HasTags.php by @scramatte in https://github.com/spatie/laravel-tags/pull/523
+
+### New Contributors
+
+* @scramatte made their first contribution in https://github.com/spatie/laravel-tags/pull/523
+
+**Full Changelog**: https://github.com/spatie/laravel-tags/compare/4.7.0...4.7.1
+
 ## 4.7.0 - 2024-10-03
 
 ### What's Changed
