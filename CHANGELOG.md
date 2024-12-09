@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-tags` will be documented in this file
 
+## 4.7.2 - 2024-12-09
+
+### What's Changed
+
+* Fix dynamic taggable table name by @xalunda in https://github.com/spatie/laravel-tags/pull/520
+
+### New Contributors
+
+* @xalunda made their first contribution in https://github.com/spatie/laravel-tags/pull/520
+
+**Full Changelog**: https://github.com/spatie/laravel-tags/compare/4.7.1...4.7.2
+
 ## 4.7.1 - 2024-12-09
 
 ### What's Changed
