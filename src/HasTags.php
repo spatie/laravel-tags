@@ -89,7 +89,7 @@ trait HasTags
     public function scopeWithAllTags(
         Builder $query,
         string | array | ArrayAccess | Tag $tags,
-        string $type = null,
+        ?string $type = null,
     ): Builder {
         $tags = static::convertToTags($tags, $type);
 
@@ -105,7 +105,7 @@ trait HasTags
     public function scopeWithAnyTags(
         Builder $query,
         string | array | ArrayAccess | Tag $tags,
-        string $type = null,
+        ?string $type = null,
     ): Builder {
         $tags = static::convertToTags($tags, $type);
 
@@ -120,7 +120,7 @@ trait HasTags
     public function scopeWithoutTags(
         Builder $query,
         string | array | ArrayAccess | Tag $tags,
-        string $type = null
+        ?string $type = null
     ): Builder {
         $tags = static::convertToTags($tags, $type);
 
@@ -159,12 +159,12 @@ trait HasTags
         );
     }
 
-    public function tagsWithType(string $type = null): Collection
+    public function tagsWithType(?string $type = null): Collection
     {
         return $this->tags->filter(fn (Tag $tag) => $tag->type === $type);
     }
 
-    public function attachTags(array | ArrayAccess | Tag $tags, string $type = null): static
+    public function attachTags(array | ArrayAccess | Tag $tags, ?string $type = null): static
     {
         $className = static::getTagClassName();
 
@@ -300,7 +300,7 @@ trait HasTags
         }
     }
 
-    public function hasTag($tag, string $type = null): bool
+    public function hasTag($tag, ?string $type = null): bool
     {
         return $this->tags
             ->when($type !== null, fn ($query) => $query->where('type', $type))
