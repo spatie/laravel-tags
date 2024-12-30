@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-tags` will be documented in this file
 
+## 4.8.0 - 2024-12-30
+
+### What's Changed
+
+* Fixes for HasTags.php - PHP 8.4 implicit nullable type declaration  by @idealerror in https://github.com/spatie/laravel-tags/pull/525
+
+### New Contributors
+
+* @idealerror made their first contribution in https://github.com/spatie/laravel-tags/pull/525
+
+**Full Changelog**: https://github.com/spatie/laravel-tags/compare/4.7.2...4.8.0
+
 ## 4.7.2 - 2024-12-09
 
 ### What's Changed
