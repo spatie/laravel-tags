@@ -28,7 +28,7 @@ class Tag extends Model implements Sortable
         return app()->getLocale();
     }
 
-    public function scopeWithType(Builder $query, string $type = null): Builder
+    public function scopeWithType(Builder $query, ?string $type = null): Builder
     {
         if (is_null($type)) {
             return $query;
@@ -65,7 +65,7 @@ class Tag extends Model implements Sortable
         return static::withType($type)->get();
     }
 
-    public static function findFromString(string $name, string $type = null, string $locale = null)
+    public static function findFromString(string $name, ?string $type = null, ?string $locale = null)
     {
         $locale = $locale ?? static::getLocale();
 
@@ -78,7 +78,7 @@ class Tag extends Model implements Sortable
             ->first();
     }
 
-    public static function findFromStringOfAnyType(string $name, string $locale = null)
+    public static function findFromStringOfAnyType(string $name, ?string $locale = null)
     {
         $locale = $locale ?? static::getLocale();
 
@@ -88,7 +88,7 @@ class Tag extends Model implements Sortable
             ->get();
     }
 
-    public static function findOrCreateFromString(string $name, string $type = null, string $locale = null)
+    public static function findOrCreateFromString(string $name, ?string $type = null, ?string $locale = null)
     {
         $locale = $locale ?? static::getLocale();
 
