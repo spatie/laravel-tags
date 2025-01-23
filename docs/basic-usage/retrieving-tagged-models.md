@@ -21,7 +21,7 @@ YourModel::withAnyTags(['tag 1', 'tag 2'], 'myType')->get();
 
 The `withAllTags` scope will return only the models that have all of the given tags attached to them. If you pass the `type` argument, it will look for tags with specified type, if not, it will only look for tags that have no type. So when passing a non-existing tag, or a correct tag name with the wrong type, no models will be returned.
 
-```
+```php
 //returns models that have all given tags that are not saved with a type
 YourModel::withAllTags(['tag 1', 'tag 2'])->get();
 
@@ -42,7 +42,7 @@ YourModel::withAnyTagsOfAnyType(['tag 1', 'tag 2'])->get();
 
 The `withAllTagsOfAnyType` scope will return only the models that have all of the given tags attached to them, but doesn't restrict given tags to any type if they are passed as `string`. So when passing a non-existing tag no models will be returned.
 
-```
+```php
 //returns models that have all given tags of any type
 YourModel::withAllTagsOfAnyType(['tag 1', 'tag 2'])->get();
 ```
