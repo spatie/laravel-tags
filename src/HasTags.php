@@ -23,7 +23,7 @@ trait HasTags
     public static function getTagTableName(): string
     {
         $tagInstance = new (self::getTagClassName());
-        return config('tags.tags.table_name', $tagInstance->getTable());
+        return $tagInstance->getTable();
     }
 
     public static function getTagTableKeyQuery(): string
@@ -34,7 +34,7 @@ trait HasTags
     public static function getTagPrimaryKey(): string
     {
         $tagInstance = new (self::getTagClassName());
-        return config('tags.tags.primary_key', $tagInstance->getKeyName());
+        return $tagInstance->getKeyName();
     }
 
     public function getTaggableMorphName(): string

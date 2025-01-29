@@ -13,11 +13,6 @@ return [
      */
     'tag_model' => Spatie\Tags\Tag::class,
 
-    'tags' => [
-        'table_name' => 'tags',
-        'primary_key' => 'id',
-    ],
-
     /*
      * The name of the table associated with the taggable morph relation.
      */
