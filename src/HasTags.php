@@ -20,6 +20,23 @@ trait HasTags
         return config('tags.tag_model', Tag::class);
     }
 
+    public static function getTagTableName(): string
+    {
+        $tagInstance = new (self::getTagClassName());
+        return config('tags.tags.table_name', $tagInstance->getTable());
+    }
+
+    public static function getTagTableKeyQuery(): string
+    {
+        return self::getTagTableName() . '.' . self::getTagPrimaryKey();
+    }
+
+    public static function getTagPrimaryKey(): string
+    {
+        $tagInstance = new (self::getTagClassName());
+        return config('tags.tags.primary_key', $tagInstance->getKeyName());
+    }
+
     public function getTaggableMorphName(): string
     {
         return config('tags.taggable.morph_name', 'taggable');
@@ -95,7 +112,7 @@ trait HasTags
 
         collect($tags)->each(function ($tag) use ($query) {
             $query->whereHas('tags', function (Builder $query) use ($tag) {
-                $query->where('tags.id', $tag->id ?? 0);
+                $query->where(self::getTagTableKeyQuery(), $tag->id ?? 0);
             });
         });
 
@@ -113,7 +130,7 @@ trait HasTags
             ->whereHas('tags', function (Builder $query) use ($tags) {
                 $tagIds = collect($tags)->pluck('id');
 
-                $query->whereIn('tags.id', $tagIds);
+                $query->whereIn(self::getTagTableKeyQuery(), $tagIds);
             });
     }
 
@@ -128,7 +145,7 @@ trait HasTags
             ->whereDoesntHave('tags', function (Builder $query) use ($tags) {
                 $tagIds = collect($tags)->pluck('id');
 
-                $query->whereIn('tags.id', $tagIds);
+                $query->whereIn(self::getTagTableKeyQuery(), $tagIds);
             });
     }
 
@@ -140,7 +157,7 @@ trait HasTags
             ->each(function ($tag) use ($query) {
                 $query->whereHas(
                     'tags',
-                    fn (Builder $query) => $query->where('tags.id', $tag ? $tag->id : 0)
+                    fn (Builder $query) => $query->where(self::getTagTableKeyQuery(), $tag ? $tag->id : 0)
                 );
             });
 
@@ -155,7 +172,7 @@ trait HasTags
 
         return $query->whereHas(
             'tags',
-            fn (Builder $query) => $query->whereIn('tags.id', $tagIds)
+            fn (Builder $query) => $query->whereIn(self::getTagTableKeyQuery(), $tagIds)
         );
     }
 
