@@ -2,6 +2,21 @@
 
 All notable changes to `laravel-tags` will be documented in this file
 
+## 4.9.1 - 2025-01-31
+
+### What's Changed
+
+* Added php syntax highlighting by @poldixd in https://github.com/spatie/laravel-tags/pull/527
+* Bump dependabot/fetch-metadata from 2.2.0 to 2.3.0 by @dependabot in https://github.com/spatie/laravel-tags/pull/528
+* Allow custom tag table name and primary key for scoped queries by @gtmassey in https://github.com/spatie/laravel-tags/pull/529
+
+### New Contributors
+
+* @poldixd made their first contribution in https://github.com/spatie/laravel-tags/pull/527
+* @gtmassey made their first contribution in https://github.com/spatie/laravel-tags/pull/529
+
+**Full Changelog**: https://github.com/spatie/laravel-tags/compare/4.9.0...4.9.1
+
 ## 4.9.0 - 2025-01-06
 
 ### What's Changed
