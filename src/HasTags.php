@@ -23,10 +23,11 @@ trait HasTags
     public static function getTagTableName(): string
     {
         $tagInstance = new (self::getTagClassName());
+        
         return $tagInstance->getTable();
     }
 
-    public static function getTagTableKeyQuery(): string
+    public static function getTagTablePrimaryKeyName(): string
     {
         return self::getTagTableName() . '.' . self::getTagPrimaryKey();
     }
@@ -112,7 +113,7 @@ trait HasTags
 
         collect($tags)->each(function ($tag) use ($query) {
             $query->whereHas('tags', function (Builder $query) use ($tag) {
-                $query->where(self::getTagTableKeyQuery(), $tag->id ?? 0);
+                $query->where(self::getTagTablePrimaryKeyName(), $tag->id ?? 0);
             });
         });
 
@@ -130,7 +131,7 @@ trait HasTags
             ->whereHas('tags', function (Builder $query) use ($tags) {
                 $tagIds = collect($tags)->pluck('id');
 
-                $query->whereIn(self::getTagTableKeyQuery(), $tagIds);
+                $query->whereIn(self::getTagTablePrimaryKeyName(), $tagIds);
             });
     }
 
@@ -145,7 +146,7 @@ trait HasTags
             ->whereDoesntHave('tags', function (Builder $query) use ($tags) {
                 $tagIds = collect($tags)->pluck('id');
 
-                $query->whereIn(self::getTagTableKeyQuery(), $tagIds);
+                $query->whereIn(self::getTagTablePrimaryKeyName(), $tagIds);
             });
     }
 
@@ -157,7 +158,7 @@ trait HasTags
             ->each(function ($tag) use ($query) {
                 $query->whereHas(
                     'tags',
-                    fn (Builder $query) => $query->where(self::getTagTableKeyQuery(), $tag ? $tag->id : 0)
+                    fn (Builder $query) => $query->where(self::getTagTablePrimaryKeyName(), $tag ? $tag->id : 0)
                 );
             });
 
@@ -172,7 +173,7 @@ trait HasTags
 
         return $query->whereHas(
             'tags',
-            fn (Builder $query) => $query->whereIn(self::getTagTableKeyQuery(), $tagIds)
+            fn (Builder $query) => $query->whereIn(self::getTagTablePrimaryKeyName(), $tagIds)
         );
     }
 
