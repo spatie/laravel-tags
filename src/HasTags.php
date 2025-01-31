@@ -23,7 +23,7 @@ trait HasTags
     public static function getTagTableName(): string
     {
         $tagInstance = new (self::getTagClassName());
-        
+
         return $tagInstance->getTable();
     }
 
@@ -35,6 +35,7 @@ trait HasTags
     public static function getTagPrimaryKey(): string
     {
         $tagInstance = new (self::getTagClassName());
+
         return $tagInstance->getKeyName();
     }
 
