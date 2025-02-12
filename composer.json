@@ -33,7 +33,6 @@
             "Spatie\\Tags\\": "src"
         }
     },
-
     "autoload-dev": {
         "psr-4": {
             "Spatie\\Tags\\Test\\": "tests"
