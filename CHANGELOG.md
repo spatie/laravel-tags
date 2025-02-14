@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-tags` will be documented in this file
 
+## 4.9.2 - 2025-02-14
+
+### What's Changed
+
+* Laravel 12 support by @poldixd in https://github.com/spatie/laravel-tags/pull/531
+
+**Full Changelog**: https://github.com/spatie/laravel-tags/compare/4.9.1...4.9.2
+
 ## 4.9.1 - 2025-01-31
 
 ### What's Changed
