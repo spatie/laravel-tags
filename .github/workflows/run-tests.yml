@@ -8,10 +8,12 @@ jobs:
     test:
         runs-on: ${{ matrix.os }}
         strategy:
+            fail-fast: false
             matrix:
                 php: [8.1, 8.2, 8.3, 8.4]
                 laravel: [12.*, 11.*, 10.*]
                 dependency-version: [prefer-lowest, prefer-stable]
+                database: [mysql57, mysql8, pgsql16, pgsql17]
                 os: [ubuntu-latest]
                 include:
                     - laravel: 12.*
@@ -21,20 +23,53 @@ jobs:
                     - laravel: 10.*
                       testbench: 8.*
                 exclude:
-                    - laravel: 11.*
-                      php: 8.1
+                    - php: 8.4
+                      laravel: 10.*
+                    - php: 8.1
+                      laravel: 11.*
+                    - php: 8.1
+                      laravel: 12.*
 
-        name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.dependency-version }} - ${{ matrix.os }}
+        name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.database }} - ${{ matrix.dependency-version }} - ${{ matrix.os }}
 
         services:
-            mysql:
+            mysql57:
                 image: mysql:5.7
                 env:
                     MYSQL_ALLOW_EMPTY_PASSWORD: yes
                     MYSQL_DATABASE: laravel_tags
                 ports:
-                    - 3306
+                    - 3306:3306
                 options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+            mysql8:
+                image: mysql:8.0
+                env:
+                    MYSQL_ALLOW_EMPTY_PASSWORD: yes
+                    MYSQL_DATABASE: laravel_tags
+                ports:
+                    - 3307:3306
+                options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+            pgsql16:
+                image: postgres:16
+                env:
+                    POSTGRES_DB: laravel_tags
+                    POSTGRES_USER: postgres
+                    POSTGRES_PASSWORD: postgres
+                ports:
+                    - 5432:5432
+                options: --health-cmd=pg_isready --health-interval=10s --health-timeout=5s --health-retries=3
+
+            pgsql17:
+                image: postgres:17
+                env:
+                    POSTGRES_DB: laravel_tags
+                    POSTGRES_USER: postgres
+                    POSTGRES_PASSWORD: postgres
+                ports:
+                    - 5433:5432
+                options: --health-cmd=pg_isready --health-interval=10s --health-timeout=5s --health-retries=3
 
         steps:
             - name: Checkout code
@@ -44,7 +79,7 @@ jobs:
               uses: shivammathur/setup-php@v2
               with:
                   php-version: ${{ matrix.php }}
-                  extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, mysql, mysqli, pdo_mysql, bcmath, soap, intl, gd, exif, iconv, imagick
+                  extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, mysql, mysqli, pdo_mysql, pgsql, pdo_pgsql, bcmath, soap, intl, gd, exif, iconv, imagick
                   coverage: none
 
             - name: Setup Problem Matches
@@ -58,4 +93,9 @@ jobs:
             - name: Execute tests
               run: vendor/bin/pest
               env:
-                  DB_PORT: ${{ job.services.mysql.ports[3306] }}
+                  DB_CONNECTION: ${{ startsWith(matrix.database, 'mysql') && 'mysql' || 'pgsql' }}
+                  DB_PORT: ${{ matrix.database == 'mysql57' && 3306 || matrix.database == 'mysql8' && 3307 || matrix.database == 'pgsql16' && 5432 || matrix.database == 'pgsql17' && 5433 }}
+                  DB_HOST: 127.0.0.1
+                  DB_USERNAME: ${{ startsWith(matrix.database, 'pgsql') && 'postgres' || 'root' }}
+                  DB_PASSWORD: ${{ startsWith(matrix.database, 'pgsql') && 'postgres' || '' }}
+                  DB_DATABASE: laravel_tags
