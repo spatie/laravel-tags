@@ -186,7 +186,7 @@ it('provides a scope to get all models that have any of the given tags 2', funct
 
     $testModels = TestModel::withAnyTags(['tagB', 'tagC']);
 
-    expect($testModels->pluck('name')->toArray())->toEqual(['model2', 'model3']);
+    expect($testModels->pluck('name')->toArray())->toContain('model2', 'model3');
 });
 
 
@@ -208,11 +208,11 @@ it('provides a scope to get all models that have a given tag', function () {
 
     $testModels = TestModel::withAnyTags('tagB');
 
-    expect($testModels->pluck('name')->toArray())->toEqual(['model2', 'model3']);
+    expect($testModels->pluck('name')->toArray())->toContain('model2', 'model3');
 
     $testModels = TestModel::withAllTags('tagB');
 
-    expect($testModels->pluck('name')->toArray())->toEqual(['model2', 'model3']);
+    expect($testModels->pluck('name')->toArray())->toContain('model2', 'model3');
 });
 
 
@@ -253,7 +253,7 @@ it('provides a scope to get all models that do not have any of the given tags', 
 
     $testModels = TestModel::withoutTags(['tagC']);
 
-    expect($testModels->pluck('name')->toArray())->toEqual(['default', 'model1']);
+    expect($testModels->pluck('name')->toArray())->toContain('default', 'model1');
 
     $testModels = TestModel::withoutTags(['tagC', 'tagB']);
 

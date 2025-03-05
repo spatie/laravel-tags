@@ -39,7 +39,13 @@
         }
     },
     "scripts": {
-        "test": "vendor/bin/pest"
+        "test": "@test:mysql",
+        "test:mysql": "DB_CONNECTION=mysql vendor/bin/pest",
+        "test:pgsql": "DB_CONNECTION=pgsql DB_PORT=5432 vendor/bin/pest",
+        "test:all": [
+            "@test:mysql",
+            "@test:pgsql"
+        ]
     },
     "config": {
         "sort-packages": true,

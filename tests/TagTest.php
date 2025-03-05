@@ -22,6 +22,19 @@ it('creates sortable tags', function () {
     expect($tag->order_column)->toBe(2);
 });
 
+it('creates sortable tags with a custom order column', function () {
+    $tag = Tag::findOrCreateFromString('string');
+    $tag->order_column = 10;
+    $tag->save();
+
+    $tag2 = Tag::findOrCreateFromString('string 2');
+    $tag2->order_column = 20;
+    $tag2->save();
+
+    expect($tag->order_column)->toBe(10);
+    expect($tag2->order_column)->toBe(20);
+});
+
 it('automatically generates a slug', function () {
     $tag = Tag::findOrCreateFromString('this is a tag');
 

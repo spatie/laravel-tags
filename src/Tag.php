@@ -106,7 +106,7 @@ class Tag extends Model implements Sortable
 
     public static function getTypes(): Collection
     {
-        return static::groupBy('type')->pluck('type');
+        return static::groupBy('type')->orderBy('type')->pluck('type');
     }
 
     public function setAttribute($key, $value)
