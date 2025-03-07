@@ -178,6 +178,14 @@ trait HasTags
         );
     }
 
+    public function scopeWithAnyTagsOfType(Builder $query, string|array $type): Builder
+    {
+        return $query->whereHas(
+            'tags',
+            fn (Builder $query) => $query->whereIn('type', (array) $type)
+        );
+    }
+
     public function tagsWithType(?string $type = null): Collection
     {
         return $this->tags->filter(fn (Tag $tag) => $tag->type === $type);
