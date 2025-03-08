@@ -102,6 +102,10 @@ $tag->swapOrder($anotherTag);
 // checking if a model has a tag
 $newsItem->hasTag('first tag');
 $newsItem->hasTag('first tag', 'some_type');
+
+// Retrieve models that have tags of a 
+Model::withAnyTagsOfType('type');
+Model::withAnyTagsOfType(['first type', 'second type']);
 ```
 
 Spatie is a webdesign agency based in Antwerp, Belgium. You'll find an overview of all our open source projects [on our website](https://spatie.be/opensource).
