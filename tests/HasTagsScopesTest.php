@@ -26,6 +26,7 @@ beforeEach(function () {
 
     $typedTag = Tag::findOrCreate('tagE', 'typedTag');
     $anotherTypedTag = Tag::findOrCreate('tagF', 'typedTag');
+    $tagWithSecondType = Tag::findOrCreate('tagG', 'secondType');
 
     TestModel::create([
         'name' => 'model5',
@@ -36,8 +37,30 @@ beforeEach(function () {
         'name' => 'model6',
         'tags' => [$typedTag],
     ]);
+
+    TestModel::create([
+        'name' => 'model7',
+        'tags' => [$typedTag, $tagWithSecondType],
+    ]);
 });
 
+it('provides as scope to get all models that have any tags of the given types', function () {
+    // String input
+    $testModels = TestModel::withAnyTagsOfType('typedTag')->get();
+
+    expect($testModels->pluck('name')
+        ->toArray())
+        ->toContain('model5', 'model6')
+        ->not->toContain('model3', 'model7');    
+
+    // Array input
+    $testModels = TestModel::withAnyTagsOfType(['typedTag', 'secondType'])->get();
+
+    expect($testModels->pluck('name')
+        ->toArray())
+        ->toContain('model5', 'model6', 'model7')
+        ->not->toContain('model3');    
+});
 
 it('provides a scope to get all models that have any of the given tags', function () {
     $testModels = TestModel::withAnyTags(['tagC', 'tagD'])->get();
