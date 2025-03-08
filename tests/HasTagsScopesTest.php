@@ -51,7 +51,7 @@ it('provides as scope to get all models that have any tags of the given types', 
     expect($testModels->pluck('name')
         ->toArray())
         ->toContain('model5', 'model6')
-        ->not->toContain('model3', 'model7');    
+        ->not->toContain('model3', 'model7');
 
     // Array input
     $testModels = TestModel::withAnyTagsOfType(['typedTag', 'secondType'])->get();
@@ -59,7 +59,7 @@ it('provides as scope to get all models that have any tags of the given types', 
     expect($testModels->pluck('name')
         ->toArray())
         ->toContain('model5', 'model6', 'model7')
-        ->not->toContain('model3');    
+        ->not->toContain('model3');
 });
 
 it('provides a scope to get all models that have any of the given tags', function () {
