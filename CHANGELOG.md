@@ -2,6 +2,20 @@
 
 All notable changes to `laravel-tags` will be documented in this file
 
+## 4.10.0 - 2025-03-08
+
+### What's Changed
+
+* Add Postgres support with tests by @neverything in https://github.com/spatie/laravel-tags/pull/534
+* Add withAnyTagsOfType scope by @voicecode-bv in https://github.com/spatie/laravel-tags/pull/535
+
+### New Contributors
+
+* @neverything made their first contribution in https://github.com/spatie/laravel-tags/pull/534
+* @voicecode-bv made their first contribution in https://github.com/spatie/laravel-tags/pull/535
+
+**Full Changelog**: https://github.com/spatie/laravel-tags/compare/4.9.2...4.10.0
+
 ## 4.9.2 - 2025-02-14
 
 ### What's Changed
