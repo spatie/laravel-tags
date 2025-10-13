@@ -283,7 +283,7 @@ trait HasTags
         })->flatten();
     }
 
-    protected function syncTagIds($ids, string | null $type = null, $detaching = true): void
+    public function syncTagIds($ids, string | null $type = null, $detaching = true): void
     {
         $isUpdated = false;
 
