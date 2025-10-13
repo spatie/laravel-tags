@@ -2,6 +2,22 @@
 
 All notable changes to `laravel-tags` will be documented in this file
 
+## 4.10.1 - 2025-10-13
+
+### What's Changed
+
+* Bump dependabot/fetch-metadata from 2.3.0 to 2.4.0 by @dependabot[bot] in https://github.com/spatie/laravel-tags/pull/538
+* Update issue template by @AlexVanderbist in https://github.com/spatie/laravel-tags/pull/544
+* Update syncTagIds to public method by @mattbartel in https://github.com/spatie/laravel-tags/pull/547
+* Bump actions/checkout from 4 to 5 by @dependabot[bot] in https://github.com/spatie/laravel-tags/pull/542
+* Bump stefanzweifel/git-auto-commit-action from 5 to 6 by @dependabot[bot] in https://github.com/spatie/laravel-tags/pull/539
+
+### New Contributors
+
+* @mattbartel made their first contribution in https://github.com/spatie/laravel-tags/pull/547
+
+**Full Changelog**: https://github.com/spatie/laravel-tags/compare/4.10.0...4.10.1
+
 ## 4.10.0 - 2025-03-08
 
 ### What's Changed
