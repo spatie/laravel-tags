@@ -17,16 +17,16 @@
     ],
     "require": {
         "php": "^8.1",
-        "laravel/framework": "^10.0|^11.0|^12.0",
+        "laravel/framework": "^10.0|^11.0|^12.0|^13.0",
         "nesbot/carbon": "^2.63|^3.0",
         "spatie/eloquent-sortable": "^4.0|^5.0",
         "spatie/laravel-package-tools": "^1.4",
         "spatie/laravel-translatable": "^6.0"
     },
     "require-dev": {
-        "orchestra/testbench": "^8.0|^9.0|^10.0",
+        "orchestra/testbench": "^8.0|^9.0|^10.0|^11.0",
         "pestphp/pest": "^1.22|^2.0",
-        "phpunit/phpunit": "^9.5.2"
+        "phpunit/phpunit": "^9.5.2|^12.5.12"
     },
     "autoload": {
         "psr-4": {
