@@ -53,6 +53,8 @@ class Tag extends Model implements Sortable
 
         $valueCollection = collect($values);
 
+        // Grab the plain string values (anything that isn't already a Tag) so we
+        // can resolve them all in a single query instead of one query per value.
         $names = $valueCollection
             ->reject(fn ($value) => $value instanceof self)
             ->all();
@@ -60,11 +62,13 @@ class Tag extends Model implements Sortable
         $existingTags = static::findManyFromString($names, $type, $locale);
 
         $tags = $valueCollection->map(function ($value) use ($existingTags, $type, $locale) {
+            // A Tag instance was passed in directly, so there's nothing to look up.
             if ($value instanceof self) {
                 return $value;
             }
 
-            $tag = $existingTags->first(fn (self $tag) => $tag->matchesString($value, $locale));
+            // Reuse a tag we already fetched (or created earlier in this loop).
+            $tag = $existingTags->first(fn (self $existingTag) => $existingTag->matchesString($value, $locale));
 
             if (! $tag) {
                 $tag = static::create([
@@ -72,6 +76,8 @@ class Tag extends Model implements Sortable
                     'type' => $type,
                 ]);
 
+                // Push it so a later duplicate value in the same call reuses this
+                // tag instead of creating another row for it.
                 $existingTags->push($tag);
             }
 

@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\DB;
 use Spatie\Tags\Tag;
 
 beforeEach(function () {
@@ -133,6 +134,62 @@ it('can create tags using a collection', function () {
     Tag::findOrCreate(collect(['tag1', 'tag2', 'tag3']));
 
     expect(Tag::all())->toHaveCount(3);
+});
+
+
+it('reuses existing tags when given an array of mixed existing and new values', function () {
+    $existing = Tag::findOrCreate(['tag1', 'tag2']);
+
+    $tags = Tag::findOrCreate(['tag1', 'tag2', 'tag3']);
+
+    expect(Tag::all())->toHaveCount(3);
+    expect($tags->take(2)->pluck('id')->all())->toBe($existing->pluck('id')->all());
+});
+
+
+it('does not create duplicates for repeated values in a single call', function () {
+    $tags = Tag::findOrCreate(['tag1', 'tag1']);
+
+    expect(Tag::all())->toHaveCount(1);
+    expect($tags->first()->id)->toBe($tags->last()->id);
+});
+
+
+it('accepts a mix of tag instances and strings', function () {
+    $existing = Tag::findOrCreate('tag1');
+
+    $tags = Tag::findOrCreate([$existing, 'tag2']);
+
+    expect(Tag::all())->toHaveCount(2);
+    expect($tags->first()->id)->toBe($existing->id);
+    expect($tags->last()->name)->toBe('tag2');
+});
+
+
+it('matches an existing tag by its slug when given an array', function () {
+    $tag = Tag::findOrCreate('Some Tag');
+    expect($tag->slug)->toBe('some-tag');
+
+    $tags = Tag::findOrCreate(['some-tag']);
+
+    expect(Tag::all())->toHaveCount(1);
+    expect($tags->first()->id)->toBe($tag->id);
+});
+
+
+it('resolves an array of tags using a single lookup query', function () {
+    Tag::findOrCreate(['tag1', 'tag2']);
+
+    DB::enableQueryLog();
+
+    Tag::findOrCreate(['tag1', 'tag2']);
+
+    $selects = collect(DB::getQueryLog())
+        ->filter(fn ($query) => str_starts_with(strtolower(trim($query['query'])), 'select'));
+
+    DB::disableQueryLog();
+
+    expect($selects)->toHaveCount(1);
 });
 
 
