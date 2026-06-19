@@ -49,12 +49,33 @@ class Tag extends Model implements Sortable
         string | null $type = null,
         string | null $locale = null,
     ): Collection | Tag | static {
-        $tags = collect($values)->map(function ($value) use ($type, $locale) {
+        $locale = $locale ?? static::getLocale();
+
+        $valueCollection = collect($values);
+
+        $names = $valueCollection
+            ->reject(fn ($value) => $value instanceof self)
+            ->all();
+
+        $existingTags = static::findManyFromString($names, $type, $locale);
+
+        $tags = $valueCollection->map(function ($value) use ($existingTags, $type, $locale) {
             if ($value instanceof self) {
                 return $value;
             }
 
-            return static::findOrCreateFromString($value, $type, $locale);
+            $tag = $existingTags->first(fn (self $tag) => $tag->matchesString($value, $locale));
+
+            if (! $tag) {
+                $tag = static::create([
+                    'name' => [$locale => $value],
+                    'type' => $type,
+                ]);
+
+                $existingTags->push($tag);
+            }
+
+            return $tag;
         });
 
         return is_string($values) ? $tags->first() : $tags;
@@ -76,6 +97,31 @@ class Tag extends Model implements Sortable
                     ->orWhere("slug->{$locale}", $name);
             })
             ->first();
+    }
+
+    public static function findManyFromString(array $names, ?string $type = null, ?string $locale = null): DbCollection
+    {
+        $locale = $locale ?? static::getLocale();
+
+        if (blank($names)) {
+            return DbCollection::make();
+        }
+
+        return static::query()
+            ->where('type', $type)
+            ->where(function ($query) use ($names, $locale) {
+                $query->whereIn("name->{$locale}", $names)
+                    ->orWhereIn("slug->{$locale}", $names);
+            })
+            ->get();
+    }
+
+    public function matchesString(string $name, ?string $locale = null): bool
+    {
+        $locale = $locale ?? static::getLocale();
+
+        return $this->getTranslation('name', $locale, false) === $name
+            || $this->getTranslation('slug', $locale, false) === $name;
     }
 
     public static function findFromStringOfAnyType(string $name, ?string $locale = null)
