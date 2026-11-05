@@ -130,7 +130,7 @@ We highly appreciate you sending us a postcard from your hometown, mentioning wh
 
 ## Requirements
 
-This package requires Laravel 8 or higher, PHP 8 or higher, and a database that supports `json` fields and MySQL compatible functions.
+This package requires Laravel 13, PHP 8.4 or higher, and a database that supports `json` fields and MySQL compatible functions.
 
 ## Installation
 
